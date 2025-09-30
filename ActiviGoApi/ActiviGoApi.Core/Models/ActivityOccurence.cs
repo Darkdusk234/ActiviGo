@@ -19,7 +19,9 @@ namespace ActiviGoApi.Core.Models
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         // Foreign Keys
+        [Required]
         public int ActivityId { get; set; }
+        [Required]
         public int LocationId { get; set; }
 
         // Navigation Properties

@@ -22,6 +22,7 @@ namespace ActiviGoApi.Core.Models
         public bool IsActive { get; set; } = true;
 
         // Foreign Keys
+        [Required]
         public int CategoryId { get; set; }
 
         // Navigation Properties
