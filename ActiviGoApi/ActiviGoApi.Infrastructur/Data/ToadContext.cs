@@ -52,13 +52,27 @@ namespace ActiviGoApi.Infrastructur.Data
                 entity.HasOne<Category>(a => a.Category);
             });
 
-            //modelBuilder.Entity<Category>(entity =>
-            //{
-            //    entity.HasMany<Activity>(c => c.Activities)
-            //          .WithOne(a => a.Category)
-            //          .HasForeignKey(a => a.CategoryId)
-            //          .OnDelete(DeleteBehavior.Cascade);
-            //});
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.HasMany<Activity>(c => c.Activities)
+                      .WithOne(a => a.Category)
+                      .HasForeignKey(a => a.CategoryId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<Location>(entity =>
+            {
+                entity.HasMany<ActivityOccurence>(l => l.ActivityOccurrences)
+                      .WithOne(ao => ao.Location)
+                      .HasForeignKey(ao => ao.LocationId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<Booking>(entity =>
+            {
+                entity.HasOne<User>(b => b.User);
+                entity.HasOne<ActivityOccurence>(b => b.ActivityOccurence);
+            });
         }
     }
 }
