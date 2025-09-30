@@ -15,5 +15,8 @@ namespace ActiviGoApi.Core.Models
         public string Description { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+        //Navigation Properties
+        public ICollection<Activity>? Activities { get; set; }
     }
 }
