@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35931.197 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiviGoApi", "ActiviGoApi\ActiviGoApi.csproj", "{4DA447B7-8CC2-4DA9-97A2-455C3FFFB01F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiviGoApi.WebApi", "ActiviGoApi\ActiviGoApi.WebApi.csproj", "{4DA447B7-8CC2-4DA9-97A2-455C3FFFB01F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiviGoApi.Core", "ActiviGoApi.Core\ActiviGoApi.Core.csproj", "{C9B2A5CC-71D9-4086-A656-F722FF832A8E}"
 EndProject
