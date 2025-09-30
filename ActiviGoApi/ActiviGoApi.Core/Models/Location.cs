@@ -23,6 +23,6 @@ namespace ActiviGoApi.Core.Models
 
         //Navigation Properties
         public ICollection<Activity>? Activities { get; set; }
-        public ICollection<ActivityOccurence>? ActivitOccurrences { get; set; }
+        public ICollection<ActivityOccurence>? ActivityOccurrences { get; set; }
     }
 }
