@@ -18,6 +18,8 @@ namespace ActiviGoApi.Core.Models
         public int? Capacity { get; set; }
         public bool IsIndoors { get; set; } = true;
         public bool IsActive { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         //Navigation Properties
         public ICollection<Activity>? Activities { get; set; }
