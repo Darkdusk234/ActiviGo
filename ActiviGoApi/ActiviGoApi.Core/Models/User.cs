@@ -15,5 +15,8 @@ namespace ActiviGoApi.Core.Models
         public DateTime DateOfBirth { get; set; }
         public string? Address { get; set; }
         public bool IsSuspended { get; set; } = false;
+
+        // Navigation Properties
+        public ICollection<Booking>? Bookings { get; set; }
     }
 }
