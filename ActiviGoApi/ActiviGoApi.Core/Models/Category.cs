@@ -2,7 +2,7 @@
 
 namespace ActiviGoApi.Core.Models
 {
-    internal class Category
+    public class Category
     {
         [Required]
         public int Id { get; set; }

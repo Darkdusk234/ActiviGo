@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ActiviGoApi.Core.Models
 {
-    internal class User : IdentityUser
+    public class User : IdentityUser
     {
         [Required]
         [MinLength(2)]
