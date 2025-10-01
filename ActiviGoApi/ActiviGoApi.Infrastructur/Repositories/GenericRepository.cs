@@ -26,7 +26,7 @@ namespace ActiviGoApi.Infrastructur.Repositories
             return entity;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
             var entity = await _dbSet.FindAsync(id);
 
@@ -39,17 +39,17 @@ namespace ActiviGoApi.Infrastructur.Repositories
             return true;
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken ct = default)
         {
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(int id, CancellationToken ct = default)
         {
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity)
+        public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct = default)
         {
             _dbSet.Update(entity);
             return entity;
