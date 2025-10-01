@@ -20,7 +20,7 @@ namespace ActiviGoApi.Infrastructur.Repositories
             _dbSet = context.Set<TEntity>();
         }
 
-        public async Task<TEntity> AddAsync(TEntity entity)
+        public async Task<TEntity> AddAsync(TEntity entity, CancellationToken ct = default)
         {
             await _dbSet.AddAsync(entity);
             return entity;

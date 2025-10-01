@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ActiviGoApi.Infrastructur.Repositories
 {
-    public class LocationRepository : GenericRepository<Location>, ILocationRepository
+    public class LocationRepository : GenericRepository<Location>
     {
         public LocationRepository(ToadContext context) : base(context)
         {

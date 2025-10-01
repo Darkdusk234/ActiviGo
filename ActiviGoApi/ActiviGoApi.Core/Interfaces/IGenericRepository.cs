@@ -8,10 +8,10 @@ namespace ActiviGoApi.Core.Interfaces
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        Task<IEnumerable<TEntity>> GetAllAsync();
-        Task<TEntity> GetByIdAsync(int id);
-        Task<TEntity> AddAsync(TEntity entity);
-        Task<TEntity> UpdateAsync(TEntity entity);
-        Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken ct = default);
+        Task<TEntity> GetByIdAsync(int id, CancellationToken ct = default);
+        Task<TEntity> AddAsync(TEntity entity, CancellationToken ct = default);
+        Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct = default);
+        Task<bool> DeleteAsync(int id, CancellationToken ct = default);
     }
 }
