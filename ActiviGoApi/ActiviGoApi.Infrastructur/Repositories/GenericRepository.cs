@@ -22,13 +22,13 @@ namespace ActiviGoApi.Infrastructur.Repositories
 
         public async Task<TEntity> AddAsync(TEntity entity, CancellationToken ct = default)
         {
-            await _dbSet.AddAsync(entity);
+            await _dbSet.AddAsync(entity, ct);
             return entity;
         }
 
         public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
-            var entity = await _dbSet.FindAsync(id);
+            var entity = await _dbSet.FindAsync(id, ct);
 
             if (entity == null)
             {
@@ -41,12 +41,12 @@ namespace ActiviGoApi.Infrastructur.Repositories
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken ct = default)
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.ToListAsync(ct);
         }
 
         public async Task<TEntity> GetByIdAsync(int id, CancellationToken ct = default)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet.FindAsync(id, ct);
         }
 
         public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct = default)
