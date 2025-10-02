@@ -1,4 +1,7 @@
 
+using ActiviGoApi.Services.Validation.DataValidation;
+using FluentValidation;
+
 namespace ActiviGoApi
 {
     public class Program
@@ -9,10 +12,14 @@ namespace ActiviGoApi
 
             // Add services to the container.
 
+            // Adding FluentValidation
+            builder.Services.AddValidatorsFromAssemblyContaining<LocationRequestDTO_Validator>();
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
 
             var app = builder.Build();
 
