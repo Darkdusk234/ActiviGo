@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ActiviGoApi.Core\ActiviGoApi.Core.csproj" />
+    <ProjectReference Include="..\ActiviGoApi\ActiviGoApi.WebApi.csproj" />
   </ItemGroup>
 
 </Project>
