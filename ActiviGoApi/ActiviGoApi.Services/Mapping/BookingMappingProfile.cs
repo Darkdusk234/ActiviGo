@@ -9,7 +9,10 @@ namespace ActiviGoApi.Services.Mapping
         public BookingMappingProfile()
         {
             CreateMap<Booking, BookingReadDTO>();
-            CreateMap<BookingCreateDTO, Booking>();
+            //Automatically set time of booking when mapping.
+            CreateMap<BookingCreateDTO, Booking>()
+                .ForMember(dest => dest.BookingTime, opt => opt.MapFrom(src => DateTime.UtcNow));
+
             CreateMap<BookingUpdateDTO, Booking>();
 
         }
