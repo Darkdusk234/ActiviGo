@@ -40,13 +40,12 @@ namespace ActiviGoApi.Api.Controllers
 
                 return Ok(booking);
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
 
-        // ✅ POST: api/booking
         [HttpPost]
         public async Task<ActionResult<BookingReadDTO>> Create([FromBody] BookingCreateDTO createDto, CancellationToken ct)
         {
@@ -55,7 +54,7 @@ namespace ActiviGoApi.Api.Controllers
                 var created = await _service.AddAsync(createDto, ct);
                 return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -67,32 +66,29 @@ namespace ActiviGoApi.Api.Controllers
             try
             {
                 var updated = await _service.UpdateAsync(id, updateDto, ct);
-                if (!updated)
-                    return NotFound();
-
                 return NoContent();
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
         }
 
-        // ✅ DELETE: api/booking/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, CancellationToken ct)
         {
             try
             {
-                var deleted = await _service.DeleteAsync(id, ct);
-                if (!deleted)
-                    return NotFound();
-
+                await _service.DeleteAsync(id, ct);
                 return NoContent();
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
     }
