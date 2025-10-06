@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ActiviGoApi.Core.DTOs
+namespace ActiviGoApi.Services.DTOs
 {
     public record LocationRequestDTO
     {
