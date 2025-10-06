@@ -20,6 +20,7 @@ namespace ActiviGoApi
             builder.Services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<LocationMappingProfile>();
+                cfg.AddProfile<BookingMappingProfile>();
             });
 
             builder.Services.AddControllers();
