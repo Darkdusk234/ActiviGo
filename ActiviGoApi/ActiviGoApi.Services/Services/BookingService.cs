@@ -29,7 +29,11 @@ namespace ActiviGoApi.Services
         public async Task<BookingReadDTO?> GetByIdAsync(int id, CancellationToken ct)
         {
             var booking = await _repo.GetByIdAsync(id, ct);
-            return booking == null ? null : _mapper.Map<BookingReadDTO>(booking);
+            if (booking == null)
+            {
+                throw new KeyNotFoundException($"Booking with id {id} was not found.");
+            }
+            return _mapper.Map<BookingReadDTO>(booking);
         }
 
         /// <inheritdoc />
@@ -51,6 +55,9 @@ namespace ActiviGoApi.Services
             var existing = await _repo.GetByIdAsync(id, ct);
             if (existing == null)
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
+
+            if (updateDto.Participants <= 0)
+                throw new ArgumentException("Number of participants must be greater than zero.");
 
             _mapper.Map(updateDto, existing);
             await _repo.UpdateAsync(existing, ct);
