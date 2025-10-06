@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ActiviGoApi.Core\ActiviGoApi.Core.csproj" />
     <ProjectReference Include="..\ActiviGoApi.Services\ActiviGoApi.Services.csproj" />
   </ItemGroup>
