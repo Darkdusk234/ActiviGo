@@ -20,7 +20,7 @@ namespace ActiviGoApi.Services.Services
             return await _unitOfWork.Locations.GetByIdAsync(id, ct);
         }
 
-        public async Task<Location> CreateAsync(Location location, CancellationToken ct = default)
+        public async Task<Location> AddAsync(Location location, CancellationToken ct = default)
         {
             location.CreatedAt = DateTime.UtcNow;
             location.UpdatedAt = DateTime.UtcNow;
