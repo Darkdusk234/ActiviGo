@@ -1,5 +1,6 @@
 using ActiviGoApi.Services.DTOs;
 using ActiviGoApi.Services.Interfaces;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ActiviGoApi.Api.Controllers
@@ -9,10 +10,16 @@ namespace ActiviGoApi.Api.Controllers
     public class BookingController : ControllerBase
     {
         private readonly IBookingService _service;
+        private readonly IValidator<BookingCreateDTO> _createValidator;
+        private readonly IValidator<BookingUpdateDTO> _updateValidator;
 
-        public BookingController(IBookingService service)
+
+        public BookingController(IBookingService service, IValidator<BookingCreateDTO> createValidator,
+            IValidator<BookingUpdateDTO> updateValidator)
         {
             _service = service;
+            _createValidator = createValidator;
+            _updateValidator = updateValidator;
         }
 
         [HttpGet]
@@ -49,6 +56,12 @@ namespace ActiviGoApi.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<BookingReadDTO>> Create([FromBody] BookingCreateDTO createDto, CancellationToken ct)
         {
+            var validationResult = await _createValidator.ValidateAsync(createDto, ct);
+            if (!validationResult.IsValid)
+            {
+                var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
+                return BadRequest($"Validation failed: {errors}");
+            }
             try
             {
                 var created = await _service.AddAsync(createDto, ct);
@@ -62,7 +75,14 @@ namespace ActiviGoApi.Api.Controllers
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] BookingUpdateDTO updateDto, CancellationToken ct)
-        {
+        {   
+            var validationResult = await _updateValidator.ValidateAsync(updateDto, ct);
+            if (!validationResult.IsValid)
+            {
+                var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
+                return BadRequest($"Validation failed: {errors}");
+            }
+
             try
             {
                 var updated = await _service.UpdateAsync(id, updateDto, ct);
