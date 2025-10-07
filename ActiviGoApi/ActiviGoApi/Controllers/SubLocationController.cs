@@ -31,15 +31,31 @@ namespace ActiviGoApi.WebApi.Controllers
             {
                 return BadRequest(validationResult.Errors);
             }
-            var createdSubLocation = await _subLocationService.CreateSubLocationAsync(request, ct);
+            try
+            {
+                var createdSubLocation = await _subLocationService.CreateSubLocationAsync(request, ct);
             
-            return Ok(createdSubLocation);
+                return Ok(createdSubLocation);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetSubLocationResponse>>> GetAllSubLocations(CancellationToken ct = default)
         {
-            var subLocations = await _subLocationService.GetAllSubLocationsAsync(ct);
-            return Ok(subLocations);
+            try
+            {
+                var subLocations = await _subLocationService.GetAllSubLocationsAsync(ct);
+                return Ok(subLocations);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<GetSubLocationResponse>> GetSubLocationById(int id, CancellationToken ct = default)
@@ -59,22 +75,40 @@ namespace ActiviGoApi.WebApi.Controllers
             {
                 return BadRequest(validationResult.Errors);
             }
-            var updated = await _subLocationService.UpdateSubLocationAsync(id, request, ct);
-            if (!updated)
+
+            try
             {
-                return NotFound();
-            }
-            return NoContent();
+
+                var updated = await _subLocationService.UpdateSubLocationAsync(id, request, ct);
+                if (!updated)
+                {
+                    return NotFound();
+                }
+                    return Ok("Sublocation updated");
+                }
+                catch(Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }  
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSubLocation(int id, CancellationToken ct = default)
         {
-            var deleted = await _subLocationService.DeleteSubLocationAsync(id, ct);
-            if (!deleted)
+            try
             {
-                return NotFound();
+                var deleted = await _subLocationService.DeleteSubLocationAsync(id, ct);
+                if (!deleted)
+                {
+                    return NotFound();
+                }
+                return Ok("Sublocation deleted");
             }
-            return Ok("Sublocation deleted");
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+         
         }
 
     }
