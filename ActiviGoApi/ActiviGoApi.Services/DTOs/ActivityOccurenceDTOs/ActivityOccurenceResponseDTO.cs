@@ -14,8 +14,6 @@ namespace ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs
         public int Capacity { get; set; }
         public int AvailableSpots { get; set; }
         public bool IsCancelled { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
 
         // Foreign Keys
         public int ActivityId { get; set; }
