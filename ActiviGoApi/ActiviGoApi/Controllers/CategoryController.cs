@@ -68,5 +68,32 @@ namespace ActiviGoApi.WebApi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(int id, [FromBody] CategoryUpdateDto updateDto, CancellationToken ct)
+        {
+            var validationResult = await _updateValidator.ValidateAsync(updateDto, ct);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
+            try
+            {
+                var updatedCategory = await _categoryService.UpdateAsync(id, updateDto, ct);
+                return Ok(updatedCategory);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
