@@ -4,6 +4,7 @@
     {
         // Add properties for each repository with only a getter
         LocationRepository Locations { get; }
+        BookingRepository Bookings { get; }
 
         Task<bool> SaveChangesAsync(CancellationToken ct = default);
     }
