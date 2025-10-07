@@ -25,6 +25,8 @@ namespace ActiviGoApi.Services.Services
         {
             var created = await _unitOfWork.SubLocations.AddAsync(_mapper.Map<Core.Models.SubLocation>(request), ct);
             await _unitOfWork.SaveChangesAsync(ct);
+
+            return _mapper.Map<GetSubLocationResponse>(created);
         }
 
         public async Task<bool> DeleteSubLocationAsync(int id, CancellationToken ct = default)
@@ -36,6 +38,10 @@ namespace ActiviGoApi.Services.Services
         public async Task<IEnumerable<GetSubLocationResponse>> GetAllSubLocationsAsync(CancellationToken ct = default)
         {
             var subs = await _unitOfWork.SubLocations.GetAllAsync(ct);
+            if (subs == null || !subs.Any())
+            {
+                throw new KeyNotFoundException("No SubLocations found");
+            }
 
             return _mapper.Map<IEnumerable<GetSubLocationResponse>>(subs);
         }
@@ -43,7 +49,11 @@ namespace ActiviGoApi.Services.Services
         public async Task<GetSubLocationResponse?> GetSubLocationByIdAsync(int id, CancellationToken ct = default)
         {
             var location = await _unitOfWork.SubLocations.GetByIdAsync(id, ct);
-            
+            if (location == null)
+            {
+                throw new KeyNotFoundException($"SubLocation with id {id} not found");
+            }
+
             return _mapper.Map<GetSubLocationResponse>(location);
         }
 
