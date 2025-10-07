@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using ActiviGoApi.Core.Models;
 
 namespace ActiviGoApi
 {
@@ -69,7 +70,7 @@ namespace ActiviGoApi
 
 
             // Identity
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt =>
+            builder.Services.AddIdentity<User, IdentityRole>(opt =>
             {
                 opt.Password.RequireDigit = true;
                 opt.Password.RequireNonAlphanumeric = false;
