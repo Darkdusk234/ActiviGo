@@ -36,7 +36,7 @@ namespace ActiviGoApi.Services.Services
             var toDelete = await _unitOfWork.Activities.DeleteAsync(id, ct);
             if (!toDelete)
             {
-                throw new Exception($"Activity with id {id} not found");
+                throw new KeyNotFoundException($"Activity with id {id} not found");
             }
 
             return await _unitOfWork.SaveChangesAsync(ct);
@@ -53,7 +53,7 @@ namespace ActiviGoApi.Services.Services
             
             if(activities == null || !activities.Any())
             {
-                throw new Exception("No activities found");
+                throw new KeyNotFoundException("No activities found");
             }
             // Creating List and Foreaching trough activities manually because AutoMapper does not support mapping collections directly
             var dtos = new List<GetActivityResponse>();
@@ -71,7 +71,7 @@ namespace ActiviGoApi.Services.Services
 
             if (toUpdate == null)
             {
-                throw new Exception($"Activity with id {id} not found");
+                throw new KeyNotFoundException($"Activity with id {id} not found");
             }
             else
             {
