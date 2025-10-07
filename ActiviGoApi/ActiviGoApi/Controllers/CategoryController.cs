@@ -3,6 +3,7 @@ using ActiviGoApi.Services.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
@@ -56,8 +57,16 @@ namespace ActiviGoApi.WebApi.Controllers
             {
                 return BadRequest(validationResult.Errors);
             }
-            var createdCategory = await _categoryService.AddAsync(createDto, ct);
-            return CreatedAtAction(nameof(GetById), new { id = createdCategory.Id }, createdCategory);
+
+            try
+            {
+                var createdCategory = await _categoryService.AddAsync(createDto, ct);
+                return CreatedAtAction(nameof(GetById), new { id = createdCategory.Id }, createdCategory);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
