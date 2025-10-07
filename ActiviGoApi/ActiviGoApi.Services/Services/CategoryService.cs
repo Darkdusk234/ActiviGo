@@ -1,4 +1,5 @@
-﻿using ActiviGoApi.Infrastructur.Repositories;
+﻿using ActiviGoApi.Core.Models;
+using ActiviGoApi.Infrastructur.Repositories;
 using ActiviGoApi.Services.DTOs.CategpryDtos;
 using ActiviGoApi.Services.Interfaces;
 using AutoMapper;
@@ -16,15 +17,27 @@ namespace ActiviGoApi.Services.Services
         }
 
         /// <inheritdoc />
-        public Task<CategoryReadDto> AddAsync(CategoryCreateDto createDto, CancellationToken ct)
+        public async Task<CategoryReadDto> AddAsync(CategoryCreateDto createDto, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            var newCategory = _mapper.Map<Category>(createDto);
+
+            await _unitOfWork.Categories.AddAsync(newCategory, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+
+            return _mapper.Map<CategoryReadDto>(newCategory);
         }
 
         /// <inheritdoc />
-        public Task DeleteAsync(int id, CancellationToken ct)
+        public async Task DeleteAsync(int id, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            var category = _unitOfWork.Categories.GetByIdAsync(id, ct);
+            if(category == null)
+            {
+                throw new KeyNotFoundException($"Category with id {id} not found.");
+            }
+
+            await _unitOfWork.Categories.DeleteAsync(id, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
         }
 
         /// <inheritdoc />
