@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ActiviGoApi.Core\ActiviGoApi.Core.csproj" />
+    <ProjectReference Include="..\ActiviGoApi.Infrastructur\ActiviGoApi.Infrastructur.csproj" />
     <ProjectReference Include="..\ActiviGoApi.Services\ActiviGoApi.Services.csproj" />
   </ItemGroup>
 
