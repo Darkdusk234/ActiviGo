@@ -1,5 +1,6 @@
 
 using ActiviGoApi.Services.Mapping;
+using ActiviGoApi.Services.Services;
 using ActiviGoApi.Services.Validation.DataValidation;
 using FluentValidation;
 
@@ -12,6 +13,7 @@ namespace ActiviGoApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddScoped<ActivityOccurenceService, ActivityOccurenceService>();
 
             // Adding FluentValidation
             builder.Services.AddValidatorsFromAssemblyContaining<LocationRequestDTO_Validator>();
@@ -20,6 +22,7 @@ namespace ActiviGoApi
             builder.Services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<LocationMappingProfile>();
+                cfg.AddProfile<ActivityOccurenceMappingProfile>();
             });
 
             builder.Services.AddControllers();
