@@ -48,16 +48,19 @@ namespace ActiviGoApi.Services.Services
             await _unitOfWork.SaveChangesAsync(ct);
             return existingOccurrence;
         }
-        public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
+        public async Task<ActivityOccurence?> DeleteAsync(int id, CancellationToken ct = default)
         {
-            var existingOccurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(id, ct);
-            if (existingOccurrence == null)
+            var occurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(id, ct);
+
+            if (occurrence == null)
             {
-                return false;
+                return null;
             }
-            _unitOfWork.ActivityOccurrences.Delete(existingOccurrence);
+
+            await _unitOfWork.ActivityOccurrences.DeleteAsync(id, ct);
             await _unitOfWork.SaveChangesAsync(ct);
-            return true;
+
+            return occurrence;
         }
     }
 }

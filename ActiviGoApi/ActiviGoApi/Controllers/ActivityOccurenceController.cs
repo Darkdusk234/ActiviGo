@@ -114,9 +114,9 @@ namespace ActiviGoApi.WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteOccurrence(int id, CancellationToken ct)
         {
-            var result = await _occurrenceService.DeleteOccurrenceAsync(id, ct);
+            var deleted = await _occurrenceService.DeleteOccurrenceAsync(id, ct);
 
-            if (!result)
+            if (deleted == null)
             {
                 return NotFound($"Activity occurrence with id {id} not found");
             }

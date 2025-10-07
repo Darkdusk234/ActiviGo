@@ -13,6 +13,6 @@ namespace ActiviGoApi.Services.Interfaces
         Task<ActivityOccurence?> GetByIdAsync(int id, CancellationToken ct = default);
         Task<ActivityOccurence> CreateAsync(ActivityOccurence occurrence, CancellationToken ct = default);
         Task<ActivityOccurence?> UpdateAsync(int id, ActivityOccurence occurrence, CancellationToken ct = default);
-        Task<bool> DeleteAsync(int id, CancellationToken ct = default);
+        Task<ActivityOccurence?> DeleteAsync(int id, CancellationToken ct = default);
     }
 }
