@@ -34,14 +34,14 @@ namespace ActiviGoApi.Services
         /// <inheritdoc />
         public async Task<IEnumerable<BookingReadDTO>> GetAllAsync(CancellationToken ct)
         {
-            var bookings = await _repo.GetAllAsync(ct);
+            var bookings = await _unitOfWork.Activities.GetAllAsync(ct);
             return _mapper.Map<IEnumerable<BookingReadDTO>>(bookings);
         }
 
         /// <inheritdoc />
         public async Task<BookingReadDTO?> GetByIdAsync(int id, CancellationToken ct)
         {
-            var booking = await _repo.GetByIdAsync(id, ct);
+            var booking = await _unitOfWork.Activities.GetByIdAsync(id, ct);
             if (booking == null)
             {
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
@@ -60,7 +60,7 @@ namespace ActiviGoApi.Services
             }
             var booking = _mapper.Map<Booking>(createDto);
 
-            await _repo.AddAsync(booking, ct);
+            await _unitOfWork.Activities.AddAsync(booking, ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
             return _mapper.Map<BookingReadDTO>(booking);
@@ -76,7 +76,7 @@ namespace ActiviGoApi.Services
                 throw new ValidationException($"Validation failed: {errors}");
             }
 
-            var existing = await _repo.GetByIdAsync(id, ct);
+            var existing = await _unitOfWork.Activities.GetByIdAsync(id, ct);
             if (existing == null)
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
 
@@ -91,7 +91,7 @@ namespace ActiviGoApi.Services
         /// <inheritdoc />
         public async Task DeleteAsync(int id, CancellationToken ct)
         {
-            var booking = await _repo.GetByIdAsync(id, ct);
+            var booking = await _unitOfWork.Activities.GetByIdAsync(id, ct);
             if (booking == null)
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
 
