@@ -48,9 +48,15 @@ namespace ActiviGoApi.Services.Services
         }
 
         /// <inheritdoc />
-        public Task<CategoryReadDto?> GetByIdAsync(int id, CancellationToken ct)
+        public async Task<CategoryReadDto?> GetByIdAsync(int id, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            var category = await _unitOfWork.Categories.GetByIdAsync(id, ct);
+            if(category == null)
+            {
+               throw new KeyNotFoundException($"Booking with id {id} was not found.");
+            }
+
+            return _mapper.Map<CategoryReadDto>(category);
         }
 
         /// <inheritdoc />
