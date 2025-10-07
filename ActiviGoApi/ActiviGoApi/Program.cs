@@ -15,6 +15,9 @@ namespace ActiviGoApi
 
             // Adding FluentValidation
             builder.Services.AddValidatorsFromAssemblyContaining<LocationRequestDTO_Validator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<BookingCreateDTOValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<BookingUpdateDTOValidator>();
+
 
             // Adding AutoMapper profiles
             builder.Services.AddAutoMapper(cfg =>
