@@ -1,4 +1,6 @@
 
+using ActiviGoApi.Services;
+using ActiviGoApi.Services.Interfaces;
 using ActiviGoApi.Services.Mapping;
 using ActiviGoApi.Services.Validation.DataValidation;
 using FluentValidation;
@@ -12,6 +14,8 @@ namespace ActiviGoApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddScoped<IBookingService, BookingService>();
+
 
             // Adding FluentValidation
             builder.Services.AddValidatorsFromAssemblyContaining<LocationRequestDTO_Validator>();
