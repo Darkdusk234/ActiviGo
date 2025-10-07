@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ActiviGoApi.Core\ActiviGoApi.Core.csproj" />
+    <ProjectReference Include="..\ActiviGoApi.Infrastructur\ActiviGoApi.Infrastructur.csproj" />
   </ItemGroup>
 
 </Project>
