@@ -60,9 +60,19 @@ namespace ActiviGoApi.Services.Services
         }
 
         /// <inheritdoc />
-        public Task<CategoryReadDto?> UpdateAsync(int id, CategoryUpdateDto updateDto, CancellationToken ct)
+        public async Task<CategoryReadDto?> UpdateAsync(int id, CategoryUpdateDto updateDto, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            var existingCategory = await _unitOfWork.Categories.GetByIdAsync(id, ct);
+            if (existingCategory == null)
+            {
+                throw new KeyNotFoundException($"Category with id {id} not found.");
+            }
+
+            _mapper.Map(updateDto, existingCategory);
+
+            await _unitOfWork.Categories.UpdateAsync(existingCategory, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+            return _mapper.Map<CategoryReadDto>(existingCategory);
         }
     }
 }
