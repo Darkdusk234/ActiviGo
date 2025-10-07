@@ -32,10 +32,18 @@ namespace ActiviGoApi.WebApi.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id, CancellationToken ct)
         {
-            var category = await _categoryService.GetByIdAsync(id, ct);
-            return Ok(category);
+            try
+            {
+                var category = await _categoryService.GetByIdAsync(id, ct);
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpPost]
