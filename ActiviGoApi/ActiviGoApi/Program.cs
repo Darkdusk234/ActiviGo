@@ -31,7 +31,10 @@ namespace ActiviGoApi
             {
                 cfg.AddProfile<LocationMappingProfile>();
 
+
                 cfg.AddProfile<ActivityOccurenceMappingProfile>();
+
+                cfg.AddProfile<CategoryMappingProfile>();
 
                 cfg.AddProfile<BookingMappingProfile>();
 
