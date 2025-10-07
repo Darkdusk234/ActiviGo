@@ -39,9 +39,9 @@ namespace ActiviGoApi.WebApi.Controllers
 
                 return Ok("Activity created successfully");
             }
-            catch(Exception ex)
+            catch(KeyNotFoundException ex)
             { 
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
             
         }
@@ -53,9 +53,9 @@ namespace ActiviGoApi.WebApi.Controllers
                 var allActivities = await _activityService.GetAllActivitiesAsync(ct);
                 return Ok(allActivities);
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
         [HttpGet("{id}")]
@@ -66,9 +66,9 @@ namespace ActiviGoApi.WebApi.Controllers
                 var activity = await _activityService.GetActivityByIdAsync(id, ct);
                 return Ok(activity);
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
 
@@ -85,9 +85,9 @@ namespace ActiviGoApi.WebApi.Controllers
                 var result = await _activityService.UpdateActivityAsync(id, dto, ct);
                 return Ok("Activity updated successfully");
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
 
@@ -99,9 +99,9 @@ namespace ActiviGoApi.WebApi.Controllers
                 var result = await _activityService.DeleteActivityAsync(id, ct);
                 return Ok("Activity deleted successfully");
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
     }
