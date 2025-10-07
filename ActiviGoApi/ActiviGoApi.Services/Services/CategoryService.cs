@@ -41,9 +41,10 @@ namespace ActiviGoApi.Services.Services
         }
 
         /// <inheritdoc />
-        public Task<IEnumerable<CategoryReadDto>> GetAllAsync(CancellationToken ct = default)
+        public async Task<IEnumerable<CategoryReadDto>> GetAllAsync(CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var categories = await _unitOfWork.Categories.GetAllAsync(ct);
+            return _mapper.Map<IEnumerable<CategoryReadDto>>(categories);
         }
 
         /// <inheritdoc />
