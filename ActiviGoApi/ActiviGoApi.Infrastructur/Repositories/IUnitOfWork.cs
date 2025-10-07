@@ -7,7 +7,10 @@ namespace ActiviGoApi.Infrastructur.Repositories
     {
         // Add properties for each repository with only a getter
         LocationRepository Locations { get; }
+
         IGenericRepository<Category> Categories { get; }
+
+        BookingRepository Bookings { get; }
 
         Task<bool> SaveChangesAsync(CancellationToken ct = default);
     }
