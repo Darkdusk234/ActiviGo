@@ -13,11 +13,12 @@ namespace ActiviGoApi.Infrastructur.Repositories
 
         // Private repositories added here
         private LocationRepository? _locationRepository;
+        private BookingRepository? _bookingRepository;
 
 
         // Public properties to access the repositories added here
         public LocationRepository Locations => _locationRepository ??= new LocationRepository(_context);
-    
+        public BookingRepository Bookings => _bookingRepository ??= new BookingRepository(_context);
 
         public UnitOfWork(ToadContext context)
         {
