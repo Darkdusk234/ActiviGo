@@ -16,6 +16,8 @@ namespace ActiviGoApi.Infrastructur.Repositories
         // Private repositories added here
         private LocationRepository? _locationRepository;
 
+        private ActivityRepository? _activityRepository;
+
         private IGenericRepository<Category>? _categoryRepository;
 
         private BookingRepository? _bookingRepository;
@@ -24,6 +26,8 @@ namespace ActiviGoApi.Infrastructur.Repositories
 
         // Public properties to access the repositories added here
         public LocationRepository Locations => _locationRepository ??= new LocationRepository(_context);
+
+        public ActivityRepository Activities => _activityRepository ??= new ActivityRepository(_context);
 
         public IGenericRepository<Category> Categories => _categoryRepository ??= new GenericRepository<Category>(_context);
 
