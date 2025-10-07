@@ -11,7 +11,7 @@ namespace ActiviGoApi.Services
     public class BookingService : IBookingService
     {
         private readonly IGenericRepository<Booking> _repo;
-        private readonly IUnitOfWork _uow;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IValidator<BookingCreateDTO> _createValidator;
         private readonly IValidator<BookingUpdateDTO> _updateValidator;
@@ -19,13 +19,13 @@ namespace ActiviGoApi.Services
 
         public BookingService(
             IGenericRepository<Booking> repo,
-            IUnitOfWork uow,
+            IUnitOfWork unitOfWork,
             IMapper mapper,
             IValidator<BookingCreateDTO> createValidator,
             IValidator<BookingUpdateDTO> updateValidator)
         {
             _repo = repo;
-            _uow = uow;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _createValidator = createValidator;
             _updateValidator = updateValidator;
@@ -61,7 +61,7 @@ namespace ActiviGoApi.Services
             var booking = _mapper.Map<Booking>(createDto);
 
             await _repo.AddAsync(booking, ct);
-            await _uow.SaveChangesAsync(ct);
+            await _unitOfWork.SaveChangesAsync(ct);
 
             return _mapper.Map<BookingReadDTO>(booking);
         }
@@ -83,7 +83,7 @@ namespace ActiviGoApi.Services
             
             _mapper.Map(updateDto, existing);
             await _repo.UpdateAsync(existing, ct);
-            await _uow.SaveChangesAsync(ct);
+            await _unitOfWork.SaveChangesAsync(ct);
 
             return _mapper.Map<BookingReadDTO>(existing);
         }
@@ -96,7 +96,7 @@ namespace ActiviGoApi.Services
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
 
             await _repo.DeleteAsync(booking.Id, ct);
-            await _uow.SaveChangesAsync(ct);
+            await _unitOfWork.SaveChangesAsync(ct);
         }
     }
 }
