@@ -1,5 +1,5 @@
 using ActiviGoApi.Core.Models;
-
+using FluentValidation;
 using ActiviGoApi.Services.DTOs;
 using ActiviGoApi.Services.Interfaces;
 using AutoMapper;
@@ -13,11 +13,22 @@ namespace ActiviGoApi.Services
         private readonly IGenericRepository<Booking> _repo;
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
+        private readonly IValidator<BookingCreateDTO> _createValidator;
+        private readonly IValidator<BookingUpdateDTO> _updateValidator;
 
-        public BookingService(IGenericRepository<Booking> repo, IMapper mapper)
+
+        public BookingService(
+            IGenericRepository<Booking> repo,
+            IUnitOfWork uow,
+            IMapper mapper,
+            IValidator<BookingCreateDTO> createValidator,
+            IValidator<BookingUpdateDTO> updateValidator)
         {
             _repo = repo;
+            _uow = uow;
             _mapper = mapper;
+            _createValidator = createValidator;
+            _updateValidator = updateValidator;
         }
 
         /// <inheritdoc />
@@ -41,9 +52,12 @@ namespace ActiviGoApi.Services
         /// <inheritdoc />
         public async Task<BookingReadDTO> AddAsync(BookingCreateDTO createDto, CancellationToken ct)
         {
-            if (createDto.Participants <= 0)
-                throw new ArgumentException("Number of participants must be greater than zero.");
-
+            var validationResult = await _createValidator.ValidateAsync(createDto, ct);
+            if (!validationResult.IsValid)
+            {
+                var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
+                throw new ValidationException($"Validation failed: {errors}");
+            }
             var booking = _mapper.Map<Booking>(createDto);
 
             await _repo.AddAsync(booking, ct);
@@ -55,13 +69,18 @@ namespace ActiviGoApi.Services
         /// <inheritdoc />
         public async Task<BookingReadDTO> UpdateAsync(int id, BookingUpdateDTO updateDto, CancellationToken ct)
         {
+            var validationResult = await _updateValidator.ValidateAsync(updateDto, ct);
+            if (!validationResult.IsValid)
+            {
+                var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
+                throw new ValidationException($"Validation failed: {errors}");
+            }
+
             var existing = await _repo.GetByIdAsync(id, ct);
             if (existing == null)
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
 
-            if (updateDto.Participants <= 0)
-                throw new ArgumentException("Number of participants must be greater than zero.");
-
+            
             _mapper.Map(updateDto, existing);
             await _repo.UpdateAsync(existing, ct);
             await _uow.SaveChangesAsync(ct);
