@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs
 {
-    public class CreateActivityOccurrenceDto
+    public class CreateActivityOccurrenceDTO
     {
         [Required]
         public DateTime StartTime { get; set; }
