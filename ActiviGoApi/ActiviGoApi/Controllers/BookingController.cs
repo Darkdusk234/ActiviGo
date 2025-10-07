@@ -25,15 +25,8 @@ namespace ActiviGoApi.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookingReadDTO>>> GetAll(CancellationToken ct)
         {
-            try
-            {
-                var bookings = await _service.GetAllAsync(ct);
-                return Ok(bookings);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var bookings = await _service.GetAllAsync(ct);
+            return Ok(bookings);   
         }
 
         [HttpGet("{id}")]
