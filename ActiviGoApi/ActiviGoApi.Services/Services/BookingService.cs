@@ -12,20 +12,14 @@ namespace ActiviGoApi.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IValidator<BookingCreateDTO> _createValidator;
-        private readonly IValidator<BookingUpdateDTO> _updateValidator;
 
 
         public BookingService(
             IUnitOfWork unitOfWork,
-            IMapper mapper,
-            IValidator<BookingCreateDTO> createValidator,
-            IValidator<BookingUpdateDTO> updateValidator)
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _createValidator = createValidator;
-            _updateValidator = updateValidator;
         }
 
         /// <inheritdoc />
@@ -49,12 +43,6 @@ namespace ActiviGoApi.Services
         /// <inheritdoc />
         public async Task<BookingReadDTO> AddAsync(BookingCreateDTO createDto, CancellationToken ct)
         {
-            var validationResult = await _createValidator.ValidateAsync(createDto, ct);
-            if (!validationResult.IsValid)
-            {
-                var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                throw new ValidationException($"Validation failed: {errors}");
-            }
             var booking = _mapper.Map<Booking>(createDto);
 
             await _unitOfWork.Activities.AddAsync(booking, ct);
@@ -66,13 +54,6 @@ namespace ActiviGoApi.Services
         /// <inheritdoc />
         public async Task<BookingReadDTO> UpdateAsync(int id, BookingUpdateDTO updateDto, CancellationToken ct)
         {
-            var validationResult = await _updateValidator.ValidateAsync(updateDto, ct);
-            if (!validationResult.IsValid)
-            {
-                var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                throw new ValidationException($"Validation failed: {errors}");
-            }
-
             var existing = await _unitOfWork.Activities.GetByIdAsync(id, ct);
             if (existing == null)
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
