@@ -1,10 +1,17 @@
-﻿namespace ActiviGoApi.Infrastructur.Repositories
+﻿using ActiviGoApi.Core.Interfaces;
+using ActiviGoApi.Core.Models;
+
+namespace ActiviGoApi.Infrastructur.Repositories
 {
     public interface IUnitOfWork
     {
         // Add properties for each repository with only a getter
         LocationRepository Locations { get; }
+
         ActivityRepository Activities { get; }
+
+        IGenericRepository<Category> Categories { get; }
+
         BookingRepository Bookings { get; }
 
         Task<bool> SaveChangesAsync(CancellationToken ct = default);
