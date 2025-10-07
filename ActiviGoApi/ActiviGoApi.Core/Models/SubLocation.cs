@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ActiviGoApi.Core.Models
+{
+    public class SubLocation
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int MaxCapacity { get; set; }
+
+        public bool Indoors { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+        public int LocationId { get; set; } // Foreign Key
+
+        // Navigation Properties
+        public Location? Location { get; set; } 
+        public ICollection<ActivityOccurence>? ActivityOccurences { get; set; } 
+        public ICollection<Activity>? Activities { get; set; } 
+
+    }
+}

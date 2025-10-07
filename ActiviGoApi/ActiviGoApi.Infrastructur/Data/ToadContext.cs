@@ -16,6 +16,7 @@ namespace ActiviGoApi.Infrastructur.Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<ActivityOccurence> ActivityOccurences { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<SubLocation> SubLocations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

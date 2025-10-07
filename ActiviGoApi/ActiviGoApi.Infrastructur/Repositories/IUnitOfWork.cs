@@ -10,6 +10,8 @@ namespace ActiviGoApi.Infrastructur.Repositories
 
         ActivityRepository Activities { get; }
 
+        SubLocationRepository SubLocations { get; }
+
         IGenericRepository<Category> Categories { get; }
 
         BookingRepository Bookings { get; }
