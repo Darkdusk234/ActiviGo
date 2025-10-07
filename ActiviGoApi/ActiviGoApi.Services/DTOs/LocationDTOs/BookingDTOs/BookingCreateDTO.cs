@@ -2,16 +2,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ActiviGoApi.Services.DTOs
 {
-    public class BookingCreateDTO
+    public record BookingCreateDTO
     {
         [Required]
-        public int UserId { get; set; }
+        public int UserId { get; init; }
 
         [Required]
-        public int ActivityOccurenceId { get; set; }
+        public int ActivityOccurenceId { get; init; }
 
         [Required]
         [Range(1, 50)]
-        public int Participants { get; set; }
+        public int Participants { get; init; }
     }
 }
