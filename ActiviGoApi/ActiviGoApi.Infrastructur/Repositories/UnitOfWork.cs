@@ -1,4 +1,6 @@
-﻿using ActiviGoApi.Infrastructur.Data;
+﻿using ActiviGoApi.Core.Interfaces;
+using ActiviGoApi.Core.Models;
+using ActiviGoApi.Infrastructur.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +15,20 @@ namespace ActiviGoApi.Infrastructur.Repositories
 
         // Private repositories added here
         private LocationRepository? _locationRepository;
+
+        private IGenericRepository<Category>? _categoryRepository;
+
         private BookingRepository? _bookingRepository;
+
 
 
         // Public properties to access the repositories added here
         public LocationRepository Locations => _locationRepository ??= new LocationRepository(_context);
+
+        public IGenericRepository<Category> Categories => _categoryRepository ??= new GenericRepository<Category>(_context);
+
         public BookingRepository Bookings => _bookingRepository ??= new BookingRepository(_context);
+
 
         public UnitOfWork(ToadContext context)
         {
