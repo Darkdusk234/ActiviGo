@@ -34,7 +34,7 @@ namespace ActiviGoApi.Services.Validation.DataValidation.AuthorizationDtoValidat
             RuleFor(r => r.DateOfBirth)
                 .NotEmpty().WithMessage("Date of birth is required.")
                 .LessThan(DateTime.Now).WithMessage("Date of birth must be in the past.")
-                .LessThan(DateTime.Now.AddYears(-13)).WithMessage("You must be at least 13 years old to register.");
+                .LessThanOrEqualTo(DateTime.Now.AddYears(-18)).WithMessage("You must be at least 18 years old to register.");
         }
     }
 }
