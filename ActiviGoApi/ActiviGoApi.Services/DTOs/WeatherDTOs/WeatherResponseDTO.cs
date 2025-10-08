@@ -8,9 +8,10 @@ namespace ActiviGoApi.Services.DTOs.WeatherDTOs
 {
     public record WeatherResponseDTO
     {
-        public string WeatherDescription { get; init; } = string.Empty;
-        public float TemperatureCelsius { get; init; }
-        public string WeatherImgUrl { get; init; } = string.Empty;
-        public DateTime ObservationTime { get; init; }
+        public string AirTemperature { get; init; } = string.Empty;
+        public string WindSpeed { get; init; } = string.Empty;
+        public string ProbabilityOfPrecipitation { get; init; } = string.Empty;
+        public int SymbolCode { get; init; }
+        public string DateAndTime { get; init; } = string.Empty;
     }
 }
