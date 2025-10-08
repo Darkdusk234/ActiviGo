@@ -39,6 +39,8 @@ namespace ActiviGoApi
 
                 cfg.AddProfile<BookingMappingProfile>();
 
+                cfg.AddProfile<SubLocationMappingProfile>();
+
             });
 
             builder.Services.AddControllers();
