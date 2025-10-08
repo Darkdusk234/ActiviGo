@@ -55,6 +55,25 @@ namespace ActiviGoApi.WebApi.Controllers
             return Ok();
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto dto)
+        {
+            var user = await _users.FindByNameAsync(dto.Username);
+
+            if (user == null || !await _users.CheckPasswordAsync(user, dto.Password))
+            {
+                return Unauthorized("Invalid username or password.");
+            }
+
+            if(user.IsSuspended)
+            {
+                return Unauthorized("User is suspended.");
+            }
+
+            var token = await GenerateJwtTokenAsync(user);
+            return Ok(new { Token = token });
+        }
+
         private async Task<string> GenerateJwtTokenAsync(User user)
         {
             var jwt = _config.GetSection("Jwt");
