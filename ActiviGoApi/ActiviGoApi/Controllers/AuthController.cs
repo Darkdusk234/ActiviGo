@@ -58,7 +58,7 @@ namespace ActiviGoApi.WebApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            var user = await _users.FindByNameAsync(dto.Username);
+            var user = await _users.FindByNameAsync(dto.UserName);
 
             if (user == null || !await _users.CheckPasswordAsync(user, dto.Password))
             {
