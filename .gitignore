@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /ActiviGoApi/ActiviGoApi/appsettings.json
+/ActiviGoApi/ActiviGoApi/appsettings.Development.json
