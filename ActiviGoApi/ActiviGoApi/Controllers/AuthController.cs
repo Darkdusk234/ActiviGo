@@ -96,6 +96,27 @@ namespace ActiviGoApi.WebApi.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpPut("reinstate/{id}")]
+        public async Task<IActionResult> ReinstateUser(string id)
+        {
+            var user = await _users.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            if (!user.IsSuspended)
+            {
+                return BadRequest("User isn't suspended");
+            }
+
+            user.IsSuspended = false;
+            await _users.UpdateAsync(user);
+            return Ok();
+        }
+
         private async Task<string> GenerateJwtTokenAsync(User user)
         {
             var jwt = _config.GetSection("Jwt");
