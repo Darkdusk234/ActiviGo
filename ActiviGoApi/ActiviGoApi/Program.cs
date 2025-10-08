@@ -11,6 +11,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ActiviGoApi.Core.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ActiviGoApi
 {
@@ -29,6 +30,8 @@ namespace ActiviGoApi
             builder.Services.AddValidatorsFromAssemblyContaining<BookingCreateDTOValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<BookingUpdateDTOValidator>();
 
+            builder.Services.AddDbContext<ToadContext>(options => 
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaulConnection")));
 
             // Adding AutoMapper profiles
             builder.Services.AddAutoMapper(cfg =>
