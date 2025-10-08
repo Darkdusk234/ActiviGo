@@ -25,7 +25,30 @@ namespace ActiviGoApi.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDTO dto)
         {
+            var validationResult = await _registerValidator.ValidateAsync(dto);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
 
+            var user = new User
+            {
+                UserName = dto.UserName,
+                Email = dto.Email,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                DateOfBirth = dto.DateOfBirth,
+                Address = dto.Adress
+            };
+
+            var result = await _users.CreateAsync(user, dto.Password);
+
+            if(!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok();
         }
     }
 }
