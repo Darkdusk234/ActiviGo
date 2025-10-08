@@ -1,6 +1,7 @@
 ﻿using ActiviGoApi.Core.Models;
 using ActiviGoApi.Services.DTOs.AuthorizationDTOs;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -72,6 +73,27 @@ namespace ActiviGoApi.WebApi.Controllers
 
             var token = await GenerateJwtTokenAsync(user);
             return Ok(new { Token = token });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> SuspendUser(string id)
+        {
+            var user = await _users.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            if (user.IsSuspended)
+            {
+                return BadRequest("User already suspended");
+            }
+
+            user.IsSuspended = true;
+            await _users.UpdateAsync(user);
+            return Ok();
         }
 
         private async Task<string> GenerateJwtTokenAsync(User user)
