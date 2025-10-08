@@ -15,7 +15,6 @@ namespace ActiviGoApi.Services.DTOs.ActivityDTOs
         public string Location { get; init; } = string.Empty;
         public int MaxParticipants { get; init; }
         public decimal Price { get; init; }
-        public Guid OrganizerId { get; init; }
-        public string OrganizerName { get; init; } = string.Empty;
+
     }
 }

@@ -18,7 +18,6 @@ namespace ActiviGoApi.Core.Models
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public decimal Price { get; set; }
         public string IMGUrl { get; set; } = string.Empty;
-        public bool IsIndoor { get; set; } = true;
         public bool IsActive { get; set; } = true;
 
         // Foreign Keys
