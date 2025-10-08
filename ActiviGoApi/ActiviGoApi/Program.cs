@@ -27,8 +27,6 @@ namespace ActiviGoApi
 
             // Adding FluentValidation
             builder.Services.AddValidatorsFromAssemblyContaining<LocationRequestDTO_Validator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<BookingCreateDTOValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<BookingUpdateDTOValidator>();
 
             builder.Services.AddDbContext<ToadContext>(options => 
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaulConnection")));
