@@ -42,6 +42,10 @@ namespace ActiviGoApi.WebApi.Controllers
                 // executing the request
                 var response = await client.ExecuteGetAsync(request, ct);
 
+                if(!response.IsSuccessful)
+                {
+                    return BadRequest($"Error in request: {response.ToString()}");
+                }
                 // putting weatherdata into a jsonobject 
                 var responseData = JsonSerializer.Deserialize<JsonObject>(response.Content);
 
