@@ -1,6 +1,8 @@
 ﻿using ActiviGoApi.Core.Models;
 using ActiviGoApi.Infrastructur.Repositories;
+using ActiviGoApi.Services.DTOs.ActivityDTOs;
 using ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs;
+using ActiviGoApi.Services.DTOs.CategpryDtos;
 using ActiviGoApi.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -21,21 +23,22 @@ namespace ActiviGoApi.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ActivityOccurence>> GetAllAsync(CancellationToken ct = default)
+        public async Task<IEnumerable<ActivityOccurenceResponseDTO>> GetAllAsync(CancellationToken ct = default)
         {
             var occurrences = await _unitOfWork.ActivityOccurrences.GetAllAsync(ct);
-            return await _unitOfWork.ActivityOccurrences.GetAllAsync(ct);
+            return _mapper.Map<IEnumerable<ActivityOccurenceResponseDTO>>(occurrences);
         }
 
-        public async Task<ActivityOccurence?> GetByIdAsync(int id, CancellationToken ct = default)
+        public async Task<ActivityOccurenceResponseDTO?> GetByIdAsync(int id, CancellationToken ct = default)
         {
             var occurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(id, ct);
 
             if (occurrence == null)
             {
-                throw new KeyNotFoundException($"Activity occurrence with id {id} not found");
+                return null;
             }
-            return await _unitOfWork.ActivityOccurrences.GetByIdAsync(id, ct);
+
+            return _mapper.Map<ActivityOccurenceResponseDTO>(occurrence);
         }
 
         public async Task<ActivityOccurence> CreateAsync(CreateActivityOccurrenceDTO createDTO, CancellationToken ct = default)
@@ -48,8 +51,9 @@ namespace ActiviGoApi.Services.Services
             return newOccurrence;
         }
 
-        public async Task<ActivityOccurence?> UpdateAsync(int id, UpdateActivityOccurrenceDTO updateDTO, CancellationToken ct = default)
+        public async Task<ActivityOccurenceResponseDTO?> UpdateAsync(int id, UpdateActivityOccurrenceDTO updateDTO, CancellationToken ct = default)
         {
+
             var existingOccurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(id, ct);
             if (existingOccurrence == null)
             {
