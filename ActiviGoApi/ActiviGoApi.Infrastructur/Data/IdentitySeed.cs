@@ -78,7 +78,10 @@ namespace ActiviGoApi.Infrastructur.Data
                     {
                         UserName = userUsername,
                         Email = userEmail,
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+                        FirstName = config.GetSection($"SeedUser{i}")["firstname"],
+                        LastName = config.GetSection($"SeedUser{i}")["lastname"],
+                        DateOfBirth = DateTime.Parse(config.GetSection($"SeedUser{i}")["dob"])
                     };
                     var create = await userManager.CreateAsync(normalUser, config.GetSection($"SeedUser{i}")["password"]);
                     if (!create.Succeeded)

@@ -65,7 +65,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Activities");
+                    b.ToTable("Activities", (string)null);
 
                     b.HasData(
                         new
@@ -371,7 +371,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasIndex("SubLocationId");
 
-                    b.ToTable("ActivityOccurences");
+                    b.ToTable("ActivityOccurences", (string)null);
 
                     b.HasData(
                         new
@@ -678,7 +678,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("Bookings", (string)null);
                 });
 
             modelBuilder.Entity("ActiviGoApi.Core.Models.Category", b =>
@@ -707,7 +707,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
@@ -911,7 +911,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
 
                     b.HasData(
                         new
@@ -1191,7 +1191,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("SubLocations");
+                    b.ToTable("SubLocations", (string)null);
 
                     b.HasData(
                         new
@@ -1428,7 +1428,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasIndex("SubLocationsId");
 
-                    b.ToTable("ActivitySubLocation");
+                    b.ToTable("ActivitySubLocation", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
