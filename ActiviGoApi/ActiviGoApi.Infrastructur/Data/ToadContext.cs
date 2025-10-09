@@ -38,7 +38,7 @@ namespace ActiviGoApi.Infrastructur.Data
                       .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne<Activity>(ao => ao.Activity);
-                entity.HasOne<Location>(ao => ao.Location);
+                entity.HasOne<SubLocation>(ao => ao.SubLocation);
             });
 
             modelBuilder.Entity<Activity>(entity =>
@@ -63,10 +63,22 @@ namespace ActiviGoApi.Infrastructur.Data
 
             modelBuilder.Entity<Location>(entity =>
             {
-                entity.HasMany<ActivityOccurence>(l => l.ActivityOccurrences)
+                entity.HasMany<SubLocation>(l => l.SubLocations)
                       .WithOne(ao => ao.Location)
                       .HasForeignKey(ao => ao.LocationId)
                       .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<SubLocation>(entity =>
+            {
+                entity.HasOne<Location>(sl => sl.Location);
+                entity.HasMany<ActivityOccurence>(sl => sl.ActivityOccurences)
+                        .WithOne(ao => ao.SubLocation)
+                        .HasForeignKey(ao => ao.SubLocationId)
+                        .OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany<Activity>(sl => sl.Activities)
+                        .WithMany(a => a.SubLocations);
+
             });
 
             modelBuilder.Entity<Booking>(entity =>

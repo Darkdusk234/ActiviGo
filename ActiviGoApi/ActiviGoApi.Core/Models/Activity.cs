@@ -27,6 +27,6 @@ namespace ActiviGoApi.Core.Models
         // Navigation Properties
         public Category? Category { get; set; }
         public ICollection<ActivityOccurence>? ActivityOccurrences { get; set; }
-        public ICollection<Location>? Locations { get; set; }
+        public ICollection<SubLocation>? SubLocations { get; set; }
     }
 }
