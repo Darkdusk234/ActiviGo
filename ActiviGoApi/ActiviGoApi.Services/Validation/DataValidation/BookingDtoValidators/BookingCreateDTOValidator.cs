@@ -1,5 +1,5 @@
 using FluentValidation;
-using ActiviGoApi.Services.DTOs;
+using ActiviGoApi.Services.DTOs.BookingDTOs;
 
 public class BookingCreateDTOValidator : AbstractValidator<BookingCreateDTO>
 {

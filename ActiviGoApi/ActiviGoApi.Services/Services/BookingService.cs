@@ -1,10 +1,10 @@
 using ActiviGoApi.Core.Models;
 using FluentValidation;
-using ActiviGoApi.Services.DTOs;
 using ActiviGoApi.Services.Interfaces;
 using AutoMapper;
 using ActiviGoApi.Core.Interfaces;
 using ActiviGoApi.Infrastructur.Repositories;
+using ActiviGoApi.Services.DTOs.BookingDTOs;
 
 namespace ActiviGoApi.Services
 {

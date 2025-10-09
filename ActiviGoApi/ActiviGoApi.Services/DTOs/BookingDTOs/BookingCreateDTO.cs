@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ActiviGoApi.Services.DTOs
+namespace ActiviGoApi.Services.DTOs.BookingDTOs
 {
     public record BookingCreateDTO
     {
