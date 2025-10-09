@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ActiviGoApi.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using ActiviGoApi.Services.Services;
+using ActiviGoApi.Infrastructur.Repositories;
 
 namespace ActiviGoApi
 {
@@ -29,13 +31,18 @@ namespace ActiviGoApi
 
             builder.Services.AddScoped<IActivityOccurenceService, ActivityOccurenceService>();
             builder.Services.AddScoped<IBookingService, BookingService>();
+            builder.Services.AddScoped<ILocationService, LocationService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<ISubLocationService, SubLocationService>();
+            builder.Services.AddScoped<IActivityService, ActivityService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             // Adding FluentValidation
             builder.Services.AddValidatorsFromAssemblyContaining<LocationRequestDTO_Validator>();
 
             builder.Services.AddDbContext<ToadContext>(options => 
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaulConnection")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Adding AutoMapper profiles
             builder.Services.AddAutoMapper(cfg =>
@@ -168,6 +175,8 @@ namespace ActiviGoApi
 
 
             app.MapControllers();
+
+            IdentitySeed.SeedAsync(app.Services).Wait();
 
             app.Run();
         }

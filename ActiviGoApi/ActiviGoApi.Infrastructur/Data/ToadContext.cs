@@ -1,16 +1,17 @@
 ﻿using ActiviGoApi.Core.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ActiviGoApi.Infrastructur.Data
 {
-    public class ToadContext : DbContext
+    public class ToadContext : IdentityDbContext
     {
         public ToadContext(DbContextOptions<ToadContext> options) : base(options)
         {
 
         }
 
-        public DbSet<User> Users { get; set; }
+        public new DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Location> Locations { get; set; }
@@ -86,6 +87,13 @@ namespace ActiviGoApi.Infrastructur.Data
                 entity.HasOne<User>(b => b.User);
                 entity.HasOne<ActivityOccurence>(b => b.ActivityOccurence);
             });
+
+            modelBuilder.Entity<Category>().HasData(SeedData.GetCategories().ToArray());
+            modelBuilder.Entity<Activity>().HasData(SeedData.GetActivities().ToArray());
+            modelBuilder.Entity<Location>().HasData(SeedData.GetLocations().ToArray());
+            modelBuilder.Entity<SubLocation>().HasData(SeedData.GetSubLocations().ToArray());
+            modelBuilder.Entity<ActivityOccurence>().HasData(SeedData.GetActivityOccurences().ToArray());
+            //modelBuilder.Entity<Booking>().HasData(SeedData.GetBookings().ToArray());
         }
     }
 }
