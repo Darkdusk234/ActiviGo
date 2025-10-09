@@ -18,32 +18,6 @@ namespace ActiviGoApi.Infrastructur.Data
             private static readonly DateTime D2 = new DateTime(2025, 02, 01, 0, 0, 0, DateTimeKind.Utc);
             private static readonly DateTime D3 = new DateTime(2025, 03, 01, 0, 0, 0, DateTimeKind.Utc);
             private static readonly DateTime D4 = new DateTime(2025, 04, 01, 0, 0, 0, DateTimeKind.Utc);
-        // Role ids (fixed GUIDs)
-        public const string AdminRoleId = "e2b5f8d1-1111-4a1a-8000-000000000001";
-        public const string UserRoleId = "e2b5f8d1-1111-4a1a-8000-000000000002";
-
-        public static List<IdentityRole> GetRoles()
-        {
-            return new List<IdentityRole>
-            {
-                new IdentityRole
-                {
-                    Id = AdminRoleId,
-                    Name = "Admin",
-                    NormalizedName = "ADMIN",
-                    ConcurrencyStamp = "c1c1c1c1-c1c1-4c1c-9c1c-000000000001"
-                },
-                new IdentityRole
-                {
-                    Id = UserRoleId,
-                    Name = "User",
-                    NormalizedName = "USER",
-                    ConcurrencyStamp = "c2c2c2c2-c2c2-4c2c-9c2c-000000000002"
-                }
-            };
-        }
-
-
 
         public static List<Category> GetCategories()
             {
@@ -180,62 +154,7 @@ namespace ActiviGoApi.Infrastructur.Data
             };
             }
 
-            public static List<User> GetUsers()
-            {
-                return new List<User>
-            {
-                new User { Id = "b1f4f730-0001-4a1a-8000-000000000001", UserName = "alice@example.com", NormalizedUserName = "ALICE@EXAMPLE.COM", Email = "alice@example.com", NormalizedEmail = "ALICE@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Alice", LastName = "Andersson", DateOfBirth = new DateTime(1990,1,5), Address = "1 Park Lane", IsSuspended = false },
-                new User { Id = "b1f4f730-0002-4a1a-8000-000000000002", UserName = "bob@example.com", NormalizedUserName = "BOB@EXAMPLE.COM", Email = "bob@example.com", NormalizedEmail = "BOB@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Bob", LastName = "Brown", DateOfBirth = new DateTime(1985,6,15), Address = "2 River Rd", IsSuspended = false },
-                new User { Id = "b1f4f730-0003-4a1a-8000-000000000003", UserName = "carol@example.com", NormalizedUserName = "CAROL@EXAMPLE.COM", Email = "carol@example.com", NormalizedEmail = "CAROL@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Carol", LastName = "Carlson", DateOfBirth = new DateTime(1992,3,22), Address = "3 Harbor St", IsSuspended = false },
-                new User { Id = "b1f4f730-0004-4a1a-8000-000000000004", UserName = "dan@example.com", NormalizedUserName = "DAN@EXAMPLE.COM", Email = "dan@example.com", NormalizedEmail = "DAN@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Dan", LastName = "Davis", DateOfBirth = new DateTime(1988,11,2), Address = "4 North Ave", IsSuspended = false },
-                new User { Id = "b1f4f730-0005-4a1a-8000-000000000005", UserName = "eva@example.com", NormalizedUserName = "EVA@EXAMPLE.COM", Email = "eva@example.com", NormalizedEmail = "EVA@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Eva", LastName = "Eriksson", DateOfBirth = new DateTime(1995,7,30), Address = "5 South Gate", IsSuspended = false },
-                new User { Id = "b1f4f730-0006-4a1a-8000-000000000006", UserName = "fred@example.com", NormalizedUserName = "FRED@EXAMPLE.COM", Email = "fred@example.com", NormalizedEmail = "FRED@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Fred", LastName = "Fischer", DateOfBirth = new DateTime(1979,12,12), Address = "6 East Point", IsSuspended = false },
-                new User { Id = "b1f4f730-0007-4a1a-8000-000000000007", UserName = "gina@example.com", NormalizedUserName = "GINA@EXAMPLE.COM", Email = "gina@example.com", NormalizedEmail = "GINA@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Gina", LastName = "Gustav", DateOfBirth = new DateTime(1982,9,9), Address = "7 West Field", IsSuspended = false },
-                new User { Id = "b1f4f730-0008-4a1a-8000-000000000008", UserName = "harry@example.com", NormalizedUserName = "HARRY@EXAMPLE.COM", Email = "harry@example.com", NormalizedEmail = "HARRY@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Harry", LastName = "Hansen", DateOfBirth = new DateTime(1991,4,4), Address = "8 City Center", IsSuspended = false },
-                new User { Id = "b1f4f730-0009-4a1a-8000-000000000009", UserName = "irene@example.com", NormalizedUserName = "IRENE@EXAMPLE.COM", Email = "irene@example.com", NormalizedEmail = "IRENE@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Irene", LastName = "Iverson", DateOfBirth = new DateTime(1993,8,8), Address = "9 Lakeside", IsSuspended = false },
-                new User { Id = "b1f4f730-000a-4a1a-8000-00000000000a", UserName = "john@example.com", NormalizedUserName = "JOHN@EXAMPLE.COM", Email = "john@example.com", NormalizedEmail = "JOHN@EXAMPLE.COM", EmailConfirmed = true, FirstName = "John", LastName = "Johnson", DateOfBirth = new DateTime(1975,2,2), Address = "10 Old Town", IsSuspended = false },
-                new User { Id = "b1f4f730-000b-4a1a-8000-00000000000b", UserName = "kate@example.com", NormalizedUserName = "KATE@EXAMPLE.COM", Email = "kate@example.com", NormalizedEmail = "KATE@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Kate", LastName = "Karlsson", DateOfBirth = new DateTime(1987,5,5), Address = "11 Green Meadow", IsSuspended = false },
-                new User { Id = "b1f4f730-000c-4a1a-8000-00000000000c", UserName = "liam@example.com", NormalizedUserName = "LIAM@EXAMPLE.COM", Email = "liam@example.com", NormalizedEmail = "LIAM@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Liam", LastName = "Larsson", DateOfBirth = new DateTime(1996,10,10), Address = "12 Highlands", IsSuspended = false },
-                new User { Id = "b1f4f730-000d-4a1a-8000-00000000000d", UserName = "mia@example.com", NormalizedUserName = "MIA@EXAMPLE.COM", Email = "mia@example.com", NormalizedEmail = "MIA@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Mia", LastName = "Mårtensson", DateOfBirth = new DateTime(1994,3,3), Address = "13 Sunset Plaza", IsSuspended = false },
-                new User { Id = "b1f4f730-000e-4a1a-8000-00000000000e", UserName = "noah@example.com", NormalizedUserName = "NOAH@EXAMPLE.COM", Email = "noah@example.com", NormalizedEmail = "NOAH@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Noah", LastName = "Nilsen", DateOfBirth = new DateTime(1989,6,6), Address = "14 Mountain Base", IsSuspended = false },
-                new User { Id = "b1f4f730-000f-4a1a-8000-00000000000f", UserName = "olga@example.com", NormalizedUserName = "OLGA@EXAMPLE.COM", Email = "olga@example.com", NormalizedEmail = "OLGA@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Olga", LastName = "Olsen", DateOfBirth = new DateTime(1978,12,1), Address = "15 Valley Hub", IsSuspended = false },
-                new User { Id = "b1f4f730-0010-4a1a-8000-000000000010", UserName = "pete@example.com", NormalizedUserName = "PETE@EXAMPLE.COM", Email = "pete@example.com", NormalizedEmail = "PETE@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Pete", LastName = "Peterson", DateOfBirth = new DateTime(1984,9,12), Address = "16 Seafront", IsSuspended = false },
-                new User { Id = "b1f4f730-0011-4a1a-8000-000000000011", UserName = "quinn@example.com", NormalizedUserName = "QUINN@EXAMPLE.COM", Email = "quinn@example.com", NormalizedEmail = "QUINN@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Quinn", LastName = "Qvist", DateOfBirth = new DateTime(1999,1,20), Address = "17 Meadow Park", IsSuspended = false },
-                new User { Id = "b1f4f730-0012-4a1a-8000-000000000012", UserName = "rachel@example.com", NormalizedUserName = "RACHEL@EXAMPLE.COM", Email = "rachel@example.com", NormalizedEmail = "RACHEL@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Rachel", LastName = "Rosen", DateOfBirth = new DateTime(1997,7,7), Address = "18 Station Square", IsSuspended = false },
-                new User { Id = "b1f4f730-0013-4a1a-8000-000000000013", UserName = "sam@example.com", NormalizedUserName = "SAM@EXAMPLE.COM", Email = "sam@example.com", NormalizedEmail = "SAM@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Sam", LastName = "Svensson", DateOfBirth = new DateTime(1990,2,14), Address = "19 Festival Grounds", IsSuspended = false },
-                new User { Id = "b1f4f730-0014-4a1a-8000-000000000014", UserName = "tina@example.com", NormalizedUserName = "TINA@EXAMPLE.COM", Email = "tina@example.com", NormalizedEmail = "TINA@EXAMPLE.COM", EmailConfirmed = true, FirstName = "Tina", LastName = "Thompson", DateOfBirth = new DateTime(1983,11,11), Address = "20 Civic Plaza", IsSuspended = false }
-            };
-            }
 
-        public static List<IdentityUserRole<string>> GetUserRoles()
-        {
-            // Make two admins: Alice (user id ...0001) and Bob (...0002)
-            return new List<IdentityUserRole<string>>
-            {
-                new IdentityUserRole<string> { UserId = "b1f4f730-0001-4a1a-8000-000000000001", RoleId = AdminRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-0002-4a1a-8000-000000000002", RoleId = AdminRoleId },
-
-                // Optionally assign remaining seeded users the basic 'User' role for completeness
-                new IdentityUserRole<string> { UserId = "b1f4f730-0003-4a1a-8000-000000000003", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-0004-4a1a-8000-000000000004", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-0005-4a1a-8000-000000000005", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-0006-4a1a-8000-000000000006", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-0007-4a1a-8000-000000000007", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-0008-4a1a-8000-000000000008", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-0009-4a1a-8000-000000000009", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-000a-4a1a-8000-00000000000a", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-000b-4a1a-8000-00000000000b", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-000c-4a1a-8000-00000000000c", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-000d-4a1a-8000-00000000000d", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-000e-4a1a-8000-00000000000e", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-000f-4a1a-8000-00000000000f", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-0010-4a1a-8000-000000000010", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-0011-4a1a-8000-000000000011", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-0012-4a1a-8000-000000000012", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-0013-4a1a-8000-000000000013", RoleId = UserRoleId },
-                new IdentityUserRole<string> { UserId = "b1f4f730-0014-4a1a-8000-000000000014", RoleId = UserRoleId }
-            };
-        }
 
         public static List<Booking> GetBookings()
             {
