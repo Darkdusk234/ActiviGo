@@ -41,30 +41,58 @@ namespace ActiviGoApi.Services.Services
             return _mapper.Map<ActivityOccurenceResponseDTO>(occurrence);
         }
 
-        public async Task<ActivityOccurence> CreateAsync(CreateActivityOccurrenceDTO createDTO, CancellationToken ct = default)
+        public async Task<ActivityOccurenceResponseDTO> AddAsync(CreateActivityOccurrenceDTO createDTO, CancellationToken ct = default)
         {
+            var activity = await _unitOfWork.Activities.GetByIdAsync(createDTO.ActivityId, ct);
+            if (activity == null)
+            {
+                throw new KeyNotFoundException($"Activity with id {createDTO.ActivityId} not found");
+            }
+
+            var subLocation = await _unitOfWork.SubLocations.GetByIdAsync(createDTO.SubLocationId, ct);
+            if (subLocation == null)
+            {
+                throw new KeyNotFoundException($"SubLocation with id {createDTO.SubLocationId} not found");
+            }
+
             var newOccurrence = _mapper.Map<ActivityOccurence>(createDTO);
-            newOccurrence.AvailableSpots = newOccurrence.Capacity; // Set available spots to capacity when creating
-            
+            newOccurrence.AvailableSpots = newOccurrence.Capacity;
+            newOccurrence.IsCancelled = false;
+
             await _unitOfWork.ActivityOccurrences.AddAsync(newOccurrence, ct);
             await _unitOfWork.SaveChangesAsync(ct);
-            return newOccurrence;
+
+            return _mapper.Map<ActivityOccurenceResponseDTO>(newOccurrence);
         }
 
         public async Task<ActivityOccurenceResponseDTO?> UpdateAsync(int id, UpdateActivityOccurrenceDTO updateDTO, CancellationToken ct = default)
         {
-
             var existingOccurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(id, ct);
+
             if (existingOccurrence == null)
             {
-                throw new KeyNotFoundException($"Activity-occurrence with id {id} not found");
+                return null;
+            }
+
+            var activity = await _unitOfWork.Activities.GetByIdAsync(updateDTO.ActivityId, ct);
+            if (activity == null)
+            {
+                throw new KeyNotFoundException($"Activity with id {updateDTO.ActivityId} not found");
+            }
+
+            var subLocation = await _unitOfWork.SubLocations.GetByIdAsync(updateDTO.SubLocationId, ct);
+            if (subLocation == null)
+            {
+                throw new KeyNotFoundException($"SubLocation with id {updateDTO.SubLocationId} not found");
             }
 
             _mapper.Map(updateDTO, existingOccurrence);
+            existingOccurrence.UpdatedAt = DateTime.UtcNow;
 
-            await _unitOfWork.ActivityOccurrences.UpdateAsync(existingOccurrence);
+            await _unitOfWork.ActivityOccurrences.UpdateAsync(existingOccurrence, ct);
             await _unitOfWork.SaveChangesAsync(ct);
-            return existingOccurrence;
+
+            return _mapper.Map<ActivityOccurenceResponseDTO>(existingOccurrence);
         }
 
         public async Task DeleteAsync(int id, CancellationToken ct = default)
