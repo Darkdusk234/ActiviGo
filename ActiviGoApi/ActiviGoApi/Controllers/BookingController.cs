@@ -1,4 +1,4 @@
-using ActiviGoApi.Services.DTOs;
+using ActiviGoApi.Services.DTOs.BookingDTOs;
 using ActiviGoApi.Services.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
