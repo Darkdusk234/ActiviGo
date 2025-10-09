@@ -22,6 +22,12 @@ namespace ActiviGoApi.Services.Services
         }
         public async Task<ActivityOccurence?> GetByIdAsync(int id, CancellationToken ct = default)
         {
+            var occurrence = await _unitOfWork.GetOccurrenceByIdAsync(id, ct);
+
+            if (occurrence == null)
+            {
+                throw new KeyNotFoundException($"Activity occurrence with id {id} not found");
+            }
             return await _unitOfWork.ActivityOccurrences.GetByIdAsync(id, ct);
         }
 

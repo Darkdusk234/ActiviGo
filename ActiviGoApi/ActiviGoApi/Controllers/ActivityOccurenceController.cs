@@ -34,15 +34,17 @@ namespace ActiviGoApi.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ActivityOccurenceResponseDTO>> GetOccurrence(int id, CancellationToken ct)
         {
-            var occurrence = await _occurrenceService.GetOccurrenceByIdAsync(id, ct);
-
-            if (occurrence == null)
+            try
             {
-                return NotFound($"Activity occurrence with id {id} not found");
+
+                var activityOccurence = _mapper.Map<ActivityOccurenceResponseDTO>(id, ct);
+                return Ok(activityOccurence);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
 
-            var response = _mapper.Map<ActivityOccurenceResponseDTO>(occurrence);
-            return Ok(response);
         }
         /// <summary>
         /// Create a new activity occurrence
@@ -118,7 +120,8 @@ namespace ActiviGoApi.WebApi.Controllers
 
             if (deleted == null)
             {
-                return NotFound($"Activity occurrence with id {id} not found");
+                return NotFound($"Activity occurrence with id" +
+                    $" {id} not found");
             }
 
             return NoContent();
