@@ -7,7 +7,7 @@ namespace ActiviGoApi.Core.Models
         [Required]
         public int Id { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
         [Required]
         public int ActivityOccurenceId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
