@@ -27,6 +27,7 @@ namespace ActiviGoApi.WebApi.Controllers
         /// <returns></returns>
         // GET: api/activityoccurrences
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ActivityOccurence>>> GetAllOccurrences(CancellationToken ct)
         {
             var occurrences = await _occurrenceService.GetAllAsync(ct);
@@ -39,16 +40,24 @@ namespace ActiviGoApi.WebApi.Controllers
         /// <returns></returns>
         // GET: api/activityoccurrences/
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ActivityOccurenceResponseDTO>> GetOccurrence(int id, CancellationToken ct)
         {
             try
             {
-                var location = await _occurrenceService.GetByIdAsync(id, ct);
-                return Ok(location);
+                var occurrence = await _occurrenceService.GetByIdAsync(id, ct);
+
+                if (occurrence == null)
+                {
+                    return NotFound($"Activity occurrence with id {id} not found");
+                }
+
+                return Ok(occurrence);
             }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return StatusCode(500, $"An error occurred while retrieving activity occurrence with id {id}");
             }
 
         }
@@ -59,6 +68,8 @@ namespace ActiviGoApi.WebApi.Controllers
         /// <returns></returns>
         // POST: api/activityoccurrences
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ActivityOccurenceResponseDTO>> CreateOccurrence([FromBody] CreateActivityOccurrenceDTO dto,CancellationToken ct)
         {
             var validResult = await _createVali.ValidateAsync(dto, ct);
@@ -68,12 +79,16 @@ namespace ActiviGoApi.WebApi.Controllers
             }
             try
             {
-                var newOccurrence = await _occurrenceService.CreateAsync(dto, ct);
+                var newOccurrence = await _occurrenceService.AddAsync(dto, ct);
                 return CreatedAtAction(nameof(GetOccurrence), new { id = newOccurrence.Id }, newOccurrence);
             }
             catch (KeyNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(ex.Message);    // not find the activity or sublocation id
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while creating the activity occurrence");
             }
 
         }
@@ -100,9 +115,13 @@ namespace ActiviGoApi.WebApi.Controllers
                 var updatedOccurrence = await _occurrenceService.UpdateAsync(id, dto, ct);
                 return Ok(updatedOccurrence);
             }
-            catch (Exception ex) 
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -125,6 +144,11 @@ namespace ActiviGoApi.WebApi.Controllers
             {
                 return NotFound(ex.Message);
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
         }
     }
     
