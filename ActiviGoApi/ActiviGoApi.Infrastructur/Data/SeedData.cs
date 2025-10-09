@@ -1,4 +1,5 @@
 ﻿using ActiviGoApi.Core.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,34 @@ namespace ActiviGoApi.Infrastructur.Data
             private static readonly DateTime D2 = new DateTime(2025, 02, 01, 0, 0, 0, DateTimeKind.Utc);
             private static readonly DateTime D3 = new DateTime(2025, 03, 01, 0, 0, 0, DateTimeKind.Utc);
             private static readonly DateTime D4 = new DateTime(2025, 04, 01, 0, 0, 0, DateTimeKind.Utc);
+        // Role ids (fixed GUIDs)
+        public const string AdminRoleId = "e2b5f8d1-1111-4a1a-8000-000000000001";
+        public const string UserRoleId = "e2b5f8d1-1111-4a1a-8000-000000000002";
 
-            public static List<Category> GetCategories()
+        public static List<IdentityRole> GetRoles()
+        {
+            return new List<IdentityRole>
+            {
+                new IdentityRole
+                {
+                    Id = AdminRoleId,
+                    Name = "Admin",
+                    NormalizedName = "ADMIN",
+                    ConcurrencyStamp = "c1c1c1c1-c1c1-4c1c-9c1c-000000000001"
+                },
+                new IdentityRole
+                {
+                    Id = UserRoleId,
+                    Name = "User",
+                    NormalizedName = "USER",
+                    ConcurrencyStamp = "c2c2c2c2-c2c2-4c2c-9c2c-000000000002"
+                }
+            };
+        }
+
+
+
+        public static List<Category> GetCategories()
             {
                 return new List<Category>
             {
@@ -180,7 +207,37 @@ namespace ActiviGoApi.Infrastructur.Data
             };
             }
 
-            public static List<Booking> GetBookings()
+        public static List<IdentityUserRole<string>> GetUserRoles()
+        {
+            // Make two admins: Alice (user id ...0001) and Bob (...0002)
+            return new List<IdentityUserRole<string>>
+            {
+                new IdentityUserRole<string> { UserId = "b1f4f730-0001-4a1a-8000-000000000001", RoleId = AdminRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-0002-4a1a-8000-000000000002", RoleId = AdminRoleId },
+
+                // Optionally assign remaining seeded users the basic 'User' role for completeness
+                new IdentityUserRole<string> { UserId = "b1f4f730-0003-4a1a-8000-000000000003", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-0004-4a1a-8000-000000000004", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-0005-4a1a-8000-000000000005", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-0006-4a1a-8000-000000000006", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-0007-4a1a-8000-000000000007", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-0008-4a1a-8000-000000000008", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-0009-4a1a-8000-000000000009", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-000a-4a1a-8000-00000000000a", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-000b-4a1a-8000-00000000000b", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-000c-4a1a-8000-00000000000c", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-000d-4a1a-8000-00000000000d", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-000e-4a1a-8000-00000000000e", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-000f-4a1a-8000-00000000000f", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-0010-4a1a-8000-000000000010", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-0011-4a1a-8000-000000000011", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-0012-4a1a-8000-000000000012", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-0013-4a1a-8000-000000000013", RoleId = UserRoleId },
+                new IdentityUserRole<string> { UserId = "b1f4f730-0014-4a1a-8000-000000000014", RoleId = UserRoleId }
+            };
+        }
+
+        public static List<Booking> GetBookings()
             {
                 // Booking.UserId is string (Identity). Values match GetUsers() IDs.
                 return new List<Booking>
