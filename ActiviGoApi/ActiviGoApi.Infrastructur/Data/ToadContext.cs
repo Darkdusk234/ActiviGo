@@ -86,6 +86,14 @@ namespace ActiviGoApi.Infrastructur.Data
                 entity.HasOne<User>(b => b.User);
                 entity.HasOne<ActivityOccurence>(b => b.ActivityOccurence);
             });
+
+            modelBuilder.Entity<Category>().HasData(SeedData.GetCategories().ToArray());
+            modelBuilder.Entity<Activity>().HasData(SeedData.GetActivities().ToArray());
+            modelBuilder.Entity<Location>().HasData(SeedData.GetLocations().ToArray());
+            modelBuilder.Entity<SubLocation>().HasData(SeedData.GetSubLocations().ToArray());
+            modelBuilder.Entity<ActivityOccurence>().HasData(SeedData.GetActivityOccurences().ToArray());
+            modelBuilder.Entity<User>().HasData(SeedData.GetUsers().ToArray());
+            modelBuilder.Entity<Booking>().HasData(SeedData.GetBookings().ToArray());
         }
     }
 }
