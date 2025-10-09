@@ -1,71 +1,74 @@
 ﻿using ActiviGoApi.Core.Models;
 using ActiviGoApi.Services.Interfaces;
 using ActiviGoApi.Infrastructur.Repositories;
+using AutoMapper;
+using ActiviGoApi.Services.DTOs.LocationDTOs;
 
 namespace ActiviGoApi.Services.Services
 {
     public class LocationService : ILocationService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public LocationService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public LocationService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
+
         public async Task<IEnumerable<Location>> GetAllAsync(CancellationToken ct = default)
         {
-            return await _unitOfWork.GetAllAsync(ct);
+            var locations = await _unitOfWork.Locations.GetAllAsync(ct);
+            return _mapper.Map<IEnumerable<Location>>(locations);
         }
+
         public async Task<Location?> GetByIdAsync(int id, CancellationToken ct = default)
         {
-            return await _unitOfWork.Locations.GetByIdAsync(id, ct);
+            var location = await _unitOfWork.Locations.GetByIdAsync(id, ct);
+            if (location == null)
+            {
+                throw new KeyNotFoundException($"Location with id {id} not found.");
+            }
+            return location;
         }
 
-        public async Task<Location> AddAsync(Location location, CancellationToken ct = default)
+        public async Task<Location> AddAsync(CreateLocationDTO createDto, CancellationToken ct = default)
         {
-            location.CreatedAt = DateTime.UtcNow;
-            location.UpdatedAt = DateTime.UtcNow;
+            var creatingLocation = _mapper.Map<Location>(createDto);
 
-            var createdLocation = await _unitOfWork.Locations.AddAsync(location, ct);
+            await _unitOfWork.Locations.AddAsync(creatingLocation, ct);
             await _unitOfWork.SaveChangesAsync(ct);
-
-            return createdLocation;
+            return creatingLocation;
         }
 
-        public async Task<Location?> UpdateAsync(int id, Location location, CancellationToken ct = default)
+        public async Task<Location?> UpdateAsync(int id, UpdateLocationDTO updateLocal, CancellationToken ct = default)
         {
-            var updateLocation = await _unitOfWork.Locations.GetByIdAsync(id, ct);
-
-            if (updateLocation != null) 
-            { 
-                return null;
+            var existingLocal = await _unitOfWork.Locations.GetByIdAsync(id, ct);
+            if (existingLocal == null)
+            {
+                throw new KeyNotFoundException($"Location with id {id} not found.");
             }
 
-            updateLocation.Name = location.Name;
-            updateLocation.Description = location.Description;
-            updateLocation.Adress = location.Adress;
-            updateLocation.Latitude = location.Latitude;
-            updateLocation.Longitude = location.Longitude;
-            updateLocation.Capacity = location.Capacity;
-            updateLocation.IsIndoors = location.IsIndoors;
-            updateLocation.IsActive = location.IsActive;
-            updateLocation.UpdatedAt = DateTime.UtcNow;
+            _mapper.Map(updateLocal, existingLocal);
 
-            await _unitOfWork.Locations.UpdateAsync(updateLocation, ct);
+
+            await _unitOfWork.Locations.UpdateAsync(existingLocal, ct);
             await _unitOfWork.SaveChangesAsync(ct); 
             
-            return updateLocation;
+            return existingLocal;
         }
-        public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
+
+        public async Task DeleteAsync(int id, CancellationToken ct = default)
         {
-            var result = await _unitOfWork.DeleteAsync(id, ct);
-
-            if (result) // result true and save
+            var location = await _unitOfWork.Locations.GetByIdAsync(id, ct);
+            if (location == null)
             {
-                await _unitOfWork.SaveChangesAsync(ct);
+                throw new KeyNotFoundException($"Location with id {id} not found.");
             }
-            return result;
+            await _unitOfWork.Locations.DeleteAsync(id, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+            
         }
-
 
 
     }
