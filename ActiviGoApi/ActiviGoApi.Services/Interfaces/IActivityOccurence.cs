@@ -1,4 +1,5 @@
 ﻿using ActiviGoApi.Core.Models;
+using ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace ActiviGoApi.Services.Interfaces
     {
         Task<IEnumerable<ActivityOccurence>> GetAllAsync(CancellationToken ct = default);
         Task<ActivityOccurence?> GetByIdAsync(int id, CancellationToken ct = default);
-        Task<ActivityOccurence> CreateAsync(ActivityOccurence occurrence, CancellationToken ct = default);
-        Task<ActivityOccurence?> UpdateAsync(int id, ActivityOccurence occurrence, CancellationToken ct = default);
+        Task<ActivityOccurence> CreateAsync(CreateActivityOccurrenceDTO createAODTO, CancellationToken ct = default);
+        Task<ActivityOccurence?> UpdateAsync(int id, UpdateActivityOccurrenceDTO updateAODTO, CancellationToken ct = default);
         Task<ActivityOccurence?> DeleteAsync(int id, CancellationToken ct = default);
     }
 }
