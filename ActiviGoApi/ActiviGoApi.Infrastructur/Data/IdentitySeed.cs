@@ -64,6 +64,41 @@ namespace ActiviGoApi.Infrastructur.Data
                 }
 
             }
+
+            // Create User users
+            for (int i = 2; i <= 4; i++)
+            {
+
+                var userEmail = config.GetSection($"SeedUser{i}")["email"];
+                var userUsername = config.GetSection($"SeedUser{i}")["username"];
+                var normalUser = await userManager.FindByEmailAsync(userEmail);
+                if (normalUser == null)
+                {
+                    normalUser = new User
+                    {
+                        UserName = userUsername,
+                        Email = userEmail,
+                        EmailConfirmed = true
+                    };
+                    var create = await userManager.CreateAsync(normalUser, config.GetSection($"SeedUser{i}")["password"]);
+                    if (!create.Succeeded)
+                    {
+                        var errors = string.Join("; ", create.Errors.Select(e => $"{e.Code}:{e.Description}"));
+                        throw new Exception($"Failed to create seed user: {errors}");
+                    }
+                }
+
+                // Assign User role
+
+                var addRole = await userManager.AddToRoleAsync(normalUser, "User");
+
+                if(!addRole.Succeeded)
+                {
+                    var errors = string.Join("; ", addRole.Errors.Select(e => $"{e.Code}:{e.Description}"));
+                    throw new Exception($"Failed to add seed user to role: {errors}");
+                }
+
+            }
         }
     }
 }
