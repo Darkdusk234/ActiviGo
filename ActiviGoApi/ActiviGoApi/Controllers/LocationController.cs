@@ -38,8 +38,6 @@ namespace ActiviGoApi.WebApi.Controllers
             var locations = await _locationService.GetAllAsync(ct);
             return Ok(locations);
         }
-        [ProducesResponseType(StatusCodes.Status200OK)]
-
 
         // GET: api/locations
         /// <summary>

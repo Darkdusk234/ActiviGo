@@ -3,18 +3,24 @@ using ActiviGoApi.Core.Models;
 using ActiviGoApi.Services.Interfaces;
 using AutoMapper;
 using ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs;
+using FluentValidation;
+using ActiviGoApi.Services.Services;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
     public class ActivityOccurenceController : ControllerBase
     {
         private readonly IActivityOccurenceService _occurrenceService;
-        private readonly IMapper _mapper;
-        public ActivityOccurenceController(IActivityOccurenceService occurrenceService, IMapper mapper)
+        private readonly IValidator<CreateActivityOccurrenceDTO> _createVali;
+        private readonly IValidator<UpdateActivityOccurrenceDTO> _updateVali;
+        public ActivityOccurenceController(IActivityOccurenceService occurrenceService, IValidator<CreateActivityOccurrenceDTO> createVali, 
+            IValidator<UpdateActivityOccurrenceDTO> updateVali)
         {
             _occurrenceService = occurrenceService;
-            _mapper = mapper;
+            _createVali = createVali;
+            _updateVali = updateVali;
         }
+
         /// <summary>
         /// Get all activity occurrences
         /// </summary>
@@ -26,6 +32,7 @@ namespace ActiviGoApi.WebApi.Controllers
             var occurrences = await _occurrenceService.GetAllAsync(ct);
             return Ok(occurrences);
         }
+
         /// <summary>
         /// Get activity occurrence by id
         /// </summary>
@@ -36,9 +43,33 @@ namespace ActiviGoApi.WebApi.Controllers
         {
             try
             {
+                var location = await _occurrenceService.GetByIdAsync(id, ct);
+                return Ok(location);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
 
-                var activityOccurence = _mapper.Map<ActivityOccurenceResponseDTO>(id, ct);
-                return Ok(activityOccurence);
+        }
+
+        /// <summary>
+        /// Create a new activity occurrence
+        /// </summary>
+        /// <returns></returns>
+        // POST: api/activityoccurrences
+        [HttpPost]
+        public async Task<ActionResult<ActivityOccurenceResponseDTO>> CreateOccurrence([FromBody] CreateActivityOccurrenceDTO dto,CancellationToken ct)
+        {
+            var validResult = await _createVali.ValidateAsync(dto, ct);
+            if (!validResult.IsValid)
+            {
+                return BadRequest(validResult.Errors);
+            }
+            try
+            {
+                var newOccurrence = await _occurrenceService.CreateAsync(dto, ct);
+                return CreatedAtAction(nameof(GetOccurrence), new { id = newOccurrence.Id }, newOccurrence);
             }
             catch (KeyNotFoundException ex)
             {
@@ -46,85 +77,54 @@ namespace ActiviGoApi.WebApi.Controllers
             }
 
         }
-        /// <summary>
-        /// Create a new activity occurrence
-        /// </summary>
-        /// <returns></returns>
-        // POST: api/activityoccurrences
-        [HttpPost]
-        public async Task<ActionResult<ActivityOccurenceResponseDTO>> CreateOccurrence(
-            [FromBody] CreateActivityOccurrenceDTO dto,
-            CancellationToken ct)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            if (dto.StartTime >= dto.EndTime)
-            {
-                return BadRequest("StartTime must be before EndTime");
-            }
-
-            var occurrence = _mapper.Map<ActivityOccurence>(dto);
-            var created = await _occurrenceService.CreateOccurrenceAsync(occurrence, ct);
-            var response = _mapper.Map<ActivityOccurenceResponseDTO>(created);
-
-            return CreatedAtAction(
-                nameof(GetOccurrence),
-                new { id = response.Id },
-                response
-            );
-        }
         /// <summary>
         /// Update an existing activity occurrence
         /// </summary>
         /// <returns></returns>
         // PUT: api/activityoccurrences/
         [HttpPut("{id}")]
-        public async Task<ActionResult<ActivityOccurenceResponseDTO>> UpdateOccurrence(
-         int id,
-         [FromBody] UpdateActivityOccurrenceDTO dto,
-         CancellationToken ct)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ActivityOccurenceResponseDTO>> UpdateOccurrence(int id,[FromBody] UpdateActivityOccurrenceDTO dto,CancellationToken ct)
         {
-            if (!ModelState.IsValid)
+            var validResult = await _updateVali.ValidateAsync(dto, ct);
+            if (!validResult.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(validResult.Errors);
             }
 
-            if (dto.StartTime >= dto.EndTime)
+            try
             {
-                return BadRequest("StartTime must be before EndTime");
+                var updatedOccurrence = await _occurrenceService.UpdateAsync(id, dto, ct);
+                return Ok(updatedOccurrence);
             }
-
-            var occurrence = _mapper.Map<ActivityOccurence>(dto);
-            var updated = await _occurrenceService.UpdateOccurrenceAsync(id, occurrence, ct);
-
-            if (updated == null)
+            catch (Exception ex) 
             {
-                return NotFound($"Activity occurrence with id {id} not found");
+                return NotFound(ex.Message);
             }
-
-            var response = _mapper.Map<ActivityOccurenceResponseDTO>(updated);
-            return Ok(response);
         }
+
         /// <summary>
         /// Delete an activity occurrence
         /// </summary>
         /// <returns></returns>
         // DELETE: api/activityoccurrences/
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteOccurrence(int id, CancellationToken ct)
         {
-            var deleted = await _occurrenceService.DeleteOccurrenceAsync(id, ct);
-
-            if (deleted == null)
+            try
             {
-                return NotFound($"Activity occurrence with id" +
-                    $" {id} not found");
+                await _occurrenceService.DeleteAsync(id, ct);
+                return NoContent();
             }
-
-            return NoContent();
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
     
