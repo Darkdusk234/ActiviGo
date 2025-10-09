@@ -1,16 +1,17 @@
 ﻿using ActiviGoApi.Core.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ActiviGoApi.Infrastructur.Data
 {
-    public class ToadContext : DbContext
+    public class ToadContext : IdentityDbContext
     {
         public ToadContext(DbContextOptions<ToadContext> options) : base(options)
         {
 
         }
 
-        public DbSet<User> Users { get; set; }
+        public new DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Location> Locations { get; set; }
