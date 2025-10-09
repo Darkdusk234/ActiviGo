@@ -2,7 +2,11 @@
 using ActiviGoApi.Services;
 using ActiviGoApi.Services.Interfaces;
 using ActiviGoApi.Services.Mapping;
+
+using ActiviGoApi.Services.Services;
+
 using ActiviGoApi.Infrastructur.Data;
+
 using ActiviGoApi.Services.Validation.DataValidation;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
@@ -22,6 +26,8 @@ namespace ActiviGoApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            builder.Services.AddScoped<IActivityOccurenceService, ActivityOccurenceService>();
             builder.Services.AddScoped<IBookingService, BookingService>();
 
 
@@ -35,6 +41,9 @@ namespace ActiviGoApi
             builder.Services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<LocationMappingProfile>();
+
+
+                cfg.AddProfile<ActivityOccurenceMappingProfile>();
 
                 cfg.AddProfile<CategoryMappingProfile>();
 

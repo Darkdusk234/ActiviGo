@@ -16,6 +16,9 @@ namespace ActiviGoApi.Infrastructur.Repositories
         // Private repositories added here
         private LocationRepository? _locationRepository;
 
+        private ActivityOccuranceRepository? _activityOccuranceRepository;
+
+
         private ActivityRepository? _activityRepository;
 
         private IGenericRepository<Category>? _categoryRepository;
@@ -34,6 +37,7 @@ namespace ActiviGoApi.Infrastructur.Repositories
         public IGenericRepository<Category> Categories => _categoryRepository ??= new GenericRepository<Category>(_context);
 
         public BookingRepository Bookings => _bookingRepository ??= new BookingRepository(_context);
+        public ActivityOccuranceRepository ActivityOccurrences => _activityOccuranceRepository ??= new ActivityOccuranceRepository(_context);
 
         public SubLocationRepository SubLocations => _subLocationRepository ??= new SubLocationRepository(_context);
         public UnitOfWork(ToadContext context)
