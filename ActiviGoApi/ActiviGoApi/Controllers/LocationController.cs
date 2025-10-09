@@ -7,6 +7,7 @@ using ActiviGoApi.Services.DTOs.CategpryDtos;
 using FluentValidation;
 using ActiviGoApi.Services.DTOs.LocationDTOs;
 using ActiviGoApi.Services.Services;
+using ActiviGoApi.Services.DTOs;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
@@ -33,7 +34,7 @@ namespace ActiviGoApi.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetAllLocations(CancellationToken ct)
+        public async Task<ActionResult<IEnumerable<LocationRequestDTO>>> GetAllLocations(CancellationToken ct)
         {
             var locations = await _locationService.GetAllAsync(ct);
             return Ok(locations);
@@ -49,11 +50,15 @@ namespace ActiviGoApi.WebApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Location>> GetById(int id, CancellationToken ct)
+        public async Task<ActionResult<LocationRequestDTO>> GetById(int id, CancellationToken ct)
         {
             try
             {
                 var location = await _locationService.GetByIdAsync(id, ct);
+                if (location == null)
+                {
+                    return NotFound($"Location with id {id} not found");
+                }
                 return Ok(location);
             }
             catch (Exception ex)
@@ -74,7 +79,7 @@ namespace ActiviGoApi.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Location>> CreateLocation([FromBody] CreateLocationDTO createDTO, CancellationToken ct)
+        public async Task<ActionResult<LocationRequestDTO>> CreateLocation([FromBody] CreateLocationDTO createDTO, CancellationToken ct)
         {
             var validResult = await _createVali.ValidateAsync(createDTO, ct);
             if (!validResult.IsValid)
@@ -105,8 +110,12 @@ namespace ActiviGoApi.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Location>> UpdateLocation(int id, UpdateLocationDTO updateDTO, CancellationToken ct)
+        public async Task<ActionResult<LocationRequestDTO>> UpdateLocation(int id, UpdateLocationDTO updateDTO, CancellationToken ct)
         {
+            if (id != updateDTO.Id)
+            {
+                return BadRequest("Id in URL does not match Id in request body");
+            }
             var validResult = await _updateVali.ValidateAsync(updateDTO, ct);
             if (!validResult.IsValid)
             {
