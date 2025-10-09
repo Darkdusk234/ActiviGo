@@ -10,8 +10,8 @@ namespace ActiviGoApi.Services.Mapping
         public LocationMappingProfile()
         {
             CreateMap<Location, LocationRequestDTO>();
-            CreateMap<Location, UpdateLocationDTO>();
-            CreateMap<Location, CreateLocationDTO>();
+            CreateMap<UpdateLocationDTO, Location>();
+            CreateMap<CreateLocationDTO, Location>();
 
         }
     }
