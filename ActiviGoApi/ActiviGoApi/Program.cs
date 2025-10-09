@@ -167,6 +167,8 @@ namespace ActiviGoApi
 
             app.MapControllers();
 
+            IdentitySeed.SeedAsync(app.Services).Wait();
+
             app.Run();
         }
     }
