@@ -15,14 +15,11 @@ namespace ActiviGoApi.Core.Models
         public string Latitude { get; set; } = string.Empty;
         [Required]
         public string Longitude { get; set; } = string.Empty;
-        public int? Capacity { get; set; }
-        public bool IsIndoors { get; set; } = true;
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         //Navigation Properties
-        public ICollection<Activity>? Activities { get; set; }
-        public ICollection<ActivityOccurence>? ActivityOccurrences { get; set; }
+        public IEnumerable<SubLocation>? SubLocations { get; set; }
     }
 }
