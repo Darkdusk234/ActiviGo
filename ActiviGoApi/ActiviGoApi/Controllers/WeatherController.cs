@@ -13,8 +13,9 @@ namespace ActiviGoApi.WebApi.Controllers
     [ApiController]
     public class WeatherController : ControllerBase
     {
+
         [HttpPost("LocationForecast")]
-        public async Task<ActionResult<WeatherResponseDTO>> GetWeatherForecastByLocation([FromBody] WeatherRequestDTO dto, CancellationToken ct)
+        public async Task<ActionResult<WeatherResponseDTO>> GetWeatherForecastByLocation([FromBody] WeatherLocationForecastRequestDTO dto, CancellationToken ct)
         {
             // Setting options for fetching
             var options = new RestClientOptions("https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/")
