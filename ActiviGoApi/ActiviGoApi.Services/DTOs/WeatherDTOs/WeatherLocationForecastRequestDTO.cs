@@ -8,8 +8,8 @@ namespace ActiviGoApi.Services.DTOs.WeatherDTOs
 {
     public record WeatherLocationForecastRequestDTO
     {
-        public string? Latitude { get; init; } = string.Empty;
-        public string? Longitude { get; init; } = string.Empty;
+        public string Latitude { get; init; } = string.Empty;
+        public string Longitude { get; init; } = string.Empty;
 
     }
 }
