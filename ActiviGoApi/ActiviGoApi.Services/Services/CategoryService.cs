@@ -30,7 +30,7 @@ namespace ActiviGoApi.Services.Services
         /// <inheritdoc />
         public async Task DeleteAsync(int id, CancellationToken ct)
         {
-            var category = _unitOfWork.Categories.GetByIdAsync(id, ct);
+            var category = await _unitOfWork.Categories.GetByIdAsync(id, ct);
             if(category == null)
             {
                 throw new KeyNotFoundException($"Category with id {id} not found.");
