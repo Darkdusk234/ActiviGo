@@ -13,6 +13,8 @@ namespace ActiviGoApi.Services.Mapping
     {
         public ActivityOccurenceMappingProfile()
         {
+            CreateMap<ActivityOccurence, ActivityOccurenceResponseDTO>();
+
             CreateMap<CreateActivityOccurrenceDTO, ActivityOccurence>()
                     .ForMember(dest => dest.Id, opt => opt.Ignore())
                     .ForMember(dest => dest.AvailableSpots, opt => opt.MapFrom(src => src.Capacity))
@@ -25,7 +27,6 @@ namespace ActiviGoApi.Services.Mapping
                 .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
 
-            CreateMap<ActivityOccurence, ActivityOccurenceResponseDTO>();
         }
 
     }
