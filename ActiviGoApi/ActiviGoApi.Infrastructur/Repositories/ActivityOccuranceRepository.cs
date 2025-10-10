@@ -25,7 +25,9 @@ namespace ActiviGoApi.Infrastructur.Repositories
 
             if (filter != null)
             {
-                query = query.Where(filter);
+                query = query
+                    .Include(a => a.Activity)
+                    .Where(filter);
             }
 
             return await query.ToListAsync();

@@ -122,7 +122,9 @@ namespace ActiviGoApi.Services.Services
             return x => (dto.ActivityId == null || x.ActivityId == dto.ActivityId) &&
                          (dto.SubLocationId == null || x.SubLocationId == dto.SubLocationId) &&
                          (dto.StartTime == null || x.StartTime >= dto.StartTime) &&
-                         (dto.EndTime == null || x.EndTime <= dto.EndTime);
+                         (dto.EndTime == null || x.EndTime <= dto.EndTime) &&
+                         (dto.AvailableToBook == null || x.AvailableSpots >= 0) &&
+                         (dto.NameFilter == null || x.Activity.Name.Contains(dto.NameFilter));
         }
     }
 }
