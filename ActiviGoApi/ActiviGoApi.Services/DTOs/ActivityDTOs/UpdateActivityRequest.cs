@@ -16,6 +16,8 @@ namespace ActiviGoApi.Services.DTOs.ActivityDTOs
         public int MaxParticipants { get; init; }
         public bool IsActive { get; init; } 
 
+        public decimal Price { get; init; }
+
         public int CategoryId { get; init; }
 
         public DateTime UpdatedAt { get; init; } = DateTime.UtcNow;
