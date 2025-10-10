@@ -2,7 +2,11 @@
 using ActiviGoApi.Services;
 using ActiviGoApi.Services.Interfaces;
 using ActiviGoApi.Services.Mapping;
+
+using ActiviGoApi.Services.Services;
+
 using ActiviGoApi.Infrastructur.Data;
+
 using ActiviGoApi.Services.Validation.DataValidation;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +15,9 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ActiviGoApi.Core.Models;
+using Microsoft.EntityFrameworkCore;
+using ActiviGoApi.Services.Services;
+using ActiviGoApi.Infrastructur.Repositories;
 
 namespace ActiviGoApi
 {
@@ -21,23 +28,35 @@ namespace ActiviGoApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            builder.Services.AddScoped<IActivityOccurenceService, ActivityOccurenceService>();
             builder.Services.AddScoped<IBookingService, BookingService>();
+            builder.Services.AddScoped<ILocationService, LocationService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<ISubLocationService, SubLocationService>();
+            builder.Services.AddScoped<IActivityService, ActivityService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             // Adding FluentValidation
             builder.Services.AddValidatorsFromAssemblyContaining<LocationRequestDTO_Validator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<BookingCreateDTOValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<BookingUpdateDTOValidator>();
 
+            builder.Services.AddDbContext<ToadContext>(options => 
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Adding AutoMapper profiles
             builder.Services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<LocationMappingProfile>();
 
+
+                cfg.AddProfile<ActivityOccurenceMappingProfile>();
+
                 cfg.AddProfile<CategoryMappingProfile>();
 
                 cfg.AddProfile<BookingMappingProfile>();
+
+                cfg.AddProfile<SubLocationMappingProfile>();
 
             });
 
@@ -156,6 +175,8 @@ namespace ActiviGoApi
 
 
             app.MapControllers();
+
+            IdentitySeed.SeedAsync(app.Services).Wait();
 
             app.Run();
         }

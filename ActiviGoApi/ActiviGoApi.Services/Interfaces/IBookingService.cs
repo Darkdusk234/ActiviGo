@@ -1,4 +1,4 @@
-using ActiviGoApi.Services.DTOs;
+using ActiviGoApi.Services.DTOs.BookingDTOs;
 
 namespace ActiviGoApi.Services.Interfaces
 {

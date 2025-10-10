@@ -1,9 +1,9 @@
-namespace ActiviGoApi.Services.DTOs
+namespace ActiviGoApi.Services.DTOs.BookingDTOs
 {
     public class BookingReadDTO
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
         public int ActivityOccurenceId { get; set; }
         public DateTime BookingTime { get; set; }
         public bool ParticipationConfirmed { get; set; }

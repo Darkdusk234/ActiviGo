@@ -1,5 +1,6 @@
 ﻿using ActiviGoApi.Core.Models;
 using ActiviGoApi.Services.DTOs;
+using ActiviGoApi.Services.DTOs.LocationDTOs;
 using AutoMapper;
 
 namespace ActiviGoApi.Services.Mapping
@@ -8,7 +9,9 @@ namespace ActiviGoApi.Services.Mapping
     {
         public LocationMappingProfile()
         {
-            CreateMap<LocationRequestDTO, Location>();
+            CreateMap<Location, LocationRequestDTO>();
+            CreateMap<UpdateLocationDTO, Location>();
+            CreateMap<CreateLocationDTO, Location>();
 
         }
     }

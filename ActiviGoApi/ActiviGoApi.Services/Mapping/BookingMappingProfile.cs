@@ -1,5 +1,5 @@
 using ActiviGoApi.Core.Models;
-using ActiviGoApi.Services.DTOs;
+using ActiviGoApi.Services.DTOs.BookingDTOs;
 using AutoMapper;
 
 namespace ActiviGoApi.Services.Mapping

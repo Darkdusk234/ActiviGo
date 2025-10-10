@@ -1,11 +1,11 @@
 ﻿using ActiviGoApi.Services.DTOs.CategpryDtos;
 using FluentValidation;
 
-namespace ActiviGoApi.Services.Validation.DataValidation
+namespace ActiviGoApi.Services.Validation.DataValidation.CategoryDtoValidotrs
 {
-    public class CategoryCreateDto_Validator : AbstractValidator<CategoryCreateDto>
+    public class CategoryUpdateDto_Validator : AbstractValidator<CategoryUpdateDto>
     {
-        public CategoryCreateDto_Validator()
+        public CategoryUpdateDto_Validator()
         {
             RuleFor(c => c.Name)
                 .NotEmpty().WithMessage("Name is required.")

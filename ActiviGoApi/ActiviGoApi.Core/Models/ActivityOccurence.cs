@@ -22,11 +22,11 @@ namespace ActiviGoApi.Core.Models
         [Required]
         public int ActivityId { get; set; }
         [Required]
-        public int LocationId { get; set; }
+        public int SubLocationId { get; set; }
 
         // Navigation Properties
         public Activity? Activity { get; set; }
-        public Location? Location { get; set; }
+        public SubLocation? SubLocation { get; set; }
         public ICollection<Booking>? Bookings { get; set; }
     }
 }

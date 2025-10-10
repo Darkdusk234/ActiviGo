@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ActiviGoApi.Services.Validation.DataValidation
+namespace ActiviGoApi.Services.Validation.DataValidation.ActivityDtoValidators
 {
     public class UpdateActivityRequest_Validator : AbstractValidator<UpdateActivityRequest>
     {

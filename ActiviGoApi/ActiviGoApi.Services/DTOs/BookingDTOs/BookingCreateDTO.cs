@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ActiviGoApi.Services.DTOs
+namespace ActiviGoApi.Services.DTOs.BookingDTOs
 {
     public record BookingCreateDTO
     {
         [Required]
-        public int UserId { get; init; }
+        public string UserId { get; init; } = string.Empty;
 
         [Required]
         public int ActivityOccurenceId { get; init; }
