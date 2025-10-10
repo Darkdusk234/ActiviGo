@@ -12,12 +12,13 @@ namespace ActiviGoApi.Services.Validation.DataValidation.ActivityDtoValidators
     {
         public CreateActivityRequest_Validator() 
         { 
-            RuleFor(x => x.Title).NotEmpty();
-            RuleFor(x => x.Description).NotEmpty();
-            RuleFor(x => x.Date).GreaterThan(DateTime.Now);
-            RuleFor(x => x.Location).NotEmpty();
+            RuleFor(x => x.Name).NotEmpty();
+            RuleFor(x => x.Description).NotEmpty(); 
+            RuleFor(x => x.IsActive).NotEmpty();
+            RuleFor(x => x.DurationInMinutes).GreaterThan(30);
             RuleFor(x => x.MaxParticipants).GreaterThan(1);
             RuleFor(x => x.Price).GreaterThanOrEqualTo(0);
+            RuleFor(x => x.CategoryId).NotEmpty();
 
         }
     }
