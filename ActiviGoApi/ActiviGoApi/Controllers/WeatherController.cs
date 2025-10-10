@@ -1,4 +1,5 @@
 ﻿using ActiviGoApi.Services.DTOs.WeatherDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
@@ -8,7 +9,7 @@ using System.Text.Json.Nodes;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
-
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class WeatherController : ControllerBase

@@ -1,10 +1,12 @@
 using ActiviGoApi.Services.DTOs.BookingDTOs;
 using ActiviGoApi.Services.Interfaces;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ActiviGoApi.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class BookingController : ControllerBase
@@ -91,6 +93,7 @@ namespace ActiviGoApi.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, CancellationToken ct)
         {

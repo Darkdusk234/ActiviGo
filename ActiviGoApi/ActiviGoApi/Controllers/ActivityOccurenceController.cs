@@ -5,9 +5,13 @@ using AutoMapper;
 using ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs;
 using FluentValidation;
 using ActiviGoApi.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
+    [Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
     public class ActivityOccurenceController : ControllerBase
     {
         private readonly IActivityOccurenceService _occurrenceService;
@@ -69,6 +73,7 @@ namespace ActiviGoApi.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         // POST: api/activityoccurrences
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -100,6 +105,7 @@ namespace ActiviGoApi.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         // PUT: api/activityoccurrences/
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -132,6 +138,7 @@ namespace ActiviGoApi.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         // DELETE: api/activityoccurrences/
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]

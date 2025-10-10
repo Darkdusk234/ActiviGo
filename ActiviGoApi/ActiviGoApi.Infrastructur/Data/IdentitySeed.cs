@@ -95,8 +95,8 @@ namespace ActiviGoApi.Infrastructur.Data
 
                     }
 
-                    // Assign User role
-
+                if (!await userManager.IsInRoleAsync(normalUser, "User"))
+                {
                     var addRole = await userManager.AddToRoleAsync(normalUser, "User");
 
                     if (!addRole.Succeeded)
@@ -105,8 +105,6 @@ namespace ActiviGoApi.Infrastructur.Data
                         throw new Exception($"Failed to add seed user to role: {errors}");
                     }
                 }
-
-
 
             }
         }
