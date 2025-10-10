@@ -30,7 +30,7 @@ namespace ActiviGoApi.WebApi.Controllers
         // GET: api/activityoccurrences
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<ActivityOccurence>>> GetAllOccurrences(CancellationToken ct)
+        public async Task<ActionResult<IEnumerable<ActivityOccurenceResponseDTO>>> GetAllOccurrences(CancellationToken ct)
         {
             var occurrences = await _occurrenceService.GetAllAsync(ct);
             return Ok(occurrences);
