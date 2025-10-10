@@ -8,6 +8,7 @@ using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -108,6 +109,22 @@ namespace ActiviGoApi.Services.Services
             await _unitOfWork.SaveChangesAsync(ct);
 
 
+        }
+
+        public async Task<IEnumerable<ActivityOccurenceResponseDTO>> GetFilteredActivityOccurences(ActivityOccurenceSearchFilterDTO dto, CancellationToken ct = default)
+        {
+            var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(FilterFunction(dto), ct);
+            return _mapper.Map<IEnumerable<ActivityOccurenceResponseDTO>>(occurrences);
+        }
+
+        public Expression<Func<ActivityOccurence, bool>> FilterFunction(ActivityOccurenceSearchFilterDTO dto)
+        {
+            return x => (dto.ActivityId == null || x.ActivityId == dto.ActivityId) &&
+                         (dto.SubLocationId == null || x.SubLocationId == dto.SubLocationId) &&
+                         (dto.StartTime == null || x.StartTime >= dto.StartTime) &&
+                         (dto.EndTime == null || x.EndTime <= dto.EndTime) &&
+                         (dto.AvailableToBook == null || x.AvailableSpots >= 0) &&
+                         (dto.NameFilter == null || x.Activity.Name.Contains(dto.NameFilter));
         }
     }
 }
