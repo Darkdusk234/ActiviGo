@@ -3,6 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using ActiviGoApi.Core.Models;
 using ActiviGoApi.Core.Interfaces;
 using ActiviGoApi.Services.Interfaces;
+using ActiviGoApi.Services.DTOs.CategpryDtos;
+using FluentValidation;
+using ActiviGoApi.Services.DTOs.LocationDTOs;
+using ActiviGoApi.Services.Services;
+using ActiviGoApi.Services.DTOs;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
@@ -11,84 +16,144 @@ namespace ActiviGoApi.WebApi.Controllers
     public class LocationController : ControllerBase
     {
         private readonly ILocationService _locationService;
+        private readonly IValidator<CreateLocationDTO> _createVali;
+        private readonly IValidator<UpdateLocationDTO> _updateVali;
 
-        public LocationController(ILocationService locationService) 
+        public LocationController(ILocationService locationService, IValidator<CreateLocationDTO> createVali, IValidator<UpdateLocationDTO> updateVali) 
         { 
             _locationService = locationService;
+            _createVali = createVali;
+            _updateVali = updateVali;
         }
 
         // GET: api/locations
+        /// <summary>
+        /// Get all locations
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Location>>> GetAllLocations(CancellationToken ct)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<LocationRequestDTO>>> GetAllLocations(CancellationToken ct)
         {
             var locations = await _locationService.GetAllAsync(ct);
             return Ok(locations);
         }
 
         // GET: api/locations
+        /// <summary>
+        /// Get location by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Location>> GetLocation(int id, CancellationToken ct)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<LocationRequestDTO>> GetById(int id, CancellationToken ct)
         {
-            var location = await _locationService.GetByIdAsync(id, ct);
-
-            if (location == null)
+            try
             {
-                return NotFound($"Location with id {id} not found");
+                var location = await _locationService.GetByIdAsync(id, ct);
+                if (location == null)
+                {
+                    return NotFound($"Location with id {id} not found");
+                }
+                return Ok(location);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
             }
 
-            return Ok(location);
         }
 
         // POST: api/locations
+        /// <summary>
+        /// Create a new location
+        /// </summary>
+        /// <param name="createDTO"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<Location>> CreateLocation([FromBody] Location location, CancellationToken ct)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<LocationRequestDTO>> CreateLocation([FromBody] CreateLocationDTO createDTO, CancellationToken ct)
         {
-            if (!ModelState.IsValid)
+            var validResult = await _createVali.ValidateAsync(createDTO, ct);
+            if (!validResult.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(validResult.Errors);
             }
 
-            var createdLocation = await _locationService.AddAsync(location, ct);
-
-            return CreatedAtAction(
-                nameof(GetLocation),
-                new { id = createdLocation.Id },
-                createdLocation
-            );
+            try
+            {
+                var newLocal = await _locationService.AddAsync(createDTO, ct);
+                return(Ok(newLocal));
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         // PUT: api/locations
+        /// <summary>
+        /// Update a location
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updateDTO"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<Location>> UpdateLocation(int id, [FromBody] Location location, CancellationToken ct)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<LocationRequestDTO>> UpdateLocation(int id, UpdateLocationDTO updateDTO, CancellationToken ct)
         {
-            if (!ModelState.IsValid)
+            if (id != updateDTO.Id)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Id in URL does not match Id in request body");
+            }
+            var validResult = await _updateVali.ValidateAsync(updateDTO, ct);
+            if (!validResult.IsValid)
+            {
+                return BadRequest(validResult.Errors);
             }
 
-            var updatedLocation = await _locationService.UpdateAsync(id, location, ct);
-
-            if (updatedLocation == null)
+            try
             {
-                return NotFound($"Location with id {id} not found");
+                var updatedLocal = await _locationService.UpdateAsync(id, updateDTO, ct);
+                return Ok(updatedLocal);
             }
-
-            return Ok(updatedLocation);
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         // DELETE: api/locations
+        /// <summary>
+        /// Delete a location
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> DeleteLocation(int id, CancellationToken ct)
         {
-            var result = await _locationService.DeleteAsync(id, ct);
-
-            if (!result)
+            try
             {
-                return NotFound($"Location with id {id} not found");
+                await _locationService.DeleteAsync(id, ct);
+                return NoContent();
             }
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
-
     }
 }

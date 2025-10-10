@@ -23,7 +23,7 @@ namespace ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs
         public int ActivityId { get; set; }
 
         [Required]
-        public int LocationId { get; set; }
+        public int SubLocationId { get; set; }
 
     }
 }

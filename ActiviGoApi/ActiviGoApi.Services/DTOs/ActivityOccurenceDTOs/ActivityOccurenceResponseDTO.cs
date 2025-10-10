@@ -17,6 +17,6 @@ namespace ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs
 
         // Foreign Keys
         public int ActivityId { get; set; }
-        public int LocationId { get; set; }
+        public int SubLocationId { get; set; }
     }
 }
