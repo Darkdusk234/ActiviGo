@@ -13,12 +13,14 @@ namespace ActiviGoApi.WebApi.Controllers
         private readonly IActivityOccurenceService _occurrenceService;
         private readonly IValidator<CreateActivityOccurrenceDTO> _createVali;
         private readonly IValidator<UpdateActivityOccurrenceDTO> _updateVali;
+        private readonly IValidator<ActivityOccurenceSearchFilterDTO> _searchVali;
         public ActivityOccurenceController(IActivityOccurenceService occurrenceService, IValidator<CreateActivityOccurrenceDTO> createVali, 
-            IValidator<UpdateActivityOccurrenceDTO> updateVali)
+            IValidator<UpdateActivityOccurrenceDTO> updateVali, IValidator<ActivityOccurenceSearchFilterDTO> searchVali)
         {
             _occurrenceService = occurrenceService;
             _createVali = createVali;
             _updateVali = updateVali;
+            _searchVali = searchVali;
         }
 
         /// <summary>
@@ -155,10 +157,17 @@ namespace ActiviGoApi.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ActivityOccurenceResponseDTO>>> SearchOccurrences([FromBody] ActivityOccurenceSearchFilterDTO dto, CancellationToken ct)
         {
+
+            var validResult = await _searchVali.ValidateAsync(dto, ct);
+            if (!validResult.IsValid)
+            {
+                return BadRequest(validResult.Errors);
+            }
+
             try
             {
                 var occurrences = await _occurrenceService.GetFilteredActivityOccurences(dto, ct);
-            return Ok(occurrences);
+                return Ok(occurrences);
             }
             catch (Exception ex) // Very temporary error handling
             {
