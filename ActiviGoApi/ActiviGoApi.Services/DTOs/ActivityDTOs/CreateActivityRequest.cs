@@ -8,11 +8,13 @@ namespace ActiviGoApi.Services.DTOs.ActivityDTOs
 {
     public record CreateActivityRequest
     {
-        public string Title { get; init; } = string.Empty;
+        public string Name { get; init; } = string.Empty;
         public string Description { get; init; } = string.Empty;
-        public DateTime Date { get; init; }
-        public string Location { get; init; } = string.Empty;
+        public int DurationInMinutes { get; init; }
+        public string IMGUrl { get; init; } = string.Empty;
         public int MaxParticipants { get; init; }
         public decimal Price { get; init; }
+
+        public bool IsActive { get; init; } = true;
     }
 }
