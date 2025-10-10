@@ -27,7 +27,7 @@ namespace ActiviGoApi.Services.Validation.DataValidation.ActivityOccurenceDTOVal
             RuleFor(x => x.ActivityId)
                 .Must(x => x > 0).WithMessage("ActivityId must be a positive integer");
 
-            RuleFor(x => x.LocationId)
+            RuleFor(x => x.SubLocationId)
                 .Must(x => x > 0).WithMessage("LocationId must be a positive integer");
         }
     }
