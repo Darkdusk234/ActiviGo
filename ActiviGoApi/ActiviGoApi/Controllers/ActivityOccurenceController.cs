@@ -150,6 +150,21 @@ namespace ActiviGoApi.WebApi.Controllers
             }
 
         }
+
+        [HttpPost("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ActivityOccurenceResponseDTO>>> SearchOccurrences([FromBody] ActivityOccurenceSearchFilterDTO dto, CancellationToken ct)
+        {
+            try
+            {
+                var occurrences = await _occurrenceService.GetFilteredActivityOccurences(dto, ct);
+            return Ok(occurrences);
+            }
+            catch (Exception ex) // Very temporary error handling
+            {
+                return StatusCode(500, "An error occurred while searching for activity occurrences");
+            }
+        }
     }
     
 }
