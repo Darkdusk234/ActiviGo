@@ -63,12 +63,20 @@ namespace ActiviGoApi.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GetSubLocationResponse>> GetSubLocationById(int id, CancellationToken ct = default)
         {
-            var subLocation = await _subLocationService.GetSubLocationByIdAsync(id, ct);
-            if (subLocation == null)
+            try
             {
-                return NotFound();
+                var subLocation = await _subLocationService.GetSubLocationByIdAsync(id, ct);
+
+                if (subLocation == null)
+                {
+                    return NotFound();
+                }
+                return Ok(subLocation);
             }
-            return Ok(subLocation);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize(Roles = "Admin")]
