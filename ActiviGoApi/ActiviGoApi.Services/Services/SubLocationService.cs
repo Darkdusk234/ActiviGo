@@ -76,13 +76,18 @@ namespace ActiviGoApi.Services.Services
             {
                 throw new KeyNotFoundException($"SubLocation with id {id} not found");
             }
-            else
+
+            var location = await _unitOfWork.Locations.GetByIdAsync(dto.LocationId, ct);
+            if (location == null)
             {
-                var updated = _mapper.Map<SubLocation>(dto);
-                updated.Id = id; // Ensure the ID remains the same
-                await _unitOfWork.SubLocations.UpdateAsync(updated, ct);
-                await _unitOfWork.SaveChangesAsync(ct);
+                throw new KeyNotFoundException($"Location with id {dto.LocationId} not found");
             }
+
+            var updated = _mapper.Map<SubLocation>(dto);
+            updated.Id = id; // Ensure the ID remains the same
+            await _unitOfWork.SubLocations.UpdateAsync(updated, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+            
             return true;
         }
     }
