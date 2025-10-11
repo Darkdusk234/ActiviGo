@@ -59,11 +59,11 @@ namespace ActiviGoApi.Services.Services
 
         public async Task<bool> UpdateSubLocationAsync(int id, UpdateSubLocationRequest dto, CancellationToken ct = default)
         {
-            var toUpdate = _unitOfWork.SubLocations.GetByIdAsync(id, ct);
+            var toUpdate = await _unitOfWork.SubLocations.GetByIdAsync(id, ct);
 
             if (toUpdate == null)
             {
-                throw new KeyNotFoundException($"Activity with id {id} not found");
+                throw new KeyNotFoundException($"SubLocation with id {id} not found");
             }
             else
             {
