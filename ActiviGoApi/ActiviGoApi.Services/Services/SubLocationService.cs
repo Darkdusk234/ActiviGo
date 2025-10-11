@@ -37,6 +37,11 @@ namespace ActiviGoApi.Services.Services
 
         public async Task<bool> DeleteSubLocationAsync(int id, CancellationToken ct = default)
         {
+            var toDelete = await _unitOfWork.SubLocations.GetByIdAsync(id, ct);
+            if (toDelete == null)
+            {
+                throw new KeyNotFoundException($"SubLocation with id {id} not found");
+            }
             await _unitOfWork.SubLocations.DeleteAsync(id, ct);
             return await _unitOfWork.SaveChangesAsync(ct);
         }
