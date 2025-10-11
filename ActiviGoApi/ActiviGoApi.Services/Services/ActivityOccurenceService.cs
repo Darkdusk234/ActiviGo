@@ -72,7 +72,7 @@ namespace ActiviGoApi.Services.Services
 
             if (existingOccurrence == null)
             {
-                return null;
+                throw new KeyNotFoundException($"ActivityOccurmence with id {id} not dound");  
             }
 
             var activity = await _unitOfWork.Activities.GetByIdAsync(updateDTO.ActivityId, ct);
