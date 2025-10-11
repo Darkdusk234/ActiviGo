@@ -23,6 +23,12 @@ namespace ActiviGoApi.Services.Services
         }
         public async Task<GetSubLocationResponse> CreateSubLocationAsync(CreateSubLocationRequest request, CancellationToken ct = default)
         {
+            var local = await _unitOfWork.Locations.GetByIdAsync(request.LocationId, ct);
+            if (local == null)
+            {
+                throw new KeyNotFoundException($"Location with id {request.LocationId} not found");
+            }
+
             var created = await _unitOfWork.SubLocations.AddAsync(_mapper.Map<Core.Models.SubLocation>(request), ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
