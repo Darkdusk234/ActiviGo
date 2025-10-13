@@ -24,6 +24,7 @@ namespace ActiviGoApi.Api.Controllers
             _updateValidator = updateValidator;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookingReadDTO>>> GetAll(CancellationToken ct)
         {
@@ -31,6 +32,7 @@ namespace ActiviGoApi.Api.Controllers
             return Ok(bookings);   
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<BookingReadDTO>> GetById(int id, CancellationToken ct)
         {
