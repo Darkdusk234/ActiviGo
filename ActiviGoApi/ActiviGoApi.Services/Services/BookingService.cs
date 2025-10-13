@@ -66,6 +66,22 @@ namespace ActiviGoApi.Services
             return _mapper.Map<BookingReadDTO>(existing);
         }
 
+        /// <inheritdoc/>
+        public async Task CancelBookingAsync(int id, CancellationToken ct)
+        {
+            var booking = await _unitOfWork.Bookings.GetByIdAsync(id, ct);
+
+            if (booking == null)
+                throw new KeyNotFoundException($"Booking with id {id} was not found.");
+
+            if (booking.IsCancelled == true)
+                throw new ArgumentException($"Booking with id {id} is already cancelled.");
+
+            booking.IsCancelled = true;
+            await _unitOfWork.Bookings.UpdateAsync(booking, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+        }
+
         /// <inheritdoc />
         public async Task DeleteAsync(int id, CancellationToken ct)
         {
