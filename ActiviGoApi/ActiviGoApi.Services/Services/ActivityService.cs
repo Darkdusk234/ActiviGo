@@ -44,14 +44,14 @@ namespace ActiviGoApi.Services.Services
 
         public async Task<GetActivityResponse> GetActivityByIdAsync(int id, CancellationToken ct = default)
         {
-            var activity = _mapper.Map<GetActivityResponse>( await _unitOfWork.Activities.GetByIdAsync(id, ct));
+            var activity =  await _unitOfWork.Activities.GetByIdAsync(id, ct);
         
             if(activity == null)
             {
                 throw new KeyNotFoundException($"Activity with id {id} not found");
             }
 
-            return activity;
+            return _mapper.Map<GetActivityResponse>(activity);
         }
 
         public async Task<IEnumerable<GetActivityResponse>> GetAllActivitiesAsync(CancellationToken ct = default)
