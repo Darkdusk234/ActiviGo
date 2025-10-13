@@ -117,6 +117,21 @@ namespace ActiviGoApi.WebApi.Controllers
             return Ok();
         }
 
+        [HttpGet("AuthCheck")]
+        public async Task<ActionResult<bool>> AuthCheck()
+        {
+            if(HttpContext.User == null)
+            {
+                return NotFound("User context not found");
+            }
+            else
+            {
+                var result = HttpContext.User.Identity.IsAuthenticated;
+
+                return result;
+            }
+        }
+
         private async Task<string> GenerateJwtTokenAsync(User user)
         {
             var jwt = _config.GetSection("Jwt");
