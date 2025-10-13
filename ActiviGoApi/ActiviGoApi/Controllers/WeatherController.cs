@@ -18,6 +18,7 @@ namespace ActiviGoApi.WebApi.Controllers
         [HttpPost("LocationForecast")]
         public async Task<ActionResult<WeatherResponseDTO>> GetWeatherForecastByLocation([FromBody] WeatherLocationForecastRequestDTO dto, CancellationToken ct)
         {
+
             // Setting options for fetching
             var options = new RestClientOptions("https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/")
             {
@@ -46,7 +47,7 @@ namespace ActiviGoApi.WebApi.Controllers
 
                 if(!response.IsSuccessful)
                 {
-                    return BadRequest($"Error in request: {response.ToString()}");
+                    return BadRequest($"Error in request: {response.Content.ToString()}");
                 }
                 // putting weatherdata into a jsonobject 
                 var responseData = JsonSerializer.Deserialize<JsonObject>(response.Content);
