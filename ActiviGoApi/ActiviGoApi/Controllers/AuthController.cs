@@ -128,7 +128,7 @@ namespace ActiviGoApi.WebApi.Controllers
             {
                 var result = HttpContext.User.Identity.IsAuthenticated;
 
-                return result;
+                return Ok(result);
             }
         }
 
