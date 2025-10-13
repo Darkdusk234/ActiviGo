@@ -49,7 +49,7 @@ namespace ActiviGoApi
             {
                 cfg.AddProfile<LocationMappingProfile>();
 
-
+                cfg.AddProfile<ActivityMappingProfile>();
                 cfg.AddProfile<ActivityOccurenceMappingProfile>();
 
                 cfg.AddProfile<CategoryMappingProfile>();

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ActiviGoApi.Services.Mapping
 {
-    internal class ActivityMappingProfile : Profile
+    public class ActivityMappingProfile : Profile
     {
         public ActivityMappingProfile()
         {
