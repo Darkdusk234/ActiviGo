@@ -1,4 +1,5 @@
 ﻿using ActiviGoApi.Services.DTOs.WeatherDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
@@ -8,7 +9,7 @@ using System.Text.Json.Nodes;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
-
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class WeatherController : ControllerBase
@@ -17,6 +18,7 @@ namespace ActiviGoApi.WebApi.Controllers
         [HttpPost("LocationForecast")]
         public async Task<ActionResult<WeatherResponseDTO>> GetWeatherForecastByLocation([FromBody] WeatherLocationForecastRequestDTO dto, CancellationToken ct)
         {
+
             // Setting options for fetching
             var options = new RestClientOptions("https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/")
             {
@@ -45,7 +47,7 @@ namespace ActiviGoApi.WebApi.Controllers
 
                 if(!response.IsSuccessful)
                 {
-                    return BadRequest($"Error in request: {response.ToString()}");
+                    return BadRequest($"Error in request: {response.Content.ToString()}");
                 }
                 // putting weatherdata into a jsonobject 
                 var responseData = JsonSerializer.Deserialize<JsonObject>(response.Content);

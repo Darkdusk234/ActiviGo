@@ -8,9 +8,11 @@ using FluentValidation;
 using ActiviGoApi.Services.DTOs.LocationDTOs;
 using ActiviGoApi.Services.Services;
 using ActiviGoApi.Services.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class LocationController : ControllerBase
@@ -75,6 +77,7 @@ namespace ActiviGoApi.WebApi.Controllers
         /// <param name="createDTO"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -106,16 +109,13 @@ namespace ActiviGoApi.WebApi.Controllers
         /// <param name="updateDTO"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<LocationRequestDTO>> UpdateLocation(int id, UpdateLocationDTO updateDTO, CancellationToken ct)
         {
-            if (id != updateDTO.Id)
-            {
-                return BadRequest("Id in URL does not match Id in request body");
-            }
             var validResult = await _updateVali.ValidateAsync(updateDTO, ct);
             if (!validResult.IsValid)
             {
@@ -140,6 +140,7 @@ namespace ActiviGoApi.WebApi.Controllers
         /// <param name="id"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

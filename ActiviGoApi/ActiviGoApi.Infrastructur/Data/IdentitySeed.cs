@@ -91,19 +91,22 @@ namespace ActiviGoApi.Infrastructur.Data
                     {
                         var errors = string.Join("; ", create.Errors.Select(e => $"{e.Code}:{e.Description}"));
                         throw new Exception($"Failed to create seed user: {errors}");
+
+
                     }
+
+                    if (!await userManager.IsInRoleAsync(normalUser, "User"))
+                    {
+                        var addRole = await userManager.AddToRoleAsync(normalUser, "User");
+
+                        if (!addRole.Succeeded)
+                        {
+                            var errors = string.Join("; ", addRole.Errors.Select(e => $"{e.Code}:{e.Description}"));
+                            throw new Exception($"Failed to add seed user to role: {errors}");
+                        }
+                    }
+
                 }
-
-                // Assign User role
-
-                var addRole = await userManager.AddToRoleAsync(normalUser, "User");
-
-                if(!addRole.Succeeded)
-                {
-                    var errors = string.Join("; ", addRole.Errors.Select(e => $"{e.Code}:{e.Description}"));
-                    throw new Exception($"Failed to add seed user to role: {errors}");
-                }
-
             }
         }
     }

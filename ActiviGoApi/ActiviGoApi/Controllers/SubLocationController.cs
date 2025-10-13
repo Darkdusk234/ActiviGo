@@ -1,11 +1,13 @@
 ﻿using ActiviGoApi.Services.DTOs.SubLocationDTOs;
 using ActiviGoApi.Services.Interfaces;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SubLocationController : ControllerBase
@@ -23,6 +25,7 @@ namespace ActiviGoApi.WebApi.Controllers
             _updateValidator = updateValidator;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateSubLocation([FromBody] CreateSubLocationRequest request, CancellationToken ct = default)
         {
@@ -60,13 +63,23 @@ namespace ActiviGoApi.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GetSubLocationResponse>> GetSubLocationById(int id, CancellationToken ct = default)
         {
-            var subLocation = await _subLocationService.GetSubLocationByIdAsync(id, ct);
-            if (subLocation == null)
+            try
             {
-                return NotFound();
+                var subLocation = await _subLocationService.GetSubLocationByIdAsync(id, ct);
+
+                if (subLocation == null)
+                {
+                    return NotFound();
+                }
+                return Ok(subLocation);
             }
-            return Ok(subLocation);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSubLocation(int id, [FromBody] UpdateSubLocationRequest request, CancellationToken ct = default)
         {
@@ -92,6 +105,7 @@ namespace ActiviGoApi.WebApi.Controllers
                 }  
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSubLocation(int id, CancellationToken ct = default)
         {

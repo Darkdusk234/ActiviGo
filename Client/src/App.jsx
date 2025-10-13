@@ -3,9 +3,11 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout/Layout";
 import Home from "./Components/Pages/Home";
+import LoginForm from './Components/LoginForm'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <BrowserRouter>
@@ -14,7 +16,10 @@ function App() {
           <Route path="/" element={<Home />} />
         </Route>
       </Routes>
+      <LoginForm />
     </BrowserRouter>
+
+
   )
 }
 

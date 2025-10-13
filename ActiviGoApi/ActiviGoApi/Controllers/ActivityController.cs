@@ -2,15 +2,15 @@
 using ActiviGoApi.Services.DTOs.ActivityDTOs;
 using ActiviGoApi.Services.Interfaces;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-
-   
     public class ActivityController : ControllerBase
     {
         private readonly IActivityService _activityService;
@@ -24,6 +24,7 @@ namespace ActiviGoApi.WebApi.Controllers
             _updateValidator = updateValidator;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateActivity([FromBody] CreateActivityRequest dto, CancellationToken ct = default)
         {
@@ -45,6 +46,7 @@ namespace ActiviGoApi.WebApi.Controllers
             }
             
         }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetActivityResponse>>> GetAllActivities(CancellationToken ct = default)
         {
@@ -58,6 +60,7 @@ namespace ActiviGoApi.WebApi.Controllers
                 return NotFound(ex.Message);
             }
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<GetActivityResponse>> GetActivityById(int id, CancellationToken ct = default)
         {
@@ -72,6 +75,7 @@ namespace ActiviGoApi.WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateActivity(int id, [FromBody] UpdateActivityRequest dto, CancellationToken ct = default)
         {
@@ -91,6 +95,7 @@ namespace ActiviGoApi.WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteActivity(int id, CancellationToken ct = default)
         {

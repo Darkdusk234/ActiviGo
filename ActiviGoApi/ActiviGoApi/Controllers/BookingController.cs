@@ -1,10 +1,12 @@
 using ActiviGoApi.Services.DTOs.BookingDTOs;
 using ActiviGoApi.Services.Interfaces;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ActiviGoApi.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class BookingController : ControllerBase
@@ -22,6 +24,7 @@ namespace ActiviGoApi.Api.Controllers
             _updateValidator = updateValidator;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookingReadDTO>>> GetAll(CancellationToken ct)
         {
@@ -29,6 +32,7 @@ namespace ActiviGoApi.Api.Controllers
             return Ok(bookings);   
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<BookingReadDTO>> GetById(int id, CancellationToken ct)
         {
@@ -91,6 +95,32 @@ namespace ActiviGoApi.Api.Controllers
             }
         }
 
+        [HttpPut("cancel/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> CancelBooking(int id, CancellationToken ct)
+        {
+            try
+            {
+                await _service.CancelBookingAsync(id, ct);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, CancellationToken ct)
         {
