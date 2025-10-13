@@ -37,6 +37,24 @@ namespace ActiviGoApi
             builder.Services.AddScoped<IActivityService, ActivityService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            // Cors
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+
+                options.AddPolicy("Development", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5174", "http://localhost:5175") // React dev server
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
 
             // Adding FluentValidation
             builder.Services.AddValidatorsFromAssemblyContaining<LocationRequestDTO_Validator>();
@@ -172,7 +190,8 @@ namespace ActiviGoApi
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            
+            app.UseCors("Development");
 
             app.MapControllers();
 
