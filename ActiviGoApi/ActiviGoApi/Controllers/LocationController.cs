@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class LocationController : ControllerBase

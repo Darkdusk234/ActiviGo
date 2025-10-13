@@ -8,7 +8,6 @@ using System.Net;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
