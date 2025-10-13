@@ -1,0 +1,12 @@
+.my-swiper {
+  width: 100%;          /* Nyckeln: gör att den anpassar sig till föräldern */
+  max-width: 1200px;    /* Frivilligt tak för desktop */
+  margin: 0 auto;       /* Centrerar slidern */
+  padding: 1rem 0;
+  box-sizing: border-box;
+}
+
+.my-swiper .swiper-slide {
+  width: 50px;         /* varje kort får fast bredd → swiper scrollar vid mindre skärmar */
+  flex-shrink: 0;
+}
