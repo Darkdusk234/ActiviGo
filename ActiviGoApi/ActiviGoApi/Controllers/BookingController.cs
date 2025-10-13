@@ -96,14 +96,14 @@ namespace ActiviGoApi.Api.Controllers
         }
 
         [HttpPut("cancel/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CancelBooking(int id, CancellationToken ct)
         {
             try
             {
-                var updated = await _service.CancelBookingAsync(id, ct);
-                return Ok(updated);
+                await _service.CancelBookingAsync(id, ct);
+                return NoContent();
             }
             catch (KeyNotFoundException ex)
             {
