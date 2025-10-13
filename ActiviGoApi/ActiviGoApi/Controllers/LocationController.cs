@@ -116,10 +116,6 @@ namespace ActiviGoApi.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<LocationRequestDTO>> UpdateLocation(int id, UpdateLocationDTO updateDTO, CancellationToken ct)
         {
-            if (id != updateDTO.Id)
-            {
-                return BadRequest("Id in URL does not match Id in request body");
-            }
             var validResult = await _updateVali.ValidateAsync(updateDTO, ct);
             if (!validResult.IsValid)
             {

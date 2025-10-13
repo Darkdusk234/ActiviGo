@@ -23,6 +23,12 @@ namespace ActiviGoApi.Services.Services
         }
         public async Task<GetSubLocationResponse> CreateSubLocationAsync(CreateSubLocationRequest request, CancellationToken ct = default)
         {
+            var local = await _unitOfWork.Locations.GetByIdAsync(request.LocationId, ct);
+            if (local == null)
+            {
+                throw new KeyNotFoundException($"Location with id {request.LocationId} not found");
+            }
+
             var created = await _unitOfWork.SubLocations.AddAsync(_mapper.Map<Core.Models.SubLocation>(request), ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
@@ -31,6 +37,11 @@ namespace ActiviGoApi.Services.Services
 
         public async Task<bool> DeleteSubLocationAsync(int id, CancellationToken ct = default)
         {
+            var toDelete = await _unitOfWork.SubLocations.GetByIdAsync(id, ct);
+            if (toDelete == null)
+            {
+                throw new KeyNotFoundException($"SubLocation with id {id} not found");
+            }
             await _unitOfWork.SubLocations.DeleteAsync(id, ct);
             return await _unitOfWork.SaveChangesAsync(ct);
         }
@@ -59,19 +70,24 @@ namespace ActiviGoApi.Services.Services
 
         public async Task<bool> UpdateSubLocationAsync(int id, UpdateSubLocationRequest dto, CancellationToken ct = default)
         {
-            var toUpdate = _unitOfWork.SubLocations.GetByIdAsync(id, ct);
+            var toUpdate = await _unitOfWork.SubLocations.GetByIdAsync(id, ct);
 
             if (toUpdate == null)
             {
-                throw new KeyNotFoundException($"Activity with id {id} not found");
+                throw new KeyNotFoundException($"SubLocation with id {id} not found");
             }
-            else
+
+            var location = await _unitOfWork.Locations.GetByIdAsync(dto.LocationId, ct);
+            if (location == null)
             {
-                var updated = _mapper.Map<SubLocation>(dto);
-                updated.Id = id; // Ensure the ID remains the same
-                await _unitOfWork.SubLocations.UpdateAsync(updated, ct);
-                await _unitOfWork.SaveChangesAsync(ct);
+                throw new KeyNotFoundException($"Location with id {dto.LocationId} not found");
             }
+
+            var updated = _mapper.Map<SubLocation>(dto);
+            updated.Id = id; // Ensure the ID remains the same
+            await _unitOfWork.SubLocations.UpdateAsync(updated, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+            
             return true;
         }
     }
