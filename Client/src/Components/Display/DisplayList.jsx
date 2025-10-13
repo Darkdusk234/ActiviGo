@@ -5,13 +5,14 @@ import "./DisplayList.css";
 export default function DisplayList({ items, renderItem }) {
   return (
     <Swiper
-      width="cover"
       spaceBetween={20}
       slidesPerView="auto"
+      loop={true}
       navigation // Enable
       FreeMode={true}// Enable pagination
       mousewheel={true} // Enable mousewheel control
-      className="mySwiper"
+      className="my-swiper"
+      style={{ height: "100%" }}
       
     >
       {items.map((item) => (

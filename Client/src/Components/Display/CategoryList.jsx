@@ -26,9 +26,11 @@ export default function CategoryList() {
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <DisplayList
-      items={categories}
-      renderItem={(category) => <CategoryCard category={category} />}
-    />
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+        <DisplayList
+        items={categories}
+        renderItem={(category) => <CategoryCard category={category} />}
+        />
+    </div>
   );
 }
