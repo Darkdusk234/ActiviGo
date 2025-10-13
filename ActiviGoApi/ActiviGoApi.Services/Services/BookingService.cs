@@ -88,7 +88,24 @@ namespace ActiviGoApi.Services
             if (existing == null)
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
 
-            
+
+            if (updateDto.Participants != existing.Participants)        // if number of participants is changing
+            {
+                var occurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(existing.ActivityOccurenceId, ct);
+                if (occurrence == null)
+                    throw new KeyNotFoundException($"ActivityOccurrence with id {existing.ActivityOccurenceId} not found");
+
+                int difference = updateDto.Participants - existing.Participants;
+
+                if (difference > 0 && occurrence.AvailableSpots < difference)
+                {
+                    throw new ArgumentException($"Not enough available spots. Requested additional: {difference}, Available: {occurrence.AvailableSpots}");
+                }
+
+                occurrence.AvailableSpots -= difference;
+                await _unitOfWork.ActivityOccurrences.UpdateAsync(occurrence, ct);
+            }
+
             _mapper.Map(updateDto, existing);
             await _unitOfWork.Bookings.UpdateAsync(existing, ct);
             await _unitOfWork.SaveChangesAsync(ct);
@@ -118,6 +135,16 @@ namespace ActiviGoApi.Services
             var booking = await _unitOfWork.Bookings.GetByIdAsync(id, ct);
             if (booking == null)
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
+
+            if (!booking.IsCancelled)   // reinstate available spots if booking was not cancelled
+            {
+                var occurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(booking.ActivityOccurenceId, ct);
+                if (occurrence != null)
+                {
+                    occurrence.AvailableSpots += booking.Participants;
+                    await _unitOfWork.ActivityOccurrences.UpdateAsync(occurrence, ct);
+                }
+            }
 
             await _unitOfWork.Bookings.DeleteAsync(booking.Id, ct);
             await _unitOfWork.SaveChangesAsync(ct);
