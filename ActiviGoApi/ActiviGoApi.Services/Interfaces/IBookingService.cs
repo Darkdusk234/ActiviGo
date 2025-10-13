@@ -40,6 +40,14 @@ namespace ActiviGoApi.Services.Interfaces
         Task<BookingReadDTO> UpdateAsync(int id, BookingUpdateDTO updateDto, CancellationToken ct);
 
         /// <summary>
+        /// Cancels an existing booking.
+        /// </summary>
+        /// <param name="id">The ID of the booking to cancel.</param>
+        /// <param name="ct">Cancellation token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        Task CancelBookingAsync(int id, CancellationToken ct);
+
+        /// <summary>
         /// Deletes a booking by its ID.
         /// </summary>
         /// <param name="id">The ID of the booking to delete.</param>
