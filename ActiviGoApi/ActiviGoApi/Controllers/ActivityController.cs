@@ -46,6 +46,7 @@ namespace ActiviGoApi.WebApi.Controllers
             
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetActivityResponse>>> GetAllActivities(CancellationToken ct = default)
         {

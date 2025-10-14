@@ -24,6 +24,7 @@ namespace ActiviGoApi.WebApi.Controllers
             _updateValidator = updateValidator;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll(CancellationToken ct)
