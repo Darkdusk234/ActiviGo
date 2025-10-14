@@ -180,6 +180,31 @@ namespace ActiviGoApi.WebApi.Controllers
                 return StatusCode(500, "An error occurred while searching for activity occurrences");
             }
         }
+
+        [HttpPut("cancel/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> CancelBooking(int id, CancellationToken ct)
+        {
+            try
+            {
+                await _occurrenceService.CancelBookingAsync(id, ct);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
     
 }
