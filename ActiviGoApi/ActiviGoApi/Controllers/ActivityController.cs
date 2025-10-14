@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ActivityController : ControllerBase
@@ -47,6 +47,7 @@ namespace ActiviGoApi.WebApi.Controllers
             
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetActivityResponse>>> GetAllActivities(CancellationToken ct = default)
         {

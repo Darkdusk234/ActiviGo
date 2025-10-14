@@ -50,7 +50,7 @@ namespace ActiviGoApi
 
                 options.AddPolicy("Development", policy =>
                 {
-                    policy.WithOrigins("http://localhost:5174", "http://localhost:5175") // React dev server
+                    policy.WithOrigins("http://localhost:5175", "http://localhost:5174", "http://localhost:5173") // React dev server
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
@@ -188,10 +188,11 @@ namespace ActiviGoApi
 
             app.UseHttpsRedirection();
 
+            app.UseCors("Development");
+
             app.UseAuthentication();
             app.UseAuthorization();
             
-            app.UseCors("Development");
 
             app.MapControllers();
 

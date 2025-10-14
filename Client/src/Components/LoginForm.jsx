@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 
-import { useAuth } from './AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const LoginForm = () => {
     const [userName, setUserName] = useState('');

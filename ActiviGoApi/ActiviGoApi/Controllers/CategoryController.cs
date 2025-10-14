@@ -8,7 +8,7 @@ using System.Net;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
@@ -25,6 +25,7 @@ namespace ActiviGoApi.WebApi.Controllers
             _updateValidator = updateValidator;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll(CancellationToken ct)
