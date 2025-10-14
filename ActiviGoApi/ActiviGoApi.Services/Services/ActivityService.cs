@@ -72,6 +72,23 @@ namespace ActiviGoApi.Services.Services
             return dtos;
         }
 
+        public async Task<IEnumerable<GetActivityResponse>> GetActivitiesByCategoryIdAsync(int categoryId, CancellationToken ct = default)
+        {
+            var category = await _unitOfWork.Categories.GetByIdAsync(categoryId, ct);
+            if (category == null)
+            {
+                throw new KeyNotFoundException($"Category with id {categoryId} not found");
+            }
+
+            var activities = await _unitOfWork.Activities.GetFilteredAsync(includeProperties: "",a => a.CategoryId == categoryId, ct);
+
+            if (activities == null || !activities.Any())
+            {
+                throw new KeyNotFoundException($"No activities found for category id {categoryId}");
+            }
+
+            return _mapper.Map<IEnumerable<GetActivityResponse>>(activities);
+        }
         public async Task<bool> UpdateActivityAsync(int id, UpdateActivityRequest dto, CancellationToken ct = default)
         {
             var toUpdate = _unitOfWork.Activities.GetByIdAsync(id, ct);
