@@ -185,7 +185,7 @@ namespace ActiviGoApi.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> CancelBooking(int id, CancellationToken ct)
+        public async Task<IActionResult> CancelActivityOccurance(int id, CancellationToken ct)
         {
             try
             {
