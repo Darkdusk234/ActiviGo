@@ -77,6 +77,7 @@ namespace ActiviGoApi.Services
             if (booking.IsCancelled == true)
                 throw new ArgumentException($"Booking with id {id} is already cancelled.");
 
+            booking.IsActive = false;
             booking.IsCancelled = true;
             await _unitOfWork.Bookings.UpdateAsync(booking, ct);
             await _unitOfWork.SaveChangesAsync(ct);
