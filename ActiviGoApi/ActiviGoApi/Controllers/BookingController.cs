@@ -50,6 +50,22 @@ namespace ActiviGoApi.Api.Controllers
             }
         }
 
+        [HttpGet("user/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetBookingsByUserId(int userId, CancellationToken ct)
+        {
+            try
+            {
+                var bookings = await _service.GetBookingsByUserIdAsync(userId, ct);
+                return Ok(bookings);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult<BookingReadDTO>> Create([FromBody] BookingCreateDTO createDto, CancellationToken ct)
         {
