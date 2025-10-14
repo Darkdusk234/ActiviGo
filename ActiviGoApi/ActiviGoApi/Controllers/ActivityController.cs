@@ -75,6 +75,22 @@ namespace ActiviGoApi.WebApi.Controllers
             }
         }
 
+        [HttpGet("category/{categoryId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<GetActivityResponse>>> GetActivitiesByCategoryId(int categoryId, CancellationToken ct = default)
+        {
+            try
+            {
+                var activities = await _activityService.GetActivitiesByCategoryIdAsync(categoryId, ct);
+                return Ok(activities);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateActivity(int id, [FromBody] UpdateActivityRequest dto, CancellationToken ct = default)
