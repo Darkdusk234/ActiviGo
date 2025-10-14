@@ -3,6 +3,7 @@ using ActiviGoApi.Services.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ActiviGoApi.Api.Controllers
 {
@@ -50,11 +51,12 @@ namespace ActiviGoApi.Api.Controllers
             }
         }
 
-        [HttpGet("user/{userId}")]
+        [HttpGet("bookings/user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetBookingsByUserId(int userId, CancellationToken ct)
+        public async Task<IActionResult> GetBookingsByUserId( CancellationToken ct)
         {
+            var userId = this.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             try
             {
                 var bookings = await _service.GetBookingsByUserIdAsync(userId, ct);
