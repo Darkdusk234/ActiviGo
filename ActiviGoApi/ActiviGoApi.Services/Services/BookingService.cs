@@ -47,12 +47,12 @@ namespace ActiviGoApi.Services
         /// <inheritdoc />
         public async Task<IEnumerable<BookingReadDTO>> GetBookingsByUserIdAsync(string userId, CancellationToken ct)
         {
-            var userExists = await _userManager.FindByIdAsync(userId);
+            var userExists = await _userManager.FindByNameAsync(userId);
 
             if (userExists == null)
                 throw new KeyNotFoundException($"User with id {userId} was not found.");
 
-            var bookings = await _unitOfWork.Bookings.GetFilteredAsync(includeProperties: "",b => b.UserId == userId, ct);
+            var bookings = await _unitOfWork.Bookings.GetFilteredAsync(includeProperties: "",b => b.UserId == userExists.Id, ct);
 
             return _mapper.Map<IEnumerable<BookingReadDTO>>(bookings);
         }

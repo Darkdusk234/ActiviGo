@@ -56,7 +56,8 @@ namespace ActiviGoApi.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetBookingsByUserId( CancellationToken ct)
         {
-            var userId = this.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             try
             {
                 var bookings = await _service.GetBookingsByUserIdAsync(userId, ct);
