@@ -20,6 +20,9 @@ export default function Navbar() {
         
       </div>
       <div>
+        <SearchBar/>
+      </div>
+      <div>
       <NavLogin />
       </div>
     </nav>

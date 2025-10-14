@@ -26,7 +26,7 @@ const NavLogin = () => {
 
     return(
         <>
-            {isLoggedIn ? (<div className="NavLogin" onClick={() => showLoginBox()}> Klicka för att logga in</div>) : (<div className="NavLogin" onClick="//Länk till mina sidor">Mina Sidor</div>) }
+            {isLoggedIn ? (<img src="../src/assets/loginpic.png" className="NavLogin" onClick={() => showLoginBox()}/> ) : (<div className="NavLogin" onClick="//Länk till mina sidor">Mina Sidor</div>) }
             {!loginVisible ? (<LoginDropBox />) : ("")}
         </>
     )
