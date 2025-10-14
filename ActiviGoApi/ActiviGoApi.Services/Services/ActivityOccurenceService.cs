@@ -129,6 +129,13 @@ namespace ActiviGoApi.Services.Services
 
             var bookings = await _unitOfWork.Bookings.GetFilteredAsync("",b => b.ActivityOccurenceId == id && !b.IsCancelled, ct);
 
+            foreach(var booking in bookings)
+            {
+                booking.IsActive = false;
+                booking.UpdatedAt = DateTime.UtcNow;
+                await _unitOfWork.Bookings.UpdateAsync(booking, ct);
+            }
+
             await _unitOfWork.SaveChangesAsync(ct);
         }
 
