@@ -5,6 +5,7 @@ using AutoMapper;
 using ActiviGoApi.Core.Interfaces;
 using ActiviGoApi.Infrastructur.Repositories;
 using ActiviGoApi.Services.DTOs.BookingDTOs;
+using Microsoft.AspNetCore.Identity;
 
 namespace ActiviGoApi.Services
 {
@@ -12,14 +13,17 @@ namespace ActiviGoApi.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
 
         public BookingService(
             IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IMapper mapper,
+            UserManager<User> userManager)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         /// <inheritdoc />
@@ -38,6 +42,19 @@ namespace ActiviGoApi.Services
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
             }
             return _mapper.Map<BookingReadDTO>(booking);
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<BookingReadDTO>> GetBookingsByUserIdAsync(string userId, CancellationToken ct)
+        {
+            var userExists = await _userManager.FindByIdAsync(userId);
+
+            if (userExists == null)
+                throw new KeyNotFoundException($"User with id {userId} was not found.");
+
+            var bookings = await _unitOfWork.Bookings.GetFilteredAsync(includeProperties: "",b => b.UserId == userId, ct);
+
+            return _mapper.Map<IEnumerable<BookingReadDTO>>(bookings);
         }
 
         /// <inheritdoc />
