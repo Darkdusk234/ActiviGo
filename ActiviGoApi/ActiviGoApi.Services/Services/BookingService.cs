@@ -51,55 +51,73 @@ namespace ActiviGoApi.Services
             {
                 throw new KeyNotFoundException($"User with id {createDto.UserId} was not found.");
             }
-
-            var occurneceExists = await _unitOfWork.ActivityOccurrences.GetByIdAsync(createDto.ActivityOccurenceId, ct);   // does occurnce exiwsts?
-            if (occurneceExists == null)
+            if(userIsAlive.IsSuspended)     // is user a victim of cancell culture
             {
-                throw new KeyNotFoundException($"Occurrence with id {createDto.ActivityOccurenceId} was not found.");
+                throw new ArgumentException("Cannot create booking for a suspended user.");
             }
 
-            if (occurneceExists.AvailableSpots < createDto.Participants)     // are there enough available spots?
+            var occurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(createDto.ActivityOccurenceId, ct); // is occurrence alive?
+            if (occurrence == null)
             {
-                throw new ArgumentException($"Not enough available spots. Requested: {createDto.Participants}, Available: {occurneceExists.AvailableSpots}");
+                throw new KeyNotFoundException($"ActivityOccurrence with id {createDto.ActivityOccurenceId} not found");
             }
-
-            if (occurneceExists.IsCancelled)    // is occurnce cancelled?
+            if (occurrence.IsCancelled)
             {
                 throw new ArgumentException("Cannot book a cancelled activity occurrence");
             }
 
+            var avaiableSpots = await AvailableSpotsForOccurrence(createDto.ActivityOccurenceId, ct);   // check available spots
+
+            if (avaiableSpots <= createDto.Participants)
+            {
+                throw new ArgumentException($"Not enough available spots. Requested: {createDto.Participants}, Available: {avaiableSpots}");
+            }
+
             var booking = _mapper.Map<Booking>(createDto);
-            booking.CreatedAt = DateTime.UtcNow;
-
-            await _unitOfWork.Bookings.AddAsync(booking, ct);
-
-            occurneceExists.AvailableSpots -= createDto.Participants;    // Decrease available spots
 
             await _unitOfWork.Bookings.AddAsync(booking, ct);
             await _unitOfWork.SaveChangesAsync(ct);
-            
+
             return _mapper.Map<BookingReadDTO>(booking);
         }
 
         /// <inheritdoc />
         public async Task<BookingReadDTO> UpdateAsync(int id, BookingUpdateDTO updateDto, CancellationToken ct)
         {
-            var existing = await _unitOfWork.Bookings.GetByIdAsync(id, ct);
+            var existing = await _unitOfWork.Bookings.GetByIdAsync(id, ct);     // is thier a booking?
             if (existing == null)
+            {
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
+            }
 
+            var user = await _userManager.FindByIdAsync(existing.UserId);   // is user alive?
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"User with id {existing.UserId} was not found.");
+            }
+            if (user.IsSuspended)   // is user a victim of cancell culture
+            {
+                throw new InvalidOperationException($"User '{user.FirstName} {user.LastName}' is suspended and cannot modify bookings.");
+            }
 
-            if (updateDto.Participants != existing.Participants)        // if number of participants is changing
+            if (updateDto.Participants != existing.Participants)    // if number of participants is changing
             {
                 var occurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(existing.ActivityOccurenceId, ct);
                 if (occurrence == null)
-                    throw new KeyNotFoundException($"ActivityOccurrence with id {existing.ActivityOccurenceId} not found");
-
-                int difference = updateDto.Participants - existing.Participants;
-
-                if (difference > 0 && occurrence.AvailableSpots < difference)
                 {
-                    throw new ArgumentException($"Not enough available spots. Requested additional: {difference}, Available: {occurrence.AvailableSpots}");
+                    throw new KeyNotFoundException($"ActivityOccurrence with id {existing.ActivityOccurenceId} not found");
+                }
+
+                int difference = updateDto.Participants - existing.Participants;    // count the difference
+
+                if (difference > 0) // if increasing the number of participants
+                {
+                    var actualAvailableSpots = await AvailableSpotsForOccurrence(existing.ActivityOccurenceId, ct);
+
+                    if (actualAvailableSpots < difference)
+                    {
+                        throw new ArgumentException($"Not enough available spots. Requested additional: {difference}, Available: {actualAvailableSpots}");
+                    }
                 }
 
                 occurrence.AvailableSpots -= difference;
@@ -149,6 +167,28 @@ namespace ActiviGoApi.Services
 
             await _unitOfWork.Bookings.DeleteAsync(booking.Id, ct);
             await _unitOfWork.SaveChangesAsync(ct);
+        }
+
+        public async Task<int> AvailableSpotsForOccurrence(int occurrenceId, CancellationToken ct = default)
+        {
+            var occurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(occurrenceId, ct);
+            if (occurrence == null)
+            {
+                throw new KeyNotFoundException($"ActivityOccurrence with id {occurrenceId} not found"); // if occurrence does not exiwsts
+            }
+
+            var activeBookings = await _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "",
+                filter: b => b.ActivityOccurenceId == occurrenceId && b.IsActive && !b.IsCancelled,
+                ct: ct
+            );
+
+            int totalBookedSpots = activeBookings.Sum(b => b.Participants); // sum of all active bookings
+
+            int availableSpots = occurrence.Capacity - totalBookedSpots;    // calculate available spots
+
+            return availableSpots >= 0 ? availableSpots : 0;
+
         }
     }
 }
