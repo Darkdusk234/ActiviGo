@@ -28,7 +28,7 @@ namespace ActiviGoApi.Services.Interfaces
         /// <param name="userId">The ID of the user to retrieve connected bookings from.</param>
         /// <param name="ct">Cancellation token to cancel the operation.</param>
         /// <returns>A collection of bookingReadDTOs</returns>
-        Task<IEnumerable<BookingReadDTO>> GetBookingsByUserIdAsync(int userId, CancellationToken ct);
+        Task<IEnumerable<BookingReadDTO>> GetBookingsByUserIdAsync(string userId, CancellationToken ct);
 
         /// <summary>
         /// Creates a new booking.
