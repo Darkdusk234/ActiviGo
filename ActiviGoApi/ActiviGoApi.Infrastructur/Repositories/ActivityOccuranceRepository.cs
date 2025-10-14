@@ -18,19 +18,5 @@ namespace ActiviGoApi.Infrastructur.Repositories
         {
             _dbSet = context.Set<ActivityOccurence>();
         }
-
-        public async Task<IEnumerable<ActivityOccurence>> GetFilteredAsync(Expression<Func<ActivityOccurence, bool>> filter = null, CancellationToken ct = default)
-        {
-            IQueryable<ActivityOccurence> query = _dbSet;
-
-            if (filter != null)
-            {
-                query = query
-                    .Include(a => a.Activity)
-                    .Where(filter);
-            }
-
-            return await query.ToListAsync();
-        }
     }
 }
