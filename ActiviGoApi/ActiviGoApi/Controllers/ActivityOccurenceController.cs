@@ -189,7 +189,7 @@ namespace ActiviGoApi.WebApi.Controllers
         {
             try
             {
-                await _occurrenceService.CancelBookingAsync(id, ct);
+                await _occurrenceService.CancelOccurranceAsync(id, ct);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)
