@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SubLocationController : ControllerBase
@@ -60,6 +59,7 @@ namespace ActiviGoApi.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<GetSubLocationResponse>> GetSubLocationById(int id, CancellationToken ct = default)
         {
