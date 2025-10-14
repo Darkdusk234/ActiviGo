@@ -14,6 +14,6 @@ namespace ActiviGoApi.Core.Interfaces
         Task<TEntity> AddAsync(TEntity entity, CancellationToken ct = default);
         Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct = default);
         Task<bool> DeleteAsync(int id, CancellationToken ct = default);
-        Task<IEnumerable<TEntity>> GetFilteredAsync(string includeProperties = "", Expression<Func<TEntity, bool>> filter = null, CancellationToken ct = default)
+        Task<IEnumerable<TEntity>> GetFilteredAsync(string includeProperties = "", Expression<Func<TEntity, bool>> filter = null, CancellationToken ct = default);
     }
 }
