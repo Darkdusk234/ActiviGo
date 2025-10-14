@@ -127,7 +127,7 @@ namespace ActiviGoApi.Services.Services
             occurrence.UpdatedAt = DateTime.UtcNow;
             await _unitOfWork.ActivityOccurrences.UpdateAsync(occurrence, ct);
 
-            var bookings = await _unitOfWork.Bookings.GetFilteredAsync("",b => b.ActivityOccurenceId == id && !b.IsCancelled, ct);
+            var bookings = await _unitOfWork.Bookings.GetFilteredAsync("",b => b.ActivityOccurenceId == id && !b.IsCancelled && b.IsActive, ct);
 
             foreach(var booking in bookings)
             {
