@@ -111,9 +111,30 @@ namespace ActiviGoApi.Services.Services
 
         }
 
+        public async Task CancelOccurranceAsync(int id, CancellationToken ct)
+        {
+            var occurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(id, ct);
+            if (occurrence == null)
+            {
+                throw new KeyNotFoundException($"Activity Occurrence with id {id} not found");
+            }
+
+            if (occurrence.IsCancelled)
+            {
+                throw new InvalidOperationException($"Activity Occurrence with id {id} is already cancelled.");
+            }
+            occurrence.IsCancelled = true;
+            occurrence.UpdatedAt = DateTime.UtcNow;
+            await _unitOfWork.ActivityOccurrences.UpdateAsync(occurrence, ct);
+
+            var bookings = await _unitOfWork.Bookings.GetFilteredAsync("",b => b.ActivityOccurenceId == id && !b.IsCancelled, ct);
+
+            await _unitOfWork.SaveChangesAsync(ct);
+        }
+
         public async Task<IEnumerable<ActivityOccurenceResponseDTO>> GetFilteredActivityOccurences(ActivityOccurenceSearchFilterDTO dto, CancellationToken ct = default)
         {
-            var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(FilterFunction(dto), ct);
+            var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(includeProperties: "Activity",FilterFunction(dto), ct);
             return _mapper.Map<IEnumerable<ActivityOccurenceResponseDTO>>(occurrences);
         }
 
