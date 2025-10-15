@@ -63,6 +63,13 @@ namespace ActiviGoApi.Services
         /// <inheritdoc />
         public async Task<BookingReadDTO> AddAsync(BookingCreateDTO createDto, string userName, CancellationToken ct)
         {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
+            {
+                throw new ArgumentException($"User connected to jwt token not in system anymore.");
+            }
+
             var userIsAlive = await _userManager.FindByIdAsync(createDto.UserId);   // is user alive?
                                                                                     
             if (userIsAlive == null)
