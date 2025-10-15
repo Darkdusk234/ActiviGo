@@ -12,9 +12,13 @@ const NavLogin = () => {
 
     useEffect(() => {
 
-        if(user)
+        if(user) // If "truthy" set status to logged in
             {
                 setIsLoggedIn(true);
+            }
+            else
+            {
+                setIsLoggedIn(false);
             }
     }, [])
 

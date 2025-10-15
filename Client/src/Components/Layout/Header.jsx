@@ -9,11 +9,11 @@ export default function Header({ onSearch }) {
   return (
     <header>
       <Navbar/>
-      <div className ="not-nav-navbar">
-        <div className="searchbar-container">
-          <SearchBar onSearch={onSearch} />
-        </div>
-       
+      <div className="searchbar-container">
+        <SearchBar onSearch={onSearch} />
+      </div>
+      <div className="NavLogin-container">
+        <NavLogin />
       </div>
     </header>
   );
