@@ -26,7 +26,8 @@ namespace ActiviGoApi.Services.Services
 
         public async Task<IEnumerable<ActivityOccurenceResponseDTO>> GetAllAsync(CancellationToken ct = default)
         {
-            var occurrences = await _unitOfWork.ActivityOccurrences.GetAllAsync(ct);
+            //var occurrences = await _unitOfWork.ActivityOccurrences.GetAllAsync(ct);
+            var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(includeProperties: "Activity,SubLocation");
             return _mapper.Map<IEnumerable<ActivityOccurenceResponseDTO>>(occurrences);
         }
 

@@ -1,3 +1,11 @@
+.display-list-container {
+  width: 90%;
+  overflow: hidden;
+  display: "flex";
+  flex-direction: "row";
+  height: "20vh" 
+}
+
 .my-swiper {
   width: 100%;
 }

@@ -1,0 +1,47 @@
+.occurrence-card {
+  margin: 1rem;
+  border: 1px solid #e5e7eb;         /* ljusgrå kant */
+  border-radius: 0.5rem;             /* rundade hörn */
+  background-color: #f9f9f9;         /* ljus bakgrund */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 250px;                     /* lagom höjd för textinnehåll */
+  width: 260px;                      /* passar i swiper */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  text-align: left;
+}
+
+.occurrence-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.occurrence-card-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.occurrence-card-title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: #111;
+  margin: 0 0 0.25rem 0;
+}
+
+.occurrence-card-info {
+  font-size: 0.9rem;
+  color: #374151;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.occurrence-card-cancelled {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #b91c1c; /* röd */
+}
