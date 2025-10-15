@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ActivityOccurenceController : ControllerBase
@@ -179,6 +178,31 @@ namespace ActiviGoApi.WebApi.Controllers
             catch (Exception ex) // Very temporary error handling
             {
                 return StatusCode(500, "An error occurred while searching for activity occurrences");
+            }
+        }
+
+        [HttpPut("cancel/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> CancelActivityOccurance(int id, CancellationToken ct)
+        {
+            try
+            {
+                await _occurrenceService.CancelOccurranceAsync(id, ct);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
             }
         }
     }

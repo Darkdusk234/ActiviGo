@@ -1,0 +1,10 @@
+.my-swiper {
+  width: 100%;
+}
+
+.my-swiper .swiper-slide {
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  width: auto;
+}

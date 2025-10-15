@@ -1,0 +1,31 @@
+.category-card {
+  margin: 1rem;
+  border: 1px solid #e5e7eb; /* ljusgrå kant */
+  border-radius: 0.5rem; /* rundade hörn */
+  background-color: #d1d1d1;
+  height: 160px; /* höjd, kan justeras */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  text-align: center;
+}
+
+.category-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+.category-card-title {
+  font-weight: 600;
+  font-size: 1.125rem; /* ca 18px */
+  margin-bottom: 0.25rem;
+  color: black;
+}
+
+.category-card-description {
+  font-size: 0.875rem; /* ca 14px */
+  color: #24262a; /* grå text */
+}

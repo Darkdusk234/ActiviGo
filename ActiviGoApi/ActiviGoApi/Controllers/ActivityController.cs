@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ActiviGoApi.WebApi.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ActivityController : ControllerBase
@@ -47,6 +46,7 @@ namespace ActiviGoApi.WebApi.Controllers
             
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetActivityResponse>>> GetAllActivities(CancellationToken ct = default)
         {
@@ -68,6 +68,22 @@ namespace ActiviGoApi.WebApi.Controllers
             {
                 var activity = await _activityService.GetActivityByIdAsync(id, ct);
                 return Ok(activity);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("category/{categoryId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<GetActivityResponse>>> GetActivitiesByCategoryId(int categoryId, CancellationToken ct = default)
+        {
+            try
+            {
+                var activities = await _activityService.GetActivitiesByCategoryIdAsync(categoryId, ct);
+                return Ok(activities);
             }
             catch (KeyNotFoundException ex)
             {

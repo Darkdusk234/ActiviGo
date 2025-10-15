@@ -1,10 +1,12 @@
 ﻿using ActiviGoApi.Core.Interfaces;
+using ActiviGoApi.Core.Models;
 using ActiviGoApi.Infrastructur.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -53,6 +55,26 @@ namespace ActiviGoApi.Infrastructur.Repositories
         {
             _dbSet.Update(entity);
             return entity;
+        }
+
+
+
+        public async Task<IEnumerable<TEntity>> GetFilteredAsync(string includeProperties = "", Expression<Func<TEntity, bool>> filter = null, CancellationToken ct = default)
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+            {
+                query = query
+                    .Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            return await query.ToListAsync();
         }
     }
 }
