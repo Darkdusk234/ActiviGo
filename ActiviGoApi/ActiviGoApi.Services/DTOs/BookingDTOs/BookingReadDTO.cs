@@ -12,7 +12,7 @@ namespace ActiviGoApi.Services.DTOs.BookingDTOs
         public bool IsPaid { get; set; }
         public bool IsCancelled { get; set; }
 
-        public string? UserName { get; set; }
+        //public string? UserName { get; set; }
         public string? ActivityName { get; set; }
     }
 }
