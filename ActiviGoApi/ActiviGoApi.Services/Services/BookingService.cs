@@ -92,6 +92,9 @@ namespace ActiviGoApi.Services
 
             var booking = _mapper.Map<Booking>(createDto);
 
+            booking.CreatedAt = DateTime.UtcNow;
+            booking.UpdatedAt = DateTime.UtcNow;
+
             await _unitOfWork.Bookings.AddAsync(booking, ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
@@ -142,6 +145,9 @@ namespace ActiviGoApi.Services
             }
 
             _mapper.Map(updateDto, existing);
+
+            existing.UpdatedAt = DateTime.UtcNow;
+
             await _unitOfWork.Bookings.UpdateAsync(existing, ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
