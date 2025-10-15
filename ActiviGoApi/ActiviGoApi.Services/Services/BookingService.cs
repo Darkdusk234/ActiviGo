@@ -162,6 +162,7 @@ namespace ActiviGoApi.Services
 
             booking.IsActive = false;
             booking.IsCancelled = true;
+            booking.UpdatedAt = DateTime.UtcNow;
             await _unitOfWork.Bookings.UpdateAsync(booking, ct);
             await _unitOfWork.SaveChangesAsync(ct);
         }
