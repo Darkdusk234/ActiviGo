@@ -24,6 +24,12 @@ namespace ActiviGoApi.Services.Services
 
         public async Task<bool> CreateActivityAsync(CreateActivityRequest dto, CancellationToken ct = default)
         {
+            var category = await _unitOfWork.Categories.GetByIdAsync(dto.CategoryId, ct);
+            if (category == null)
+            {
+                throw new KeyNotFoundException($"Category with id {dto.CategoryId} not found");
+            }
+
             Activity toCreate = _mapper.Map<Activity>(dto);
 
             await _unitOfWork.Activities.AddAsync(toCreate, ct);
