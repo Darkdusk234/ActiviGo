@@ -1,3 +1,4 @@
+import "./ActivityOccurrenceCard.css";
 export default function ActivityOccurrenceCard({ occurrence }) {
   return (
     <div className="occurrence-card">
