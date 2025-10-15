@@ -5,6 +5,7 @@ const DetailedSearch = () => {
 
     const [categoryNames, setCategoryNames] = useState([]);
     const [activityNames, setActivityNames] = useState([]);
+    const [locationNames, setLocationNames] = useState([]);
 
     const [searchTerms, setSearchTerms] = useState(
         {
@@ -52,8 +53,23 @@ const DetailedSearch = () => {
 
         };
 
+        const fetchLocationNames = async () => {
+            await fetch(baseUrl + "locationbla bla")
+            .then(response => response.json())
+            .then(data => {
+                if(data)
+                {
+                    setLocationNames(data);
+                }
+            })
+            .catch((e) => {
+                console.log("Error fetching location names")
+            })
+        }
+
         fetchActivityNames();
         fetchCategoryNames();
+        fetchLocationNames();
 
     }, [])
 
@@ -70,7 +86,22 @@ const DetailedSearch = () => {
                 <input type= "text" placeholder="Fritext..."/>
                <label for="fromDate">Från:</label> <input type= "date" name="fromDate"/>
                <label for="toDate">Till:</label> <input type= "date" name="toDate"/>
-               <label for="activity"></label>
+               <label for="activity">Aktivitet:</label> <select id ="activity" name="activity">
+                                                {activityNames.map((index, activity) => {
+                                                    <option value={activity}>{activity}</option>
+                                                })}
+                                              </select>
+                <label for="category">Kategori:</label> <select id ="category" name="category">
+                                                {activityNames.map((index, category) => {
+                                                    <option value={category}>{category}</option>
+                                                })}
+                                              </select>
+                <label for="location">Plats:</label><select id ="location" name="location">
+                                                {locationNames.map((index, location) =>
+                                                {
+                                                    <option value={location}>{location}</option>
+                                                })}
+                                              </select>
             </form>
         </>
     )
