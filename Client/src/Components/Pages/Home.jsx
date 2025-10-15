@@ -1,6 +1,10 @@
 import CategoryList from "../Display/CategoryList";
 import ActivityList from "../Display/ActivityList";
+
+import SearchResults from "../Pages/SearchResults";
+
 import ActivityOccurrenceList from "../Display/ActivityOccurrenceList";
+
 
 export default function Home() {
   return (
@@ -11,6 +15,9 @@ export default function Home() {
       <ActivityOccurrenceList />
       <h2 className="text-2xl font-bold mt-8 mb-4">Aktiviteter</h2>
       <ActivityList />
+      <div>
+
+      </div>
     </div>
   );
 }
