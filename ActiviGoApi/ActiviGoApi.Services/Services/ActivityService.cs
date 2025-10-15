@@ -97,7 +97,7 @@ namespace ActiviGoApi.Services.Services
         }
         public async Task<bool> UpdateActivityAsync(int id, UpdateActivityRequest dto, CancellationToken ct = default)
         {
-            var toUpdate = _unitOfWork.Activities.GetByIdAsync(id, ct);
+            var toUpdate = await _unitOfWork.Activities.GetByIdAsync(id, ct);
 
             if (toUpdate == null)
             {
