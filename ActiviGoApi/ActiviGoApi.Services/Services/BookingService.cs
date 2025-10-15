@@ -131,6 +131,7 @@ namespace ActiviGoApi.Services
 
             var booking = _mapper.Map<Booking>(createDto);
 
+            booking.UserId = user.Id;
             booking.CreatedAt = DateTime.UtcNow;
             booking.UpdatedAt = DateTime.UtcNow;
 
