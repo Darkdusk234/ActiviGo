@@ -87,6 +87,10 @@ namespace ActiviGoApi.Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
