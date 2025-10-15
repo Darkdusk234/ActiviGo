@@ -85,6 +85,7 @@ namespace ActiviGoApi.Services.Services
 
             var updated = _mapper.Map<SubLocation>(dto);
             updated.Id = id; // Ensure the ID remains the same
+            updated.UpdatedAt = DateTime.UtcNow;
             await _unitOfWork.SubLocations.UpdateAsync(updated, ct);
             await _unitOfWork.SaveChangesAsync(ct);
             

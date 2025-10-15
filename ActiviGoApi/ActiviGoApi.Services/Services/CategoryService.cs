@@ -69,6 +69,7 @@ namespace ActiviGoApi.Services.Services
             }
 
             _mapper.Map(updateDto, existingCategory);
+            existingCategory.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.Categories.UpdateAsync(existingCategory, ct);
             await _unitOfWork.SaveChangesAsync(ct);

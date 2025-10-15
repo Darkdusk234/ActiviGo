@@ -13,7 +13,5 @@ namespace ActiviGoApi.Services.DTOs.SubLocationDTOs
         public int MaxCapacity { get; init; }
         public bool Indoors { get; init; }
         public int LocationId { get; init; }
-
-        DateTime UpdatedAt { get; init; } = DateTime.UtcNow;
     }
 }
