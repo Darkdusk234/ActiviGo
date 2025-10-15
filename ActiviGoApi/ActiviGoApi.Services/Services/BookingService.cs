@@ -85,12 +85,15 @@ namespace ActiviGoApi.Services
 
             var avaiableSpots = await AvailableSpotsForOccurrence(createDto.ActivityOccurenceId, ct);   // check available spots
 
-            if (avaiableSpots <= createDto.Participants)
+            if (avaiableSpots < createDto.Participants)
             {
                 throw new ArgumentException($"Not enough available spots. Requested: {createDto.Participants}, Available: {avaiableSpots}");
             }
 
             var booking = _mapper.Map<Booking>(createDto);
+
+            booking.CreatedAt = DateTime.UtcNow;
+            booking.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.Bookings.AddAsync(booking, ct);
             await _unitOfWork.SaveChangesAsync(ct);
@@ -142,6 +145,9 @@ namespace ActiviGoApi.Services
             }
 
             _mapper.Map(updateDto, existing);
+            
+            existing.UpdatedAt = DateTime.UtcNow;
+            
             await _unitOfWork.Bookings.UpdateAsync(existing, ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
@@ -161,6 +167,7 @@ namespace ActiviGoApi.Services
 
             booking.IsActive = false;
             booking.IsCancelled = true;
+            booking.UpdatedAt = DateTime.UtcNow;
             await _unitOfWork.Bookings.UpdateAsync(booking, ct);
             await _unitOfWork.SaveChangesAsync(ct);
         }

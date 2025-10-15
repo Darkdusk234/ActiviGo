@@ -18,7 +18,6 @@ function App() {
           <Route path="/" element={<Home />} />
         </Route>
       </Routes>
-      <LoginForm />
     </BrowserRouter>
 
 

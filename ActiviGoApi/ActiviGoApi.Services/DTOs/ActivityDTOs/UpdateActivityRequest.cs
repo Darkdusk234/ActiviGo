@@ -20,7 +20,5 @@ namespace ActiviGoApi.Services.DTOs.ActivityDTOs
 
         public int CategoryId { get; init; }
 
-        public DateTime UpdatedAt { get; init; } = DateTime.UtcNow;
-
     }
 }
