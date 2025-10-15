@@ -1,8 +1,8 @@
 import React from "react";
 import {useEffect, useState} from "react";
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
-const SingleResultDisplay = (result) => {
+const SingleResultDisplay = ({result}) => {
 
     const { user } = useAuth(); 
     const [showBook, setShowBook] = useState(false);
@@ -25,11 +25,12 @@ const SingleResultDisplay = (result) => {
     return(
         <>
         <div className = "single-result">
+            {console.log(result)  }
             <h3>{result.name}</h3>
-            <p>{result.locationName}</p>
-            <p>{result.startTime} - {result.endTime}</p>
+            <p>available: {result.availableSpots}/{result.capacity}</p>
+            <p>time: {result.startTime} - {result.endTime}</p>
             <img src="bild"/>
-            <WeatherSmall lat = {result.lat} long = {result.long} time = {result.startTime}/>
+            
             {!showBook ? <button>Boka</button> : ""}
         </div>
         </>

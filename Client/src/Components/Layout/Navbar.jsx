@@ -21,6 +21,7 @@ export default function Navbar() {
         <Link to="/">Home</Link>
         <Link to="/booking">Booking</Link>
         <Link to="/about">About</Link>
+        <Link to="/search">Search</Link>
       </div>
     </nav>
   );
