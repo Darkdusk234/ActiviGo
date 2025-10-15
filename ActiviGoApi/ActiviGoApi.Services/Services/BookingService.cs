@@ -32,14 +32,23 @@ namespace ActiviGoApi.Services
         /// <inheritdoc />
         public async Task<IEnumerable<BookingReadDTO>> GetAllAsync(CancellationToken ct)
         {
-            var bookings = await _unitOfWork.Bookings.GetAllAsync(ct);
+            var bookings = await _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "ActivityOccurence.Activity",
+                filter: null,
+                ct: ct);
             return _mapper.Map<IEnumerable<BookingReadDTO>>(bookings);
         }
 
         /// <inheritdoc />
         public async Task<BookingReadDTO?> GetByIdAsync(int id, CancellationToken ct)
         {
-            var booking = await _unitOfWork.Bookings.GetByIdAsync(id, ct);
+            var bookings = await _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "ActivityOccurence.Activity",
+                filter: b => b.Id == id,
+                ct: ct);
+
+            var booking = bookings.FirstOrDefault();
+
             if (booking == null)
             {
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
@@ -55,7 +64,10 @@ namespace ActiviGoApi.Services
             if (userExists == null)
                 throw new KeyNotFoundException($"User with id {userId} was not found.");
 
-            var bookings = await _unitOfWork.Bookings.GetFilteredAsync(includeProperties: "",b => b.UserId == userExists.Id, ct);
+            var bookings = await _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "ActivityOccurence.Activity",
+                filter: b => b.UserId == userExists.Id,
+                ct: ct);
 
             return _mapper.Map<IEnumerable<BookingReadDTO>>(bookings);
         }
@@ -68,7 +80,7 @@ namespace ActiviGoApi.Services
             {
                 throw new KeyNotFoundException($"User with id {createDto.UserId} was not found.");
             }
-            if(userIsAlive.IsSuspended)     // is user a victim of cancell culture
+            if (userIsAlive.IsSuspended)     // is user a victim of cancell culture
             {
                 throw new ArgumentException("Cannot create booking for a suspended user.");
             }
@@ -98,7 +110,13 @@ namespace ActiviGoApi.Services
             await _unitOfWork.Bookings.AddAsync(booking, ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
-            return _mapper.Map<BookingReadDTO>(booking);
+            // Hämta booking med relaterad data innan vi returnerar
+            var createdBookings = await _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "ActivityOccurence.Activity",
+                filter: b => b.Id == booking.Id,
+                ct: ct);
+
+            return _mapper.Map<BookingReadDTO>(createdBookings.First());
         }
 
         /// <inheritdoc />
@@ -145,13 +163,19 @@ namespace ActiviGoApi.Services
             }
 
             _mapper.Map(updateDto, existing);
-            
+
             existing.UpdatedAt = DateTime.UtcNow;
-            
+
             await _unitOfWork.Bookings.UpdateAsync(existing, ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
-            return _mapper.Map<BookingReadDTO>(existing);
+            // Hämta booking med relaterad data innan vi returnerar
+            var updatedBookings = await _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "ActivityOccurence.Activity",
+                filter: b => b.Id == id,
+                ct: ct);
+
+            return _mapper.Map<BookingReadDTO>(updatedBookings.First());
         }
 
         /// <inheritdoc/>
