@@ -1,0 +1,48 @@
+.activity-card {
+  border: 2px solid #e5e7eb; /* ljusgrå kant */
+  border-radius: 0.5rem; /* rundade hörn */
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  background-color: #d2d2d2;
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+.activity-card img {
+  width: 100%;
+  height: 12rem; /* ca 192px */
+  object-fit: cover;
+}
+
+.activity-card-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.activity-card-title {
+  font-size: 1.125rem; /* ca 18px */
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.activity-card-description {
+  font-size: 0.875rem; /* ca 14px */
+  color: #4b5563; /* grå text */
+  flex-grow: 1; /* trycker inte ihop kortet om texten är kort */
+}
+
+.activity-card-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem; /* ca 14px */
+  color: #374151;
+}

@@ -1,21 +1,23 @@
 ﻿using ActiviGoApi.Core.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ActiviGoApi.Infrastructur.Data
 {
-    public class ToadContext : DbContext
+    public class ToadContext : IdentityDbContext
     {
         public ToadContext(DbContextOptions<ToadContext> options) : base(options)
         {
 
         }
 
-        public DbSet<User> Users { get; set; }
+        public new DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<ActivityOccurence> ActivityOccurences { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<SubLocation> SubLocations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,7 +39,7 @@ namespace ActiviGoApi.Infrastructur.Data
                       .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne<Activity>(ao => ao.Activity);
-                entity.HasOne<Location>(ao => ao.Location);
+                entity.HasOne<SubLocation>(ao => ao.SubLocation);
             });
 
             modelBuilder.Entity<Activity>(entity =>
@@ -62,10 +64,22 @@ namespace ActiviGoApi.Infrastructur.Data
 
             modelBuilder.Entity<Location>(entity =>
             {
-                entity.HasMany<ActivityOccurence>(l => l.ActivityOccurrences)
+                entity.HasMany<SubLocation>(l => l.SubLocations)
                       .WithOne(ao => ao.Location)
                       .HasForeignKey(ao => ao.LocationId)
                       .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<SubLocation>(entity =>
+            {
+                entity.HasOne<Location>(sl => sl.Location);
+                entity.HasMany<ActivityOccurence>(sl => sl.ActivityOccurences)
+                        .WithOne(ao => ao.SubLocation)
+                        .HasForeignKey(ao => ao.SubLocationId)
+                        .OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany<Activity>(sl => sl.Activities)
+                        .WithMany(a => a.SubLocations);
+
             });
 
             modelBuilder.Entity<Booking>(entity =>
@@ -73,6 +87,13 @@ namespace ActiviGoApi.Infrastructur.Data
                 entity.HasOne<User>(b => b.User);
                 entity.HasOne<ActivityOccurence>(b => b.ActivityOccurence);
             });
+
+            modelBuilder.Entity<Category>().HasData(SeedData.GetCategories().ToArray());
+            modelBuilder.Entity<Activity>().HasData(SeedData.GetActivities().ToArray());
+            modelBuilder.Entity<Location>().HasData(SeedData.GetLocations().ToArray());
+            modelBuilder.Entity<SubLocation>().HasData(SeedData.GetSubLocations().ToArray());
+            modelBuilder.Entity<ActivityOccurence>().HasData(SeedData.GetActivityOccurences().ToArray());
+            //modelBuilder.Entity<Booking>().HasData(SeedData.GetBookings().ToArray());
         }
     }
 }

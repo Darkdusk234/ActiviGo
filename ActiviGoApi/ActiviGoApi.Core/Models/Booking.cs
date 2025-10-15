@@ -7,10 +7,11 @@ namespace ActiviGoApi.Core.Models
         [Required]
         public int Id { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
         [Required]
         public int ActivityOccurenceId { get; set; }
-        public DateTime BookingTime { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public bool ParticipationConfirmed { get; set; } = false;
         [Required]
         [Range(1, 50)]
