@@ -5,9 +5,6 @@ public class BookingCreateDTOValidator : AbstractValidator<BookingCreateDTO>
 {
     public BookingCreateDTOValidator()
     {
-        RuleFor(x => x.UserId)
-            .NotEmpty().WithMessage("UserId is required.");
-
         RuleFor(x => x.ActivityOccurenceId)
             .NotEmpty().WithMessage("ActivityOccurenceId is required.")
             .GreaterThan(0).WithMessage("ActivityOccurenceId must be greater than 0.");
