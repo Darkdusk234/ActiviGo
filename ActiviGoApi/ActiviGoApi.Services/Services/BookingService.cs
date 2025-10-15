@@ -85,7 +85,7 @@ namespace ActiviGoApi.Services
 
             var avaiableSpots = await AvailableSpotsForOccurrence(createDto.ActivityOccurenceId, ct);   // check available spots
 
-            if (avaiableSpots <= createDto.Participants)
+            if (avaiableSpots < createDto.Participants)
             {
                 throw new ArgumentException($"Not enough available spots. Requested: {createDto.Participants}, Available: {avaiableSpots}");
             }
