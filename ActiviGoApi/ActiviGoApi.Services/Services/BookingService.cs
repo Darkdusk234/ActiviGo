@@ -61,7 +61,7 @@ namespace ActiviGoApi.Services
         }
 
         /// <inheritdoc />
-        public async Task<BookingReadDTO> AddAsync(BookingCreateDTO createDto, CancellationToken ct)
+        public async Task<BookingReadDTO> AddAsync(BookingCreateDTO createDto, string userName, CancellationToken ct)
         {
             var userIsAlive = await _userManager.FindByIdAsync(createDto.UserId);   // is user alive?
                                                                                     
