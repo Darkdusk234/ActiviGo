@@ -9,7 +9,7 @@ export default function Home() {
       <CategoryList />
 
       <h2 className="text-2xl font-bold mt-8 mb-4">Aktiviteter</h2>
-      {/* <ActivityList /> */}
+      <ActivityList />
       <div>
 
       </div>
