@@ -146,8 +146,6 @@ namespace ActiviGoApi.Services
 
             _mapper.Map(updateDto, existing);
 
-            existing.UpdatedAt = DateTime.UtcNow;
-
             await _unitOfWork.Bookings.UpdateAsync(existing, ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
