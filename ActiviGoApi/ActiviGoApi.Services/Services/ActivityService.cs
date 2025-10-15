@@ -103,13 +103,18 @@ namespace ActiviGoApi.Services.Services
             {
                 throw new KeyNotFoundException($"Activity with id {id} not found");
             }
-            else
+
+            var category = await _unitOfWork.Categories.GetByIdAsync(dto.CategoryId, ct);
+
+            if (category == null)
             {
-                var updated = _mapper.Map<Activity>(dto);
-                updated.Id = id; // Ensure the ID remains the same
-                await _unitOfWork.Activities.UpdateAsync(updated, ct);
-                await _unitOfWork.SaveChangesAsync(ct);
+                throw new KeyNotFoundException($"Category with id {dto.CategoryId} not found");
             }
+
+            var updated = _mapper.Map<Activity>(dto);
+            updated.Id = id; // Ensure the ID remains the same
+            await _unitOfWork.Activities.UpdateAsync(updated, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
             return true;
         }
     }
