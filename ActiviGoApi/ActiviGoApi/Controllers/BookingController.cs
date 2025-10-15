@@ -78,9 +78,12 @@ namespace ActiviGoApi.Api.Controllers
                 var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
                 return BadRequest($"Validation failed: {errors}");
             }
+
+            var userName = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             try
             {
-                var created = await _service.AddAsync(createDto, ct);
+                var created = await _service.AddAsync(createDto, userName, ct);
                 return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
             }
             catch (ArgumentException ex)
