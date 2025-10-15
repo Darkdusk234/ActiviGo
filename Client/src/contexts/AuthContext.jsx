@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         // Check if user is logged in on component mount
         const fetchUser = async () => {
-            fetch('https://localhost:5210/api/Auth/CheckAuth')
+            fetch('https://localhost:7201/api/Auth/AuthCheck')
             .then(response => response.json())
             .then(data => {
                 if (data.user) {
@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
             });
         };
         fetchUser();
+        setLoading(false);
         }, []);
 
     const setToken = (token) => {
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const login = (credentials) => {
-        fetch('https://localhost:5210/api/Auth/Login', {
+        fetch('https://localhost:7201/api/Auth/Login', {
             method: 'POST',
             headers: {  'Content-Type': 'application/json' },
             body: JSON.stringify(credentials)
@@ -59,15 +60,15 @@ export const AuthProvider = ({ children }) => {
 
     const logout = (user) => {
         setUser(null);
-        fetch('https://localhost:5210/api/Auth/Logout', { method: 'POST' })
+        fetch('https://localhost:7201/api/Auth/Logout', { method: 'POST' })
         .catch(error => {
             console.error('Error logging out:', error);
         });
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout}}>
-            {!loading && children}  
+        <AuthContext.Provider value={{ user, login, logout }}>      
+            {loading ? <div>Loading...</div> : children}
         </AuthContext.Provider>
     );
 
