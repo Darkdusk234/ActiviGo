@@ -5,9 +5,6 @@ namespace ActiviGoApi.Services.DTOs.BookingDTOs
     public record BookingCreateDTO
     {
         [Required]
-        public string UserId { get; init; } = string.Empty;
-
-        [Required]
         public int ActivityOccurenceId { get; init; }
 
         [Required]
