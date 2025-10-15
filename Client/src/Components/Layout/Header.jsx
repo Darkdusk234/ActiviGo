@@ -2,16 +2,18 @@
 import { Link } from "react-router-dom";
 import SearchBar from "./Searchbar"; // importera SearchBar-komponenten
 import Navbar from "./Navbar";
+import NavLogin from "./NavLogin";
+import './Layout.css';
 
 export default function Header({ onSearch }) {
   return (
-    <header style={{ padding: "1rem", background: "#f5f5f5" }}>
+    <header>
       <Navbar/>
-
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <div style={{ maxWidth: "400px", width: "100%" }}>
-          <SearchBar onSearch={onSearch} />
-        </div>
+      <div className="searchbar-container">
+        <SearchBar onSearch={onSearch} />
+      </div>
+      <div className="NavLogin-container">
+        <NavLogin />
       </div>
     </header>
   );
