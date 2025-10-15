@@ -92,7 +92,7 @@ namespace ActiviGoApi.Services
                 throw new ArgumentException("Cannot book an activity occurrence that has already ended.");
             }
 
-            if ((occurrence.StartTime.Hour - DateTime.UtcNow.Hour) < 2) // less than 2 hours to start
+            if ((occurrence.StartTime.Date == DateTime.UtcNow.Date) && (occurrence.StartTime.Hour - DateTime.UtcNow.Hour) < 2) // less than 2 hours to start
             {
                 throw new ArgumentException("Bookings must be made at least 2 hours before the activity starts.");
             }
@@ -113,6 +113,20 @@ namespace ActiviGoApi.Services
             if(existingBookings.Any()) // user already has an active booking for this occurrence
             {
                 throw new ArgumentException("User already has an active booking for this activity occurrence.");
+            }
+
+            var sameTimeBookings = _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "",
+                filter: b => b.UserId == createDto.UserId && b.IsActive && !b.IsCancelled &&
+                             ((b.ActivityOccurence.StartTime < occurrence.EndTime && b.ActivityOccurence.StartTime > occurrence.StartTime) ||
+                             (b.ActivityOccurence.EndTime > occurrence.StartTime && b.ActivityOccurence.EndTime < occurrence.EndTime) ||
+                             (b.ActivityOccurence.StartTime < occurrence.StartTime && b.ActivityOccurence.EndTime > occurrence.EndTime)),
+                ct: ct
+                );
+
+            if(sameTimeBookings.Result.Any()) // user has another booking that overlaps in time
+            {
+                throw new ArgumentException("User has another active booking that overlaps in time with this activity occurrence.");
             }
 
             var booking = _mapper.Map<Booking>(createDto);
