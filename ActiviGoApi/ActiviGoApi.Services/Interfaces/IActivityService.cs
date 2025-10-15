@@ -14,6 +14,6 @@ namespace ActiviGoApi.Services.Interfaces
         public Task<GetActivityResponse> GetActivityByIdAsync(int id, CancellationToken ct = default);
         public Task<bool> UpdateActivityAsync(int id, UpdateActivityRequest dto, CancellationToken ct = default);
         public Task<bool> DeleteActivityAsync(int id, CancellationToken ct = default);
-
+        public Task<IEnumerable<GetActivityResponse>> GetActivitiesByCategoryIdAsync(int categoryId, CancellationToken ct = default);
     }
 }
