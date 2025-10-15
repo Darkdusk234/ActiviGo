@@ -113,6 +113,7 @@ namespace ActiviGoApi.Services.Services
 
             var updated = _mapper.Map<Activity>(dto);
             updated.Id = id; // Ensure the ID remains the same
+            updated.UpdatedAt = DateTime.UtcNow;
             await _unitOfWork.Activities.UpdateAsync(updated, ct);
             await _unitOfWork.SaveChangesAsync(ct);
             return true;
