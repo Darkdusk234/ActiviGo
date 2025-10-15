@@ -63,24 +63,38 @@ namespace ActiviGoApi.Services
         /// <inheritdoc />
         public async Task<BookingReadDTO> AddAsync(BookingCreateDTO createDto, CancellationToken ct)
         {
-            var userIsAlive = await _userManager.FindByIdAsync(createDto.UserId);   // is user alive?   
+            var userIsAlive = await _userManager.FindByIdAsync(createDto.UserId);   // is user alive?
+                                                                                    
             if (userIsAlive == null)
             {
                 throw new KeyNotFoundException($"User with id {createDto.UserId} was not found.");
             }
+
             if(userIsAlive.IsSuspended)     // is user a victim of cancell culture
             {
                 throw new ArgumentException("Cannot create booking for a suspended user.");
             }
 
             var occurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(createDto.ActivityOccurenceId, ct); // is occurrence alive?
+
             if (occurrence == null)
             {
                 throw new KeyNotFoundException($"ActivityOccurrence with id {createDto.ActivityOccurenceId} not found");
             }
+
             if (occurrence.IsCancelled)
             {
                 throw new ArgumentException("Cannot book a cancelled activity occurrence");
+            }
+
+            if(occurrence.EndTime < DateTime.UtcNow) // has the occurrence already happened?
+            {
+                throw new ArgumentException("Cannot book an activity occurrence that has already ended.");
+            }
+
+            if ((occurrence.StartTime.Hour - DateTime.UtcNow.Hour) < 2) // less than 2 hours to start
+            {
+                throw new ArgumentException("Bookings must be made at least 2 hours before the activity starts.");
             }
 
             var avaiableSpots = await AvailableSpotsForOccurrence(createDto.ActivityOccurenceId, ct);   // check available spots
@@ -88,6 +102,17 @@ namespace ActiviGoApi.Services
             if (avaiableSpots < createDto.Participants)
             {
                 throw new ArgumentException($"Not enough available spots. Requested: {createDto.Participants}, Available: {avaiableSpots}");
+            }
+
+            var existingBookings = _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "",
+                filter: b => b.UserId == createDto.UserId && b.ActivityOccurenceId == createDto.ActivityOccurenceId && b.IsActive && !b.IsCancelled,
+                ct: ct
+            ).Result;
+
+            if(existingBookings.Any()) // user already has an active booking for this occurrence
+            {
+                throw new ArgumentException("User already has an active booking for this activity occurrence.");
             }
 
             var booking = _mapper.Map<Booking>(createDto);
