@@ -70,14 +70,7 @@ namespace ActiviGoApi.Services
                 throw new ArgumentException($"User connected to jwt token not in system anymore.");
             }
 
-            var userIsAlive = await _userManager.FindByIdAsync(createDto.UserId);   // is user alive?
-                                                                                    
-            if (userIsAlive == null)
-            {
-                throw new KeyNotFoundException($"User with id {createDto.UserId} was not found.");
-            }
-
-            if(userIsAlive.IsSuspended)     // is user a victim of cancell culture
+            if(user.IsSuspended)     // is user a victim of cancell culture
             {
                 throw new ArgumentException("Cannot create booking for a suspended user.");
             }
@@ -113,7 +106,7 @@ namespace ActiviGoApi.Services
 
             var existingBookings = _unitOfWork.Bookings.GetFilteredAsync(
                 includeProperties: "",
-                filter: b => b.UserId == createDto.UserId && b.ActivityOccurenceId == createDto.ActivityOccurenceId && b.IsActive && !b.IsCancelled,
+                filter: b => b.UserId == user.Id && b.ActivityOccurenceId == createDto.ActivityOccurenceId && b.IsActive && !b.IsCancelled,
                 ct: ct
             ).Result;
 
@@ -124,7 +117,7 @@ namespace ActiviGoApi.Services
 
             var sameTimeBookings = _unitOfWork.Bookings.GetFilteredAsync(
                 includeProperties: "",
-                filter: b => b.UserId == createDto.UserId && b.IsActive && !b.IsCancelled &&
+                filter: b => b.UserId == user.Id && b.IsActive && !b.IsCancelled &&
                              ((b.ActivityOccurence.StartTime < occurrence.EndTime && b.ActivityOccurence.StartTime > occurrence.StartTime) ||
                              (b.ActivityOccurence.EndTime > occurrence.StartTime && b.ActivityOccurence.EndTime < occurrence.EndTime) ||
                              (b.ActivityOccurence.StartTime < occurrence.StartTime && b.ActivityOccurence.EndTime > occurrence.EndTime)),
