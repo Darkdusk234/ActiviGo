@@ -4,8 +4,7 @@ import "./DisplayList.css";
 
 export default function DisplayList({ items, renderItem }) {
   return (
-    <div style={{ width: "100%", overflow: "hidden" }}>
-
+    <div className="display-list-container">
         <Swiper
         spaceBetween={20}
         slidesPerView="auto"

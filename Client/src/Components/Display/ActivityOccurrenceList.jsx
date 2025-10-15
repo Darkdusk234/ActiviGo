@@ -29,8 +29,8 @@ export default function ActivityOccurrenceList() {
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", height: "20vh" }}>
-          <DisplayList
+    <div>
+        <DisplayList
             items={occurrences}
             renderItem={(occurrence) => <ActivityOccurrenceCard occurrence={occurrence} />}
           />
