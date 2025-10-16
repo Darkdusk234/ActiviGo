@@ -8,14 +8,9 @@ import { useActivities } from '../../../contexts/ActivityContext';
 import { useLocations } from '../../../contexts/LocationContext';
 
 const OccurenceManagement = () => {
-    const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [occurences, setOccurences] = useState([]); // full list
     const [filteredOccurences, setFilteredOccurences] = useState([]); // filtered list
-    const [activityIdFilter, setActivityIdFilter] = useState('');
-    const [locationIdFilter, setLocationIdFilter] = useState('');
-    const [view, setView] = useState(false);
-
     const { categories } = useCategories();
     const { activities } = useActivities();
     const { locations } = useLocations();
@@ -25,12 +20,7 @@ const OccurenceManagement = () => {
     };
     const { user } = useAuth();
 
-    const handleActivityIdFilterChange = (e) => {
-        setActivityIdFilter(e.target.value);
-    };
-    const handleLocationIdFilterChange = (e) => {
-        setLocationIdFilter(e.target.value);
-    };
+
 
     const handleRemove = async (id) => {
         if (window.confirm(`Are you sure you want to remove occurence with id ${id}?`)) {
@@ -72,23 +62,38 @@ const OccurenceManagement = () => {
 
 const fetchResults = async (searchTerms) => {
     // Extract search terms
+    const locationId = locations.find(location => location.name === searchTerms.location)?.id || '';
+    const activityId = activities.find(activity => activity.name === searchTerms.activity)?.id || '';
+    const categoryId = categories.find(category => category.name === searchTerms.category)?.id || '';
+    const fromDate = searchTerms.fromDate || '';
+    const toDate = searchTerms.toDate || '';
+    const available = searchTerms.availableSpots;
+
+    setLoading(true);
+    await fetch('https://localhost:7201/api/ActivityOccurence/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            nameFilter: searchTerms.name,
+            locationId: locationId,
+            activityId: activityId,
+            categoryId: categoryId,
+            startTime: fromDate,
+            endTime: toDate,
+            availableToBook: available
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        setOccurences(data);
+        setLoading(false);
+    })
+    .catch(err => {
+        console.error('Error fetching search results:', err);
+        setLoading(false);
+    });
 };
 
-    useEffect(() => {
-        const fetchOccurences = async () => {
-            const response = await fetch('https://localhost:7201/api/ActivityOccurence', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                }
-            });
-            const data = await response.json();
-            setOccurences(data);
-            setFilteredOccurences(data);
-        };
-        fetchOccurences();
-    }, []);
 
 
     return (
@@ -117,7 +122,7 @@ const fetchResults = async (searchTerms) => {
                             <p>Loading...</p>
                         ) : (
                             <ul>
-                               {results.map((aresult, index) => (
+                               {occurences.map((aresult, index) => (
                                    <OccurenceListCard key={index} item={aresult} />
                                ))}
                             </ul>

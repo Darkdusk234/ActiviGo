@@ -141,12 +141,12 @@ const ActivityManagement = () => {
                 <div className = "admin-buttons">
                            <button className="btn" onClick={handleViewToggle}>View Activities</button>
                            <button className="btn">Add New</button>
-                           <button className="btn">Search</button>
                        </div>
                        <div className="view-toggle">
                         {!view ? (
                                <p></p>
-                           ) : (<div className="filter-list">
+                           ) : (<div>
+                            <div className="filter-list">
 
                                <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
                                <label>Minimumlängd:</label> <input type="number" placeholder="Min längd..." onChange={handleLengthFilterChange} />
@@ -159,10 +159,13 @@ const ActivityManagement = () => {
                                           <option key={category.id} value={category.id}>{category.name}</option>
                                       ))}
                                </select>
+                               </div>
+                               <div className="results-section">
                            {filteredActivities.map(activity => (
                                <ActivityListCard key={activity.id} item={activity} removeActivity={handleRemove} editActivity={handleEdit}/>
                            ))}
-                       </div>
+                            </div>
+                          </div>
                            )}
                        </div>
                       
