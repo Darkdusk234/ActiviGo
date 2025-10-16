@@ -4,12 +4,33 @@ import SubLocationListCard from './SubLocationListCard';
 import './Admin.css';
 
 const SubLocationManagement = () => {
-    const [subLocations, setSubLocations] = useState([]);
+    const [subLocations, setSubLocations] = useState([]); // full list
+    const [filteredSubLocations, setFilteredSubLocations] = useState([]); // filtered list
+    const [nameFilter, setNameFilter] = useState('');
+    const [view, setView] = useState(false);
+
+    const handleViewToggle = () => {
+        setView(!view);
+    };
+
+    const handleFilterChange = (e) => {
+        const value = e.target.value;
+        setNameFilter(value);
+        setFilteredSubLocations(
+            subLocations.filter(subLocation =>
+                subLocation.name.toLowerCase().includes(value.toLowerCase())
+            )
+        );
+    };
     const { user } = useAuth();
 
     const handleRemove = async (id) => {
         if (window.confirm(`Are you sure you want to remove sublocation with id ${id}?`)) {
-            setSubLocations(subLocations.filter(subLocation => subLocation.id !== id));
+            const newSubLocations = subLocations.filter(subLocation => subLocation.id !== id);
+            setSubLocations(newSubLocations);
+            setFilteredSubLocations(newSubLocations.filter(subLocation =>
+                subLocation.name.toLowerCase().includes(nameFilter.toLowerCase())
+            ));
             await fetch(`https://localhost:7201/api/SubLocation/${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -30,6 +51,12 @@ const SubLocationManagement = () => {
                 },
                 body: JSON.stringify(subLocation)
             });
+            // update local state
+            const newSubLocations = subLocations.map(loc => loc.id === subLocation.id ? { ...loc, ...subLocation } : loc);
+            setSubLocations(newSubLocations);
+            setFilteredSubLocations(newSubLocations.filter(loc =>
+                loc.name.toLowerCase().includes(nameFilter.toLowerCase())
+            ));
         }
     };
 
@@ -44,6 +71,9 @@ const SubLocationManagement = () => {
             });
             const data = await response.json();
             setSubLocations(data);
+            setFilteredSubLocations(data.filter(subLocation =>
+                subLocation.name.toLowerCase().includes(nameFilter.toLowerCase())
+            ));
         };
         fetchSubLocations();
     }, [handleEdit]);
@@ -51,13 +81,33 @@ const SubLocationManagement = () => {
     return (
         <>
             <h1>SubLocation Management</h1>
-            <div className="management-items-container">
-                {!user ? <p>Please log in to manage sublocations.</p> : (
-                    subLocations.map(subLocation => (
-                        <SubLocationListCard key={subLocation.id} item={subLocation} removeSubLocation={handleRemove} editSubLocation={handleEdit} />
-                    ))
-                )}
-            </div>
+                    <div className="management-items-container">
+            {!user ? <p>Please log in to manage sublocations.</p> : (
+                <>
+                <div className = "admin-buttons">
+                           <button className="btn" onClick={() => setView(!view)}>View SubLocations</button>
+                           <button className="btn">Add New</button>
+                           <button className="btn">Search</button>
+                       </div>
+                       <div className="view-toggle">
+                        {!view ? (
+                               <p></p>
+                           ) : (<div className="filter-list">
+
+                               <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
+
+                           {filteredSubLocations.map(subLocation => (
+                               <SubLocationListCard key={subLocation.id} item={subLocation} removeSubLocation={handleRemove} editSubLocation={handleEdit}/>
+                           ))}
+                       </div>
+                           )}
+                       </div>
+                      
+                  
+                
+                </>
+            )}
+        </div>
         </>
     );
 };

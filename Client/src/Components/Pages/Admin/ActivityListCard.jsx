@@ -39,7 +39,7 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
                         description: formData.get("description"),
                         durationInMinutes: formData.get("durationInMinutes"),
                         price: formData.get("price"),
-                        category: formData.get("category")
+                        categoryId: categories.find(cat => cat.name === formData.get("category"))?.id || null
                     };
                     editActivity(updatedActivity);
                     setEditMode(false);
@@ -56,7 +56,7 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
                         <input type="number" step="10" className="input-number" id="price" name="price" defaultValue={item.price} />
                             <p>Category:</p>
                             <select id ="category" name="category">
-                                <option value="">{item.categoryId}</option>
+                                <option value="">{categories.find(cat => cat.id === item.categoryId)?.name}</option>
                                 {categoryNames.map((category, index) => (
                                     <option key={index} value={category}>{category}</option>
                                 ))}
@@ -78,12 +78,14 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
                             <div className="details-view">
                                 <p>Description:</p>
                                 <p className="Description">{item.description}</p>
+                                <p>Max participants: </p>
+                                <p className="MaxCapacity">{item.maxParticipants}</p>
                                 <p>Duration:</p>
                                 <p className="Duration">{item.durationInMinutes} minutes</p>
                                 <p>Price:</p>
                                 <p className="Price">{Number.parseFloat(item.price).toFixed(2)} SEK</p>
-                                <p>CategoryId:</p>
-                                <p className="CategoryId">{item.categoryId} (want name)</p>
+                                <p>Category:</p>
+                                <p className="CategoryId">{categories.find(cat => cat.id === item.categoryId)?.name}</p>
                             </div>
                         )}
                     </div>

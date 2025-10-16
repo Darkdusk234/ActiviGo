@@ -178,3 +178,32 @@ button:hover {
     box-shadow: -2px -2px 5px rgb(179, 177, 177);
     
 }
+
+.filter-list input {
+    margin-bottom: 20px;
+    padding: 8px;
+    width: 50%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.filter-list {
+    display: grid;
+    grid-template-columns: 50% ;
+}
+
+.filter-list select {
+    margin-bottom: 20px;
+    min-height: 50px;  
+    padding: 8px;
+    min-width: 70%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.filter-list select option {
+    padding: 8px;
+    height: 40px;   
+}
