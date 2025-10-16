@@ -36,7 +36,7 @@ namespace ActiviGoApi.Services.Interfaces
         /// <param name="createDto">The data used to create the booking.</param>
         /// <param name="ct">Cancellation token to cancel the operation.</param>
         /// <returns>The created booking DTO.</returns>
-        Task<BookingReadDTO> AddAsync(BookingCreateDTO createDto, CancellationToken ct);
+        Task<BookingReadDTO> AddAsync(BookingCreateDTO createDto, string userName, CancellationToken ct);
 
         /// <summary>
         /// Updates an existing booking.
