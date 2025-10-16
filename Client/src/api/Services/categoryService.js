@@ -1,9 +1,12 @@
-const API_URL = "http://localhost:5210/api";
+
+const API_URL = "https://localhost:7201/api";
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('authToken');
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
+
+
 
 export const getCategories = async () => {
   const res = await fetch(`${API_URL}/Category`, {
@@ -14,6 +17,7 @@ export const getCategories = async () => {
   if (!res.ok) throw new Error("Kunde inte hämta kategorier");
   return res.json();
 };
+
 
 export const getCategoryById = async (id) => {
   const res = await fetch(`${API_URL}/Category/${id}`, {

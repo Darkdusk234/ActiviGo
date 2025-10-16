@@ -13,7 +13,11 @@ namespace ActiviGoApi.Services.Mapping
     {
         public ActivityOccurenceMappingProfile()
         {
-            CreateMap<ActivityOccurence, ActivityOccurenceResponseDTO>();
+            CreateMap<ActivityOccurence, ActivityOccurenceResponseDTO>()
+                    .ForMember(dest => dest.ActivityName, opt => opt.MapFrom(src => src.Activity.Name))
+                    .ForMember(dest => dest.IMGUrl, opt => opt.MapFrom(src => src.Activity.IMGUrl))
+                    .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Activity.Price))
+                    .ForMember(dest => dest.SubLocationName, opt => opt.MapFrom(src => src.SubLocation.Name));
 
             CreateMap<CreateActivityOccurrenceDTO, ActivityOccurence>()
                     .ForMember(dest => dest.Id, opt => opt.Ignore())
