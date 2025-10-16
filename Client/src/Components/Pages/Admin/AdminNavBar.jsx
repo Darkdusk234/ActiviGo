@@ -1,18 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import './Admin.css';
 
 const AdminNavBar = () => {
     return (
         <nav className="admin-nav">
-            <ul>
-                <li><Link to="/admin">Dashboard</Link></li>
-                <li><Link to="/admin/users">Manage Users</Link> *</li>
-                <li><Link to="/admin/activities">Manage Activities</Link></li>
-                <li><Link to="/admin/categories">Manage Categories</Link></li>
-                <li><Link to="/admin/locations">Manage Locations</Link></li>
-                <li><Link to="/admin/sublocations">Manage Sublocations</Link></li>
-                <li><Link to="/admin/settings">Site Settings</Link> *</li>
-            </ul>
+            <Link to="/admin">Dashboard</Link>
+            <Link to="/admin/users">Manage Users*</Link>
+            <Link to="/admin/activities">Manage Activities</Link>
+            <Link to="/admin/categories">Manage Categories</Link>
+            <Link to="/admin/locations">Manage Locations</Link>
+            <Link to="/admin/sublocations">Manage Sublocations</Link>
+            <Link to="/admin/settings">Site Settings*</Link>
+
         </nav>
     );
 };

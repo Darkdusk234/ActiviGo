@@ -147,3 +147,34 @@ select {
 button:hover {
     background-color: #0056b3;
 }
+
+.admin-nav {
+    background-color: #333;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 8%;
+    margin-bottom: 20px;
+}
+
+.admin-nav a {
+    color: white;
+    text-decoration: none;
+    border: 1px solid grey;
+    padding: 8px 12px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 2px rgb(179, 177, 177);
+    margin: 10px 10px;
+}
+
+.admin-nav a:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+.admin-nav a:active {
+
+    box-shadow: -2px -2px 5px rgb(179, 177, 177);
+    
+}

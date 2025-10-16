@@ -5,11 +5,12 @@ import './Admin.css';
 
 const AdminDashboard = () => {
 
-    const { user } = useAuth;
+    const { user } = useAuth();
+
     return (
         <div className="admin-dashboard">
             <h1>Admin Dashboard</h1>
-            {!user ? <LoginForm/> : <p>Welcome, {user.name}!</p>}
+            {!user ? <LoginForm/> : <p>En liten dashboard</p>}
         </div>
     );
 };
