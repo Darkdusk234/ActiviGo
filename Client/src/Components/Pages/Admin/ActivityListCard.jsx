@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useCategories } from "../../../contexts/CategoryContext";
+import './Admin.css';
 
 const ActivityListCard = ({ item, removeActivity, editActivity }) => {
     const [editMode, setEditMode] = useState(false);
     const [viewDetails, setViewDetails] = useState(false);
     const { categories, loadingCategories, errorCategories } = useCategories();
     const [categoryNames, setCategoryNames] = useState([]);
+
+            // Close details view when clicking outside
+        const handleClickOutside = (event) => {
+            if (!event.target.closest('.details-view') && !event.target.closest('.details')) {
+                setViewDetails(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
 
     useEffect( () => {
         const getData = async () => {
@@ -26,7 +36,10 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
                     const updatedActivity = {
                         id: item.id,
                         name: formData.get("name"),
-                        description: formData.get("description")
+                        description: formData.get("description"),
+                        durationInMinutes: formData.get("durationInMinutes"),
+                        price: formData.get("price"),
+                        category: formData.get("category")
                     };
                     editActivity(updatedActivity);
                     setEditMode(false);
@@ -43,7 +56,7 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
                         <input type="number" step="10" className="input-number" id="price" name="price" defaultValue={item.price} />
                             <p>Category:</p>
                             <select id ="category" name="category">
-                                <option value="">Alla</option>
+                                <option value="">{item.categoryId}</option>
                                 {categoryNames.map((category, index) => (
                                     <option key={index} value={category}>{category}</option>
                                 ))}
