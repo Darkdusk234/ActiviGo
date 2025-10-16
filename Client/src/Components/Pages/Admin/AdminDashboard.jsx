@@ -1,9 +1,15 @@
 import React from "react";
+import { useAuth } from "../../../contexts/AuthContext";
+import LoginForm from "../..//LoginForm";
+import './Admin.css';
 
 const AdminDashboard = () => {
+
+    const { user } = useAuth;
     return (
-        <div>
+        <div className="admin-dashboard">
             <h1>Admin Dashboard</h1>
+            {!user ? <LoginForm/> : <p>Welcome, {user.name}!</p>}
         </div>
     );
 };
