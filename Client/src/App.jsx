@@ -12,6 +12,8 @@ import ActivityManagement from './Components/Pages/Admin/ActivityManagement';
 import LocationManagement from './Components/Pages/Admin/LocationManagement';
 import SubLocationManagement from './Components/Pages/Admin/SubLocationManagement';
 import CategoryManagement from './Components/Pages/Admin/CategoryManagement';
+import OccurenceManagement from './Components/Pages/Admin/OccurenceManagement';
+import BookingManagement from './Components/Pages/Admin/BookingManagement';
 
 
 function App() {
@@ -31,6 +33,8 @@ function App() {
           <Route path="/admin/locations" element={<LocationManagement />} />
           <Route path="/admin/sublocations" element={<SubLocationManagement />} />
           <Route path="/admin/categories" element={<CategoryManagement />} />
+          <Route path="/admin/occurences" element={<OccurenceManagement />} />
+          <Route path="/admin/bookings" element={<BookingManagement />} />
         </Route>
       </Routes>
     </BrowserRouter>

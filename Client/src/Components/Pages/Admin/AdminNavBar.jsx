@@ -7,6 +7,8 @@ const AdminNavBar = () => {
         <nav className="admin-nav">
             <Link to="/admin">Dashboard</Link>
             <Link to="/admin/users">Manage Users*</Link>
+            <Link to="/admin/occurences">Manage Occurrences*</Link>
+            <Link to="/admin/bookings">Manage Bookings*</Link>
             <Link to="/admin/activities">Manage Activities</Link>
             <Link to="/admin/categories">Manage Categories</Link>
             <Link to="/admin/locations">Manage Locations</Link>
