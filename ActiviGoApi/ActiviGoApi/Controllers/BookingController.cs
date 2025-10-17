@@ -129,9 +129,11 @@ namespace ActiviGoApi.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CancelBooking(int id, CancellationToken ct)
         {
+            var userName = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             try
             {
-                await _service.CancelBookingAsync(id, ct);
+                await _service.CancelBookingAsync(id, userName, ct);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)
