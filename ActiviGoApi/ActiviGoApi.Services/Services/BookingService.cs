@@ -235,12 +235,22 @@ namespace ActiviGoApi.Services
         public async Task CancelBookingAsync(int id, string userName, CancellationToken ct)
         {
             var booking = await _unitOfWork.Bookings.GetByIdAsync(id, ct);
+            var user = await _userManager.FindByIdAsync(booking.UserId);
+            var roles = await _userManager.GetRolesAsync(user).WaitAsync(ct);
 
             if (booking == null)
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
 
             if (booking.IsCancelled == true)
                 throw new ArgumentException($"Booking with id {id} is already cancelled.");
+
+            if(user.Id != booking.UserId)
+            {
+                if(!roles.Contains("Admin"))
+                {
+                    throw new UnauthorizedAccessException("You are not authorized to cancel this booking.");
+                }
+            }
 
             booking.IsActive = false;
             booking.IsCancelled = true;
