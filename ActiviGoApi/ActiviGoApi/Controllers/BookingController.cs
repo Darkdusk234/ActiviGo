@@ -106,9 +106,11 @@ namespace ActiviGoApi.Api.Controllers
                 return BadRequest($"Validation failed: {errors}");
             }
 
+            var userName = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             try
             {
-                var updated = await _service.UpdateAsync(id, updateDto, ct);
+                var updated = await _service.UpdateAsync(id, updateDto, userName, ct);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)
