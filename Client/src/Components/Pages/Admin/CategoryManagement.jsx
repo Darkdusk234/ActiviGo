@@ -94,7 +94,6 @@ const CategoryManagement = () => {
                 <div className = "admin-buttons">
                            <button className="btn" onClick={() => setView(!view)}>View Categories</button>
                            <button className="btn">Add New</button>
-                           <button className="btn">Search</button>
                        </div>
                        <div className="view-toggle">
                         {!view ? (

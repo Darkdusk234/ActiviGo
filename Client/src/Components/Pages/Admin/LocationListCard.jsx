@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './Admin.css';
+import { Link } from "react-router-dom";
 
 const LocationListCard = ({ item, removeLocation, editLocation }) => {
     const [editMode, setEditMode] = useState(false);
@@ -75,6 +76,7 @@ const LocationListCard = ({ item, removeLocation, editLocation }) => {
                     <div className="admin-list-card-buttons">
                         <button onClick={() => setEditMode(true)}>Edit</button>
                         <button onClick={() => removeLocation(item.id)}>Remove</button>
+                        <Link to={`/admin/sublocations/${item.id}`}>View sub-locations</Link>
                     </div>
                 </>
             )}
