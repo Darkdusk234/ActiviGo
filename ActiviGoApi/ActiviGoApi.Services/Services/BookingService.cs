@@ -232,7 +232,7 @@ namespace ActiviGoApi.Services
         }
 
         /// <inheritdoc/>
-        public async Task CancelBookingAsync(int id, CancellationToken ct)
+        public async Task CancelBookingAsync(int id, string userName, CancellationToken ct)
         {
             var booking = await _unitOfWork.Bookings.GetByIdAsync(id, ct);
 
