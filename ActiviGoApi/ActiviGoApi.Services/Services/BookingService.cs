@@ -160,7 +160,7 @@ namespace ActiviGoApi.Services
         }
 
         /// <inheritdoc />
-        public async Task<BookingReadDTO> UpdateAsync(int id, BookingUpdateDTO updateDto, CancellationToken ct)
+        public async Task<BookingReadDTO> UpdateAsync(int id, BookingUpdateDTO updateDto, string userName, CancellationToken ct)
         {
             var existing = await _unitOfWork.Bookings.GetByIdAsync(id, ct);     // is thier a booking?
             if (existing == null)
