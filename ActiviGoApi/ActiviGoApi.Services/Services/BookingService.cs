@@ -169,13 +169,26 @@ namespace ActiviGoApi.Services
             }
 
             var user = await _userManager.FindByIdAsync(existing.UserId);   // is user alive?
+            var loggedInUser = await _userManager.FindByNameAsync(userName); // who is logged in?
+            var roles = await _userManager.GetRolesAsync(loggedInUser).WaitAsync(ct); // what roles does logged in user have?
+
             if (user == null)
             {
                 throw new KeyNotFoundException($"User with id {existing.UserId} was not found.");
             }
+
             if (user.IsSuspended)   // is user a victim of cancell culture
             {
                 throw new InvalidOperationException($"User '{user.FirstName} {user.LastName}' is suspended and cannot modify bookings.");
+            }
+
+
+            if(user.Id != loggedInUser.Id)   // is user trying to modify someone elses booking? 
+            {
+                if (!roles.Contains("Admin"))
+                {
+                    throw new UnauthorizedAccessException("You are not authorized to update this booking.");
+                }
             }
 
             if (updateDto.Participants != existing.Participants)    // if number of participants is changing
