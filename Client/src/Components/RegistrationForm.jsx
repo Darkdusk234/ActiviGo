@@ -9,6 +9,7 @@ const RegistrationForm = () => {
     const [lastName, setLastName] = useState("");
     const [birthDate, setBirthDate] = useState("");
     const [address, setAddress] = useState("");
+    const { register } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
