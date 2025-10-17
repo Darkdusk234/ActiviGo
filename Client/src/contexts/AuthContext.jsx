@@ -15,13 +15,16 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         // Check if user is logged in on component mount
         const fetchUser = async () => {
-            fetch('https://localhost:7201/api/Auth/AuthCheck')
+            fetch('https://localhost:7201/api/Auth/AuthCheck', { method: 'GET', headers: { 'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}` } })
             .then(response => response.json())
             .then(data => {
-                if (data.user) {
-                    setUser(data.user);
+                
+                    setUser(data);
                     setLoading(false);
-                }
+                    
+                    console.log("logged in");
+                
             })
             .catch((e) => {
                 console.log("not logged in");
@@ -29,7 +32,7 @@ export const AuthProvider = ({ children }) => {
             });
         };
         fetchUser();
-        setLoading(false);
+        
         }, []);
 
     const setToken = (token) => {
@@ -49,7 +52,7 @@ export const AuthProvider = ({ children }) => {
             throw new Error('Login failed');
         })
         .then(data => {
-            setToken(data);
+            setToken(data.token);
             setUser(data);
             
             
@@ -84,7 +87,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={{ user, login, logout }}>      
-            {loading ? <div>Loading...</div> : children}
+            {children}
         </AuthContext.Provider>
     );
 
