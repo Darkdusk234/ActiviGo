@@ -40,9 +40,11 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence }) => {
                         {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Click for more details...</p>}
                         {viewDetails && (
                             <div className="details-view">
-                                <p>Start Time: {item.startTime}</p>
-                                <p>End Time: {item.endTime}</p>
-                                <p>Location ID: {item.locationId}</p>
+                                <p>Start Time: </p><p>{item.startTime}</p>
+                                <p>End Time: </p><p>{item.endTime}</p>
+                                <p>Location ID: </p><p>{item.locationId}</p>
+                                <p>Category ID: </p><p>{item.categoryId}</p>
+                                <p>Activity ID: </p><p>{item.activityId}</p>
                             </div>
                         )}
                     </div>

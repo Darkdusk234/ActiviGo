@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useCategories } from "../../../contexts/CategoryContext";
 import './Admin.css';
+import { Link } from "react-router-dom";
 
 const ActivityListCard = ({ item, removeActivity, editActivity }) => {
     const [editMode, setEditMode] = useState(false);
@@ -92,6 +93,7 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
                     <div className="admin-list-card-buttons">
                         <button onClick={() => setEditMode(true)}>Edit</button>
                         <button onClick={() => removeActivity(item.id)}>Remove</button>
+                        <Link to={`/admin/occurrences/activity/${item.id}`}>View Occurrences</Link>
                     </div>
                 </>
             )}

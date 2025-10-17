@@ -6,134 +6,56 @@ import DetailedSearch from '../../DetailedSearch';
 import { useCategories } from '../../../contexts/CategoryContext';
 import { useActivities } from '../../../contexts/ActivityContext';
 import { useLocations } from '../../../contexts/LocationContext';
+import { useParams } from 'react-router-dom';
 
 const OccurenceManagement = () => {
-    const [loading, setLoading] = useState(true);
-    const [occurences, setOccurences] = useState([]); // full list
-    const [filteredOccurences, setFilteredOccurences] = useState([]); // filtered list
-    const { categories } = useCategories();
-    const { activities } = useActivities();
-    const { locations } = useLocations();
 
-    const handleViewToggle = () => {
-        setView(!view);
-    };
     const { user } = useAuth();
+    const { id } = useParams();
+    const { filter } = useParams();
+    console.log(useParams());
+    const [occurrences, setOccurrences] = useState([]);
+    const [idName, setIdName]   = useState('');
 
+    useEffect(() => {
+        // fetch all occurences
+        
+        const fetchOccurrences = async () => {
+            try {
+                const response = await fetch(`https://localhost:7201/api/ActivityOccurence`);
+                const data = await response.json();
+                setOccurrences(data);
+                
+            } catch (error) {
+                console.error("Error fetching occurrences:", error);
+            }
+        };
 
+        fetchOccurrences();
+    }, []);
 
-    const handleRemove = async (id) => {
-        if (window.confirm(`Are you sure you want to remove occurence with id ${id}?`)) {
-            const newOccurences = occurences.filter(occurence => occurence.id !== id);
-            setOccurences(newOccurences);
-            setFilteredOccurences(newOccurences.filter(occurence =>
-                (activityIdFilter ? occurence.activityId.toString().includes(activityIdFilter) : true) &&
-                (locationIdFilter ? occurence.locationId.toString().includes(locationIdFilter) : true)
-            ));
-            await fetch(`https://localhost:7201/api/ActivityOccurence/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                }
-            });
-        }
-    };
-
-    const handleEdit = async (occurence) => {
-        if (window.confirm(`Are you sure you want to edit occurence with id ${occurence.id}?`)) {
-            await fetch(`https://localhost:7201/api/ActivityOccurence/${occurence.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                },
-                body: JSON.stringify(occurence)
-            });
-            // update local state
-            const newOccurences = occurences.map(o => o.id === occurence.id ? { ...o, ...occurence } : o);
-            setOccurences(newOccurences);
-            setFilteredOccurences(newOccurences.filter(o =>
-                (activityIdFilter ? o.activityId.toString().includes(activityIdFilter) : true) &&
-                (locationIdFilter ? o.locationId.toString().includes(locationIdFilter) : true)
-            ));
-        }
-    };
-
-const fetchResults = async (searchTerms) => {
-    // Extract search terms
-    const locationId = locations.find(location => location.name === searchTerms.location)?.id || '';
-    const activityId = activities.find(activity => activity.name === searchTerms.activity)?.id || '';
-    const categoryId = categories.find(category => category.name === searchTerms.category)?.id || '';
-    const fromDate = searchTerms.fromDate || '';
-    const toDate = searchTerms.toDate || '';
-    const available = searchTerms.availableSpots;
-
-    setLoading(true);
-    await fetch('https://localhost:7201/api/ActivityOccurence/search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            nameFilter: searchTerms.name,
-            locationId: locationId,
-            activityId: activityId,
-            categoryId: categoryId,
-            startTime: fromDate,
-            endTime: toDate,
-            availableToBook: available
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        setOccurences(data);
-        setLoading(false);
-    })
-    .catch(err => {
-        console.error('Error fetching search results:', err);
-        setLoading(false);
-    });
-};
-
+    const filterOccurences = (filter, id) => {
+        if(filter === 'activity')
+            return occurrences.filter(occ => occ.activityId.toString() === id);
+        // if(filter === 'location')
+        //     return occurrences.filter(occ => occ.locationId.toString() === id);
+        if(filter === 'sublocation')
+            return occurrences.filter(occ => occ.subLocationId.toString() === id);
+        // if(filter === 'category')
+        //     return occurrences.filter(occ => occ.categoryId.toString() === id);
+    }
 
 
     return (
         <>
+        <div className="management-items-container">
             <h1>Occurence Management</h1>
-                    <div className="management-items-container">
-            {!user ? <p>Please log in to manage activities.</p> : (
-                <>
-                <div className = "admin-buttons">
-                           <button className="btn" onClick={handleViewToggle}>Search Occurences</button>
-                          
-                          
-                       </div>
-                       <div className="view-toggle">
-                        {!view ? (
-                               <p></p>
-                           ) : (<div className="filter-list">
-
-                               <DetailedSearch fetchResults={fetchResults} />
-                           
-                       </div>
-                           )}
-                        </div>
-                        <div className="results-section">
-                        {loading ? (
-                            <p>Loading...</p>
-                        ) : (
-                            <ul>
-                               {occurences.map((aresult, index) => (
-                                   <OccurenceListCard key={index} item={aresult} />
-                               ))}
-                            </ul>
-                        )}
-                       </div>
-                      
-                  
-                
-                </>
-            )}
+            <h2>Occurences by: {filter}: {id}</h2>
+            {filterOccurences(filter, id).map(occ => (
+                <OccurenceListCard key={occ.id} item={occ} />
+            ))}
         </div>
+           
         </>
     );
 };
