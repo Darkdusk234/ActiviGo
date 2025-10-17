@@ -67,6 +67,21 @@ export const AuthProvider = ({ children }) => {
         });
     };
 
+    const register = (registrationInfo) => {
+        fetch('https://localhost:7201/api/Auth', {
+            method: 'Post',
+            headers: {  'Content-Type': 'application/json' },
+            body: JSON.stringify(registrationInfo)
+        })
+        .then(response => {
+            if(response.ok)
+            {
+                return "Registration complete."
+            }
+            throw new Error('Registration Failed')
+        })
+    }
+
     return (
         <AuthContext.Provider value={{ user, login, logout }}>      
             {loading ? <div>Loading...</div> : children}
