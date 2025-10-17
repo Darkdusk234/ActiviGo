@@ -8,7 +8,25 @@ const RegistrationForm = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [birthDate, setBirthDate] = useState("");
-    const [adress, setAdress] = useState("");
+    const [address, setAddress] = useState("");
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try
+        {
+            const result = await register({ userName, email, password, firstName, lastName, birthDate, address})
+            if(result)
+            {
+                console.log(result);
+                // maybe log person in or redirect back to home page?
+            }
+        }
+        catch (error)
+        {
+            console.error('Login failed:', error);
+        }
+    }
+
   return (
     <>
     <form onSubmit={handleSubmit}>
@@ -56,9 +74,9 @@ const RegistrationForm = () => {
             />
             <input
                 type="text"
-                value={adress}
-                onChange={(e) => setAdress(e.target.value)}
-                placeholder="Adress"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Address"
                 required
             />
             <button type="submit">Register</button>
