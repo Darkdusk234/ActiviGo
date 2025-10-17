@@ -53,7 +53,7 @@ namespace ActiviGoApi.Services.Interfaces
         /// <param name="id">The ID of the booking to cancel.</param>
         /// <param name="ct">Cancellation token to cancel the operation.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task CancelBookingAsync(int id, CancellationToken ct);
+        Task CancelBookingAsync(int id, string userName, CancellationToken ct);
 
         /// <summary>
         /// Deletes a booking by its ID.
