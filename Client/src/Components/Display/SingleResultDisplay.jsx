@@ -29,8 +29,8 @@ const SingleResultDisplay = ({result}) => {
         const [startDatePart, startTimePart] = startTime.split('T');
         const [endDatePart, endTimePart] = endTime.split('T');
         setDate(startDatePart);
-        setStartTime(startTimePart);
-        setEndTime(endTimePart);
+        setStartTime(startTimePart.slice(0,-3));
+        setEndTime(endTimePart.slice(0,-3));
     }
 
     return(
@@ -43,7 +43,8 @@ const SingleResultDisplay = ({result}) => {
             <p>time: {startTime} - {endTime}</p>
             <p>Category: {result.categoryName}</p>
             <p>Location: {result.subLocationName}, {result.locationName} </p>
-            <img src="bild"/>
+            <p>Price: {!result.price ? 0 : result.price} SEK</p>
+            <img src={result.imgUrl} alt={result.activityName}/>
             
             {!showBook ? <button>Boka</button> : ""}
         </div>
