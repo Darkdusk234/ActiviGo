@@ -14,10 +14,10 @@ useEffect(() => {
     const fetchResults = async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://localhost:5210/api/ActivityOccurence/general-search", {
+        const res = await fetch("http://localhost:7201/api/ActivityOccurence/general-search", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query }) // skickar query till backend
+          body: JSON.stringify({ query })
         });
         const data = await res.json();
         setResults(data);
