@@ -34,10 +34,12 @@ namespace ActiviGoApi.Services.Services
         public async Task<IEnumerable<ActivityOccurenceResponseDTO>> GetGeneralSearchAsync(GeneralSearchDTO dto, CancellationToken ct = default)
         {
             //var occurrences = await _unitOfWork.ActivityOccurrences.GetAllAsync(ct);
-            var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(includeProperties: "Activity,SubLocation");
+            var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(includeProperties: "Activity,SubLocation,SubLocation.Location,Activity.Category");
             var filteredOccurrences = occurrences.Where(fo => 
                 (fo.Activity != null && fo.Activity.Name != null && fo.Activity.Name.Contains(dto.Query, StringComparison.OrdinalIgnoreCase))
                 || (fo.SubLocation != null && fo.SubLocation.Name != null && fo.SubLocation.Name.Contains(dto.Query, StringComparison.OrdinalIgnoreCase))
+                || (fo.SubLocation.Location != null && fo.SubLocation.Location.Name != null && fo.SubLocation.Location.Name.Contains(dto.Query, StringComparison.OrdinalIgnoreCase))
+                || (fo.Activity.Category != null && fo.Activity.Category.Name != null && fo.Activity.Category.Name.Contains(dto.Query, StringComparison.OrdinalIgnoreCase))
              );
 
             if (filteredOccurrences == null || !filteredOccurrences.Any())
