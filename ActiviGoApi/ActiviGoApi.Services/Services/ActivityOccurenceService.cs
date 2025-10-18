@@ -31,6 +31,23 @@ namespace ActiviGoApi.Services.Services
             return _mapper.Map<IEnumerable<ActivityOccurenceResponseDTO>>(occurrences);
         }
 
+        public async Task<IEnumerable<ActivityOccurenceResponseDTO>> GetGeneralSearchAsync(GeneralSearchDTO dto, CancellationToken ct = default)
+        {
+            //var occurrences = await _unitOfWork.ActivityOccurrences.GetAllAsync(ct);
+            var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(includeProperties: "Activity,SubLocation");
+            var filteredOccurrences = occurrences.Where(fo => 
+                (fo.Activity != null && fo.Activity.Name != null && fo.Activity.Name.Contains(dto.Query, StringComparison.OrdinalIgnoreCase))
+                || (fo.SubLocation != null && fo.SubLocation.Name != null && fo.SubLocation.Name.Contains(dto.Query, StringComparison.OrdinalIgnoreCase))
+             );
+
+            if (filteredOccurrences == null || !filteredOccurrences.Any())
+            {
+                throw new KeyNotFoundException($"No occurrences found matching query: {dto.Query}");
+            }
+            
+            return _mapper.Map<IEnumerable<ActivityOccurenceResponseDTO>>(filteredOccurrences);
+        }
+
         public async Task<ActivityOccurenceResponseDTO?> GetByIdAsync(int id, CancellationToken ct = default)
         {
             var occurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(id, ct);
