@@ -1,0 +1,23 @@
+.searchform {
+    display: flex;
+    margin: 1rem 1rem;
+    justify-content: center;
+    z-index: 1000;
+    width: 100%;
+    background-color: #dbdbe1;
+}
+
+.searchform .input {
+    background-color: #fff;
+    color: #101010;
+}
+
+.searchform button {
+    background-color: #ff6464;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}

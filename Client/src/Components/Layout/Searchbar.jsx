@@ -1,6 +1,7 @@
 // SearchBar.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Searchbar.css";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
