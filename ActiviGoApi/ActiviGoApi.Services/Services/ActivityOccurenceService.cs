@@ -159,7 +159,7 @@ namespace ActiviGoApi.Services.Services
 
         public async Task<IEnumerable<ActivityOccurenceResponseDTO>> GetFilteredActivityOccurences(ActivityOccurenceSearchFilterDTO dto, CancellationToken ct = default)
         {
-            var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(includeProperties: "Activity",FilterFunction(dto), ct);
+            var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(includeProperties: "Activity,Activity.Category,SubLocation,SubLocation.Location",FilterFunction(dto), ct);
             return _mapper.Map<IEnumerable<ActivityOccurenceResponseDTO>>(occurrences);
         }
 
@@ -167,6 +167,8 @@ namespace ActiviGoApi.Services.Services
         {
             return x => (dto.ActivityId == null || x.ActivityId == dto.ActivityId) &&
                          (dto.SubLocationId == null || x.SubLocationId == dto.SubLocationId) &&
+                         (dto.ActivityId == null || x.ActivityId == dto.ActivityId) &&
+                            (dto.LocationId == null || x.SubLocation.LocationId == dto.LocationId) &&
                          (dto.StartTime == null || x.StartTime >= dto.StartTime) &&
                          (dto.EndTime == null || x.EndTime <= dto.EndTime) &&
                          (dto.AvailableToBook == null || x.AvailableSpots >= 0) &&

@@ -160,7 +160,7 @@ namespace ActiviGoApi.Services
         }
 
         /// <inheritdoc />
-        public async Task<BookingReadDTO> UpdateAsync(int id, BookingUpdateDTO updateDto, CancellationToken ct)
+        public async Task<BookingReadDTO> UpdateAsync(int id, BookingUpdateDTO updateDto, string userName, CancellationToken ct)
         {
             var existing = await _unitOfWork.Bookings.GetByIdAsync(id, ct);     // is thier a booking?
             if (existing == null)
@@ -169,13 +169,26 @@ namespace ActiviGoApi.Services
             }
 
             var user = await _userManager.FindByIdAsync(existing.UserId);   // is user alive?
+            var loggedInUser = await _userManager.FindByNameAsync(userName); // who is logged in?
+            var roles = await _userManager.GetRolesAsync(loggedInUser).WaitAsync(ct); // what roles does logged in user have?
+
             if (user == null)
             {
                 throw new KeyNotFoundException($"User with id {existing.UserId} was not found.");
             }
+
             if (user.IsSuspended)   // is user a victim of cancell culture
             {
                 throw new InvalidOperationException($"User '{user.FirstName} {user.LastName}' is suspended and cannot modify bookings.");
+            }
+
+
+            if(user.Id != loggedInUser.Id)   // is user trying to modify someone elses booking? 
+            {
+                if (!roles.Contains("Admin"))
+                {
+                    throw new UnauthorizedAccessException("You are not authorized to update this booking.");
+                }
             }
 
             if (updateDto.Participants != existing.Participants)    // if number of participants is changing
@@ -219,15 +232,25 @@ namespace ActiviGoApi.Services
         }
 
         /// <inheritdoc/>
-        public async Task CancelBookingAsync(int id, CancellationToken ct)
+        public async Task CancelBookingAsync(int id, string userName, CancellationToken ct)
         {
             var booking = await _unitOfWork.Bookings.GetByIdAsync(id, ct);
+            var user = await _userManager.FindByIdAsync(booking.UserId);
+            var roles = await _userManager.GetRolesAsync(user).WaitAsync(ct);
 
             if (booking == null)
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
 
             if (booking.IsCancelled == true)
                 throw new ArgumentException($"Booking with id {id} is already cancelled.");
+
+            if(user.Id != booking.UserId)
+            {
+                if(!roles.Contains("Admin"))
+                {
+                    throw new UnauthorizedAccessException("You are not authorized to cancel this booking.");
+                }
+            }
 
             booking.IsActive = false;
             booking.IsCancelled = true;

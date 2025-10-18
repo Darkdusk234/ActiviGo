@@ -1,0 +1,89 @@
+import React, { useState } from 'react'
+import { useAuth } from '../contexts/AuthContext';
+
+const RegistrationForm = () => {
+    const [userName, setUserName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [birthDate, setBirthDate] = useState("");
+    const [address, setAddress] = useState("");
+    const { register } = useAuth();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try
+        {
+            const result = await register({ userName, email, password, firstName, lastName, birthDate, address})
+            if(result)
+            {
+                console.log(result);
+                // maybe log person in or redirect back to home page?
+            }
+        }
+        catch (error)
+        {
+            console.error('Login failed:', error);
+        }
+    }
+
+  return (
+    <>
+    <form onSubmit={handleSubmit}>
+            <input
+                type="text"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                placeholder="Username"
+                required
+            />
+            <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                required
+            />
+            <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                required
+            />
+            <input
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="First Name"
+                required
+            />
+            <input
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Last Name"
+                required
+            />
+            <input
+                type="date"
+                value={birthDate}
+                onChange={(e) => setBirthDate(e.target.value)}
+                placeholder="Date Of Birth"
+                required
+            />
+            <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Address"
+                required
+            />
+            <button type="submit">Register</button>
+        </form>
+    </>
+  )
+}
+
+export default RegistrationForm
