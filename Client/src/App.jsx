@@ -26,8 +26,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/search" element={<SearchResults />} />
           <Route path="/general-search" element={<GeneralSearch />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/" element={<Home />} />     
+          <Route path="/" element={<Home />} />   
         </Route>
         <Route element ={<AdminPage />}>
           <Route path="/admin" element={<AdminDashboard />} />
