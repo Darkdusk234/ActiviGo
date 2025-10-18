@@ -9,6 +9,8 @@
     background: "#f5f5f5";
     max-height: 10rem;
     z-index: 1;
+    border: 5px solid gold;
+    background-color: rgb(255, 255, 255);
 }
 
 .header-content .not-nav-navbar {
@@ -19,7 +21,8 @@
 .header-content .searchbar-container {
     display: flex;
     margin: 1rem 1rem;
-    justify-content: center;
+    justify-content: flex-end;
+    padding: 20px;
     z-index: 1000;
     width: 100%;
     background-color: #dbdbe1;
@@ -29,6 +32,13 @@
     background-color: #fff;
     color: #ff6464;
 }
+
+.header-title-container {
+    flex: 1;
+    text-align: center;
+}   
+
+
 
 /* Footer.jsx */
 
@@ -53,11 +63,13 @@ form .searchform {
     background-color: #1a1a1a;
     border-radius: 8px;
     padding: 4px 8px;
+
 }
 
 .searchform input {
     border: none;
-    outline: none;
+    outline: 2px solid blue;
+    outline-style: groove;  
     background-color: transparent;
     color: #000;
     padding: 6px 8px;
@@ -66,10 +78,10 @@ form .searchform {
 
 .searchform button {
     border: none;
-    background-color: #646cff;
+    background-color: red;
     color: #fff;
-    padding: 6px 12px;
-    border-radius: 6px;
+    padding: 12px 12px;
+    border-radius: 50%;
     cursor: pointer;
     margin-left: 6px;
     font-weight: 500;
@@ -95,7 +107,7 @@ form .searchform {
 
 .NavLogin 
 {
-    border: 2px solid black; 
+    
     position: relative;
     right: 0;
     margin-right: 10px;
@@ -104,11 +116,16 @@ form .searchform {
     
 }
 
+.NavLogin:hover 
+{
+    cursor: pointer;
+
+}
+
 /* Navbar.jsx */
 
 nav {
     padding: 1rem 2rem;
-    background: #eee;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -117,5 +134,15 @@ nav {
 nav .menu-items {
     display: flex;
     gap: 1rem;
+    
+}
+
+nav .menu-items a {
+    text-decoration: none;
+    color: white;
+    background-color: red;
+    font-weight: 500;
+    padding: 16px 16px;
+    border-radius: 50%;
 }
 

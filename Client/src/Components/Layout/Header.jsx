@@ -9,6 +9,9 @@ export default function Header() {
   return (
     <header>
       <Navbar/>
+      <div className="header-title-container">
+        <Link to="/"> <h1 className="header-title">ActiviGo!</h1> </Link>
+      </div>
       <div className="searchbar-container">
         <SearchBar/>
       </div>
