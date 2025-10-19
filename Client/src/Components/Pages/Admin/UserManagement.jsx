@@ -5,12 +5,12 @@ import './Admin.css';
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
-    const { user } = useAuth();
+    const { user, APIURL } = useAuth();
 
     const handleRemove = async (id) => {
         if (window.confirm(`Are you sure you want to remove user with id ${id}?`)) {
             setUsers(users.filter(userItem => userItem.id !== id));
-            await fetch(`https://localhost:7201/api/User/${id}`, {
+            await fetch(`${APIURL}/User/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ const UserManagement = () => {
 
     const handleEdit = async (userItem) => {
         if (window.confirm(`Are you sure you want to edit user with id ${userItem.id}?`)) {
-            await fetch(`https://localhost:7201/api/User/${userItem.id}`, {
+            await fetch(`${APIURL}/User/${userItem.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ const UserManagement = () => {
 
     useEffect(() => {
         const fetchUsers = async () => {
-            const response = await fetch('https://localhost:7201/api/User', {
+            const response = await fetch(`${APIURL}/User`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:7201/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('authToken');

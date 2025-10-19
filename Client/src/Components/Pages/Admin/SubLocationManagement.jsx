@@ -8,6 +8,7 @@ const SubLocationManagement = () => {
     const [filteredSubLocations, setFilteredSubLocations] = useState([]); // filtered list
     const [nameFilter, setNameFilter] = useState('');
     const [view, setView] = useState(false);
+    const { user, APIURL } = useAuth();
 
     const handleViewToggle = () => {
         setView(!view);
@@ -22,7 +23,6 @@ const SubLocationManagement = () => {
             )
         );
     };
-    const { user } = useAuth();
 
     const handleRemove = async (id) => {
         if (window.confirm(`Are you sure you want to remove sublocation with id ${id}?`)) {
@@ -31,7 +31,7 @@ const SubLocationManagement = () => {
             setFilteredSubLocations(newSubLocations.filter(subLocation =>
                 subLocation.name.toLowerCase().includes(nameFilter.toLowerCase())
             ));
-            await fetch(`https://localhost:7201/api/SubLocation/${id}`, {
+            await fetch(`${APIURL}/SubLocation/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ const SubLocationManagement = () => {
 
     const handleEdit = async (subLocation) => {
         if (window.confirm(`Are you sure you want to edit sublocation with id ${subLocation.id}?`)) {
-            await fetch(`https://localhost:7201/api/SubLocation/${subLocation.id}`, {
+            await fetch(`${APIURL}/SubLocation/${subLocation.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const SubLocationManagement = () => {
 
     useEffect(() => {
         const fetchSubLocations = async () => {
-            const response = await fetch('https://localhost:7201/api/SubLocation', {
+            const response = await fetch(`${APIURL}/SubLocation`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

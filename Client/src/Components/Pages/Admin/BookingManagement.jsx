@@ -8,7 +8,7 @@ const BookingManagement = () => {
     const [filteredBookings, setFilteredBookings] = useState([]); // filtered list
     const [userIdFilter, setUserIdFilter] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
-    const { user } = useAuth();
+    const { user, APIURL } = useAuth();
 
     const handleUserIdFilterChange = (e) => {
         setUserIdFilter(e.target.value);
@@ -25,7 +25,7 @@ const BookingManagement = () => {
                 (userIdFilter ? booking.userId.toString().includes(userIdFilter) : true) &&
                 (statusFilter ? booking.status.toLowerCase().includes(statusFilter.toLowerCase()) : true)
             ));
-            await fetch(`https://localhost:7201/api/Booking/${id}`, {
+            await fetch(`${APIURL}/Booking/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ const BookingManagement = () => {
 
     const handleEdit = async (booking) => {
         if (window.confirm(`Are you sure you want to edit booking with id ${booking.id}?`)) {
-            await fetch(`https://localhost:7201/api/Booking/${booking.id}`, {
+            await fetch(`${APIURL}/Booking/${booking.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ const BookingManagement = () => {
 
     useEffect(() => {
         const fetchBookings = async () => {
-            const response = await fetch('https://localhost:7201/api/Booking', {
+            const response = await fetch(`${APIURL}/Booking`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

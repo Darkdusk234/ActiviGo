@@ -12,11 +12,11 @@ export function LocationProvider({ children }) {
   const [locations, setLocations] = useState([]);
   const [loadingLocations, setLoading] = useState(true);
   const [errorLocations, setError] = useState(null);
-
+  const APIURL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     
     async function getData() {
-    await fetch('https://localhost:7201/api/Location/')
+    await fetch(`${APIURL}/Location/`, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
       .then(response => response.json())
       .then(data => {
         setLocations(data);
