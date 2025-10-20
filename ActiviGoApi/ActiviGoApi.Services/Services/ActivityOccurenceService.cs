@@ -52,7 +52,7 @@ namespace ActiviGoApi.Services.Services
 
         public async Task<ActivityOccurenceResponseDTO?> GetByIdAsync(int id, CancellationToken ct = default)
         {
-            var occurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(id, ct);
+            var occurrence = await _unitOfWork.ActivityOccurrences.GetFilteredByIdAsync(id, includeProperties: "Activity,SubLocation,SubLocation.Location,Activity.Category");
 
             if (occurrence == null)
             {
