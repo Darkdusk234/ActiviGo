@@ -66,6 +66,37 @@ const OccurenceManagement = () => {
         }
     }
 
+    const handleCancel = async (id) => {
+        await fetch(`${APIURL}/ActivityOccurence/cancel/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            }
+        });
+    }
+
+    const handleRemove = async (id) => {
+        await fetch(`${APIURL}/ActivityOccurence/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            }
+        });
+    }
+
+    const handleEdit = async (occurrence) => {
+        await fetch(`${APIURL}/ActivityOccurence/${occurrence.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+            body: JSON.stringify(occurrence)
+        });
+    }
+
     return (
         <>
         <div className="management-items-container">
@@ -73,7 +104,7 @@ const OccurenceManagement = () => {
             <h2>Occurences for {filter.charAt(0).toUpperCase() + filter.slice(1)}: {getNameById(filter, id)}</h2>
             <button>Sort by latest</button>
             {filterOccurences(filter, id).map(occ => (
-                <OccurenceListCard key={occ.id} item={occ} />
+                <OccurenceListCard key={occ.id} item={occ} removeOccurence={handleRemove} editOccurence={handleEdit} cancelOccurence={handleCancel} />
             ))}
         </div>
            

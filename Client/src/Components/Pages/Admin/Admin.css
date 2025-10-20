@@ -78,6 +78,11 @@ h3 {
     color: gray;
 }
 
+.details:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .admin-list-card-buttons {
     display: flex;
     flex-direction: column;
@@ -266,4 +271,12 @@ button:hover {
     border-radius: 15px;
     padding: 20px;
     background-color: rgb(133, 133, 255)
+}
+
+/* Cancelled Occurrence Styles */
+
+.cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+    text-decoration: line-through;
 }

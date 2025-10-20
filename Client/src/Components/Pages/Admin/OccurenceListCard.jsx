@@ -1,8 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const OccurenceListCard = ({ item, removeOccurence, editOccurence }) => {
+const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccurence }) => {
     const [editMode, setEditMode] = useState(false);
     const [viewDetails, setViewDetails] = useState(false);
+    const [date, setDate] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
+    const [isCancelled, setIsCancelled] = useState(item.isCancelled);
+
+    useEffect(() => {
+        splitDateTime(item.startTime, item.endTime);
+    }, []); 
+
+        const splitDateTime = (startTime, endTime) => {
+        const [startDatePart, startTimePart] = startTime.split('T');
+        const [endDatePart, endTimePart] = endTime.split('T');
+        setDate(startDatePart);
+        setStartTime(startTimePart.slice(0,-3));
+        setEndTime(endTimePart.slice(0,-3));
+    }
+
+    const handleCancel = () => {
+        cancelOccurence(item.id);
+        setIsCancelled(true);
+    }
 
     return (
         <div className="admin-list-card">
@@ -29,28 +50,35 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence }) => {
                     </div>
                     <div className="admin-list-card-buttons">
                         <button type="submit">Save</button>
-                        <button type="button" onClick={() => setEditMode(false)}>Cancel</button>
+                        <button type="button" onClick={() => setEditMode(false)}>Cancel</button>¨
+                        
                     </div>
                 </form>
             ) : (
                 <>
                     <div className="admin-list-card-info">
                         <p className="id">Id: {item.id}</p>
-                        <h3>Occurence for Activity {item.activityId}</h3>
+                        <h3 className={!item.isCancelled ? '' : 'cancelled' }>{item.activityName}</h3>
+                        <p>{date}</p>
+                        <p>{startTime} - {endTime}</p>
                         {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Click for more details...</p>}
                         {viewDetails && (
                             <div className="details-view">
-                                <p>Start Time: </p><p>{item.startTime}</p>
-                                <p>End Time: </p><p>{item.endTime}</p>
-                                <p>Location ID: </p><p>{item.locationId}</p>
-                                <p>Category ID: </p><p>{item.categoryId}</p>
-                                <p>Activity ID: </p><p>{item.activityId}</p>
+                                <p>Date: </p><p>{date}</p>
+                                <p>Start Time: </p><p>{startTime}</p>
+                                <p>End Time: </p><p>{endTime}</p>
+                                <p>Location: </p><p>{item.subLocationName}, {item.locationName}</p>
+                                <p>Category: </p><p>{item.categoryName}</p>
+                                <p>Current participation count: </p><p>{item.capacity - item.availableSpots} / {item.capacity}</p>
+                                <p>Price: </p><p>{item.price} SEK</p>
+                                
                             </div>
                         )}
                     </div>
                     <div className="admin-list-card-buttons">
                         <button onClick={() => setEditMode(true)}>Edit</button>
                         <button onClick={() => removeOccurence(item.id)}>Remove</button>
+                        <button type="button" onClick={handleCancel}>{isCancelled ? 'Uncancel' : 'Cancel'}</button>
                     </div>
                 </>
             )}
