@@ -9,9 +9,9 @@ const ActivityNewPop = ({handleCreate, closePopup}) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [maxParticipants, setMaxParticipants] = useState(1);
-    const [durationInMinutes, setDurationInMinutes] = useState(null);
+    const [durationInMinutes, setDurationInMinutes] = useState(30);
     const [price, setPrice] = useState(0);
-    const [categoryId, setCategoryId] = useState(null);
+    const [categoryId, setCategoryId] = useState('');
     const [isActive, setIsActive] = useState(true);
     const { categories } = useCategories();
     const [IMGUrl, setImageUrl] = useState('');                                                                      

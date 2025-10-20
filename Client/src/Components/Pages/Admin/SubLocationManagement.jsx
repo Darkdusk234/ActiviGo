@@ -56,7 +56,7 @@ const SubLocationManagement = () => {
                 body: JSON.stringify(subLocation)
             });
             // update local state
-            const newSubLocations = subLocations.map(loc => loc.id === subLocation.id ? { ...loc, ...subLocation } : loc);
+            const newSubLocations = allSubLocations.map(loc => loc.id === subLocation.id ? { ...loc, ...subLocation } : loc);
             setSubLocations(newSubLocations);
             setFilteredSubLocations(newSubLocations.filter(loc =>
                 loc.name.toLowerCase().includes(nameFilter.toLowerCase())

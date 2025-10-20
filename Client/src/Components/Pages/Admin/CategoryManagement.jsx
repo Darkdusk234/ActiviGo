@@ -87,7 +87,7 @@ const CategoryManagement = () => {
     useEffect(() => {
        setCategories(categories);
        setFilteredCategories(categories);
-    }, [handleEdit]);
+    }, []);
 
     return (
         <>

@@ -64,9 +64,7 @@ const ActivityManagement = () => {
             },
             body: JSON.stringify(activity)
         });
-        const data = await response.json();
-        setActivities([...allActivities, data]);
-        setFilteredActivities([...filteredActivities, data]);
+
     }
 
 
@@ -101,7 +99,7 @@ const ActivityManagement = () => {
                 body: JSON.stringify(activity)
             });
             // update local state
-            const newActivities = activities.map(act => act.id === activity.id ? { ...act, ...activity } : act);
+            const newActivities = allActivities.map(act => act.id === activity.id ? { ...act, ...activity } : act);
             setActivities(newActivities);
             setFilteredActivities(newActivities.filter(act =>
                 act.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -112,10 +110,11 @@ const ActivityManagement = () => {
     useEffect(() => {
         setActivities(activities);
         setFilteredActivities(activities);
-    }, [handleCreate]);
+    }, [allActivities]);
 
     useEffect(() => {
         let filtered = allActivities;
+        console.log(allActivities);
         if (nameFilter) {
             filtered = filtered.filter(activity =>
                 activity.name.toLowerCase().includes(nameFilter.toLowerCase())

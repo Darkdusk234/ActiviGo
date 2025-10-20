@@ -57,7 +57,7 @@ const LocationManagement = () => {
                 body: JSON.stringify(location)
             });
             // update local state
-            const newLocations = locations.map(loc => loc.id === location.id ? { ...loc, ...location } : loc);
+            const newLocations = allLocations.map(loc => loc.id === location.id ? { ...loc, ...location } : loc);
             setLocations(newLocations);
             setFilteredLocations(newLocations.filter(loc =>
                 loc.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -83,7 +83,7 @@ const LocationManagement = () => {
     useEffect(() => {
         setLocations(locations);
         setFilteredLocations(locations);
-    }, [handleEdit]);
+    }, []);
 
     return (
         <>
