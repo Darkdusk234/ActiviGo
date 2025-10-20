@@ -16,8 +16,8 @@ export default function Navbar() {
       <div className="menu-items">
         <Link to="/">Home</Link>
         <Link to="/booking">Booking</Link>
+        <Link to="/my-bookings">Mina Bokningar</Link>
         <Link to="/about">About</Link>
-
         <Link to="/search">Search</Link>
 
         
