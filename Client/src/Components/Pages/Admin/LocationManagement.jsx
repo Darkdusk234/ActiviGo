@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import LocationListCard from './LocationListCard';
 import LocationNewPop from './LocationNewPop';
+import { useLocations } from '../../../contexts/LocationContext';
 import './Admin.css';
 
 const LocationManagement = () => {
-    const [locations, setLocations] = useState([]); // full list
+    const [allLocations, setLocations] = useState([]); // full list
     const [filteredLocations, setFilteredLocations] = useState([]); // filtered list
     const [nameFilter, setNameFilter] = useState('');
     const [view, setView] = useState(false);
     const { user, APIURL } = useAuth();
       const [newPopup, setNewPopup] = useState(false);
+
+      const { locations } = useLocations();
 
     const handleViewToggle = () => {
         setView(!view);
@@ -20,7 +23,7 @@ const LocationManagement = () => {
         const value = e.target.value;
         setNameFilter(value);
         setFilteredLocations(
-            locations.filter(location =>
+            allLocations.filter(location =>
                 location.name.toLowerCase().includes(value.toLowerCase())
             )
         );
@@ -28,7 +31,7 @@ const LocationManagement = () => {
 
     const handleRemove = async (id) => {
         if (window.confirm(`Are you sure you want to remove location with id ${id}?`)) {
-            const newLocations = locations.filter(location => location.id !== id);
+            const newLocations = allLocations.filter(location => location.id !== id);
             setLocations(newLocations);
             setFilteredLocations(newLocations.filter(location =>
                 location.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -78,21 +81,8 @@ const LocationManagement = () => {
     }
 
     useEffect(() => {
-        const fetchLocations = async () => {
-            const response = await fetch(`${APIURL}/Location`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                }
-            });
-            const data = await response.json();
-            setLocations(data);
-            setFilteredLocations(data.filter(location =>
-                location.name.toLowerCase().includes(nameFilter.toLowerCase())
-            ));
-        };
-        fetchLocations();
+        setLocations(locations);
+        setFilteredLocations(locations);
     }, [handleEdit]);
 
     return (
