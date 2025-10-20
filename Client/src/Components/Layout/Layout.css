@@ -1,7 +1,8 @@
 /* Header.jsx */
 
-header {
+.header-content {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
@@ -12,13 +13,24 @@ header {
     background-color: rgb(255, 255, 255);
 }
 
+.header-content .not-nav-navbar {
+    display: flex; 
+    justify-content: center;
+}
 
-header .searchbar-container {
+.header-content .searchbar-container {
     display: flex;
+    margin: 1rem 1rem;
     justify-content: flex-end;
     padding: 20px;
-    /* max-width: 400px; */
-    
+    z-index: 1000;
+    width: 100%;
+    background-color: #dbdbe1;
+}
+
+.header-content .searchbar-container .input {
+    background-color: #fff;
+    color: #ff6464;
 }
 
 .header-title-container {

@@ -5,6 +5,7 @@ import Layout from "./Components/Layout/Layout";
 import Home from "./Components/Pages/Home";
 import LoginForm from './Components/LoginForm'
 import SearchResults from './Components/Pages/SearchResults';
+import GeneralSearch from './Components/Pages/GeneralSearch';
 import AdminPage from './Components/Pages/Admin/AdminPage';
 import AdminDashboard from './Components/Pages/Admin/AdminDashboard';
 import UserManagement from './Components/Pages/Admin/UserManagement';
@@ -24,7 +25,8 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/search" element={<SearchResults />} />
-          <Route path="/" element={<Home />} />     
+          <Route path="/general-search" element={<GeneralSearch />} />
+          <Route path="/" element={<Home />} />   
         </Route>
         <Route element ={<AdminPage />}>
           <Route path="/admin" element={<AdminDashboard />} />

@@ -181,6 +181,26 @@ namespace ActiviGoApi.WebApi.Controllers
             }
         }
 
+        [HttpPost("general-search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ActivityOccurenceResponseDTO>>> SearchGeneralOccurrences([FromBody] GeneralSearchDTO query, CancellationToken ct)
+        {
+
+            try
+            {
+                var occurrences = await _occurrenceService.GetGeneralSearchAsync(query, ct);
+                return Ok(occurrences);
+            }
+            catch(KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex) // Very temporary error handling
+            {
+                return StatusCode(500, "An error occurred while searching for activity occurrences");
+            }
+        }
+
         [HttpPut("cancel/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
