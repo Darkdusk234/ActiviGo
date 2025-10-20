@@ -15,7 +15,7 @@ import SubLocationManagement from './Components/Pages/Admin/SubLocationManagemen
 import CategoryManagement from './Components/Pages/Admin/CategoryManagement';
 import OccurenceManagement from './Components/Pages/Admin/OccurenceManagement';
 import BookingManagement from './Components/Pages/Admin/BookingManagement';
-
+import OccurrenceDetails from "./Components/Pages/OccurrenceDetails";
 
 function App() {
 
@@ -26,6 +26,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/search" element={<SearchResults />} />
           <Route path="/general-search" element={<GeneralSearch />} />
+          <Route path="/occurrence/:id" element={<OccurrenceDetails />} />
           <Route path="/" element={<Home />} />   
         </Route>
         <Route element ={<AdminPage />}>
