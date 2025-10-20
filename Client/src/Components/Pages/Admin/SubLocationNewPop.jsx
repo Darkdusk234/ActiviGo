@@ -15,6 +15,12 @@ const SubLocationNewPop = ({handleCreate, closePopup}) => {
 
     const { locations } = useLocations();
 
+    useEffect(() => {
+        if (locations.length > 0) {
+            setLocationId(locations[0].id);
+        }
+    }, []);
+
     const close = () => {
         closePopup(false);
     }
@@ -23,6 +29,7 @@ const SubLocationNewPop = ({handleCreate, closePopup}) => {
         <div className="popup-background">
             <form className="popup-card" onSubmit={(e) => {
                 e.preventDefault();
+                console.log({name, description, maxCapacity, indoor, locationId});
                 handleCreate({name, description, maxCapacity, indoor, locationId});
                 close();
             }}>
@@ -36,9 +43,10 @@ const SubLocationNewPop = ({handleCreate, closePopup}) => {
                 <input type="number" min="1" required value={maxCapacity} onChange={(e) => setMaxCapacity(e.target.value)} />
                 <label>Inomhus:</label>
                 <input type="checkbox" checked={indoor} onChange={(e) => setIndoor(e.target.checked)}/>
-                <select required>
+                <label>Plats:</label>
+                <select required onChange={e => setLocationId(e.target.value)}>
                     {locations.map((location) => (
-                        <option key={location.id} value={location.id} onSelect={(e) => setLocationId(e.target.value)}>{location.name}</option>
+                        <option key={location.id} value={location.id}>{location.name}</option>
                     ))}
                 </select>
                 <button type="submit">Skapa</button>
