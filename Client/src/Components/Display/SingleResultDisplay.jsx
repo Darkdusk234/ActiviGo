@@ -2,15 +2,20 @@ import React from "react";
 import {useEffect, useState} from "react";
 import { useAuth } from '../../contexts/AuthContext';
 import './Result.css';
+import { useNavigate } from "react-router-dom";
 
-const SingleResultDisplay = ({result}) => {
+const SingleResultDisplay = ({ result }) => {
+  const navigate = useNavigate();
 
-    const { user } = useAuth(); 
-    const [showBook, setShowBook] = useState(false);
-    const [date, setDate] = useState('');
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
-    
+  const { user } = useAuth(); 
+  const [showBook, setShowBook] = useState(false);
+  const [date, setDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  
+    const handleClick = () => {
+        navigate(`/occurrence/${result.id}`);
+    };
 
     useEffect(() => {
 
@@ -35,7 +40,9 @@ const SingleResultDisplay = ({result}) => {
 
     return(
         <>
-        <div className = "single-result">
+        <div 
+        className = "single-result"
+        onClick={handleClick}>
             {console.log(result)  }
             <h4>{result.activityName}</h4>
             <p>available spots: {result.availableSpots}/{result.capacity}</p>
