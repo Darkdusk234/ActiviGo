@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSubLocations } from "../../../contexts/SubLocationContext";
 
 const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccurence }) => {
     const [editMode, setEditMode] = useState(false);
@@ -7,6 +8,7 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [isCancelled, setIsCancelled] = useState(item.isCancelled);
+    const { subLocations } = useSubLocations();
 
     useEffect(() => {
         splitDateTime(item.startTime, item.endTime);
@@ -36,22 +38,35 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
                         activityId: formData.get("activityId"),
                         startTime: formData.get("startTime"),
                         endTime: formData.get("endTime"),
-                        locationId: formData.get("locationId")
+                        sublocationId: formData.get("sublocationId")
                     };
                     editOccurence(updatedOccurence);
                     setEditMode(false);
                 }}>
                     <div className="admin-list-card-info">
                         <p className="id">Id: {item.id}</p>
-                        <input type="text" className="input-activityId" id="activityId" name="activityId" defaultValue={item.activityId} placeholder="Activity ID" />
-                        <input type="datetime-local" className="input-startTime" id="startTime" name="startTime" defaultValue={item.startTime} placeholder="Start Time" />
-                        <input type="datetime-local" className="input-endTime" id="endTime" name="endTime" defaultValue={item.endTime} placeholder="End Time" />
-                        <input type="text" className="input-locationId" id="locationId" name="locationId" defaultValue={item.locationId} placeholder="Location ID" />
+                        <h3>{item.activityName}</h3>
+                        <div className="editable-areas">
+                            <p>Start Time</p>
+                            <input type="datetime-local" className="input-startTime" id="startTime" name="startTime" defaultValue={item.startTime} placeholder="Start Time" />
+                            <p>End Time</p>
+                            <input type="datetime-local" className="input-endTime" id="endTime" name="endTime" defaultValue={item.endTime} placeholder="End Time" />
+                            <p>Location</p>
+                            <select id="sublocationId" name="sublocationId">
+                                {subLocations.map(loc => (
+                                    <option key={loc.id} value={loc.id}>{loc.name}</option>
+                                ))}
+                            </select>
+                            <p>Price:</p>
+                            <input type="number" className="input-price" id="price" name="price" defaultValue={item.price} placeholder="Price" />
+                            <p>Max Capacity:</p>
+                            <input type="number" className="input-capacity" id="capacity" name="capacity" defaultValue={item.capacity} placeholder="Max Capacity" />
+                        </div>
                     </div>
                     <div className="admin-list-card-buttons">
                         <button type="submit">Save</button>
-                        <button type="button" onClick={() => setEditMode(false)}>Cancel</button>¨
-                        
+                        <button type="button" onClick={() => setEditMode(false)}>Cancel</button>
+
                     </div>
                 </form>
             ) : (
@@ -59,14 +74,13 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
                     <div className="admin-list-card-info">
                         <p className="id">Id: {item.id}</p>
                         <h3 className={!item.isCancelled ? '' : 'cancelled' }>{item.activityName}</h3>
-                        <p>{date}</p>
-                        <p>{startTime} - {endTime}</p>
+                        <p>Date: {date}</p>
+                        <p>Time: {startTime} - {endTime}</p>
+
                         {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Click for more details...</p>}
                         {viewDetails && (
                             <div className="details-view">
-                                <p>Date: </p><p>{date}</p>
-                                <p>Start Time: </p><p>{startTime}</p>
-                                <p>End Time: </p><p>{endTime}</p>
+
                                 <p>Location: </p><p>{item.subLocationName}, {item.locationName}</p>
                                 <p>Category: </p><p>{item.categoryName}</p>
                                 <p>Current participation count: </p><p>{item.capacity - item.availableSpots} / {item.capacity}</p>
