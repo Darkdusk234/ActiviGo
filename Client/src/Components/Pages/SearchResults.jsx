@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import DetailedSearch from "../DetailedSearch";
 import SingleResultDisplay from "../Display/SingleResultDisplay";
 import { useAuth } from "../../contexts/AuthContext";
-
+import "./SearchResults.css";
 const SearchResults = ({searchresults}) => {
 
 const [loading, setLoading] = useState(true);
