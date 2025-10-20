@@ -52,8 +52,6 @@ const SingleResultDisplay = ({ result }) => {
             <p>Location: {result.subLocationName}, {result.locationName} </p>
             <p>Price: {!result.price ? 0 : result.price} SEK</p>
             <img src={result.imgUrl} alt={result.activityName}/>
-            
-            {!showBook ? <button>Boka</button> : ""}
         </div>
         </>
     )
