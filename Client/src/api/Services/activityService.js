@@ -1,5 +1,5 @@
 
-const API_URL = "https://localhost:7201/api";
+const API_URL = "http://localhost:7201/api";
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('authToken');

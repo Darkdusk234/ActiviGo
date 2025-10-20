@@ -1,4 +1,4 @@
-@ActiviGoApi_HostAddress = http://localhost:5210
+@ActiviGoApi_HostAddress = http://localhost:7201
 
 GET {{ActiviGoApi_HostAddress}}/weatherforecast/
 Accept: application/json

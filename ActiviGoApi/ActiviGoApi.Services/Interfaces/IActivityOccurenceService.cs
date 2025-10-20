@@ -17,5 +17,6 @@ namespace ActiviGoApi.Services.Interfaces
         Task DeleteAsync(int id, CancellationToken ct = default);
         Task CancelOccurranceAsync(int id, CancellationToken ct);
         Task<IEnumerable<ActivityOccurenceResponseDTO>> GetFilteredActivityOccurences(ActivityOccurenceSearchFilterDTO dto, CancellationToken ct = default);
+        Task<IEnumerable<ActivityOccurenceResponseDTO>> GetGeneralSearchAsync(GeneralSearchDTO query, CancellationToken ct = default);
     }
 }

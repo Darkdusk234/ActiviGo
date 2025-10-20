@@ -14,8 +14,8 @@ export default function ActivityList() {
       const load = async () => {
           setLoading(true);
           try {
-          const data = await getActivities(); // eller getActivities()
-          setActivities(data); // eller setActivities
+          const data = await getActivities();
+          setActivities(data); 
           setError(null);
           } catch (err) {
           setError(err.message);
@@ -27,8 +27,8 @@ export default function ActivityList() {
       load();
       }, []); // 👈 kör en gång på mount, oberoende av user
   
-  if (loading) return <p className="text-center py-8">Laddar aktiviteter...</p>;
-  if (error) return <p className="text-center text-red-500">{error}</p>;
+  if (loading) return <p className="Loading">Laddar aktiviteter...</p>;
+  if (error) return <p className="Loading-failed">{error}</p>;
 
   return (
     <DisplayList
