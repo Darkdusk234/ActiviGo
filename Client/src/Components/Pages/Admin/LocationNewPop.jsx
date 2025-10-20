@@ -8,6 +8,9 @@ const LocationNewPop = ({handleCreate, closePopup}) => {
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [adress, setAdress] = useState('');
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
 
     const close = () => {
         closePopup(false);
@@ -15,16 +18,29 @@ const LocationNewPop = ({handleCreate, closePopup}) => {
     return(
         <>
         <div className="popup-background">
-            <div className="popup-card">
+            <form className="popup-card" onSubmit={(e) => {
+                e.preventDefault();
+                handleCreate({ name, description, adress, latitude, longitude });
+            }}>
                 <h2>Ny Plats</h2>
-                <h2 onClick={close}>X</h2>
+                
                 <label>Namn:</label>
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
                 <label>Beskrivning:</label>
-                <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
-                <button onClick={() => handleCreate({ name, description })}>Skapa</button>
-            </div>
+                <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
+                <label>Adress:</label>
+                    <input type="text" value={adress} onChange={(e) => setAdress(e.target.value)} required />
+                <label>Latitude:</label>
+                    <input type="text" value={latitude} onChange={(e) => setLatitude(e.target.value)} required />
+
+                <label>Longitude:</label>
+                    <input type="text" value={longitude} onChange={(e) => setLongitude(e.target.value)} required />
+
+                <button type="submit">Skapa</button>
+                <button type="button" onClick={close}>Avbryt</button>
+                </form>
         </div>
+        
         </>
     )
 }

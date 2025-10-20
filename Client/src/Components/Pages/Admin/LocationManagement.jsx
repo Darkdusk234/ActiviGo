@@ -62,14 +62,15 @@ const LocationManagement = () => {
         }
     };
 
-        const handleCreate = async (location) => {
+    const handleCreate = async (location) => {
+        console.log(JSON.stringify(location));
         const response = await fetch(`${APIURL}/Location`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`
             },
-            body: JSON.stringify(category)
+            body: JSON.stringify(location)
         });
         const data = await response.json();
         setLocations([...locations, data]);

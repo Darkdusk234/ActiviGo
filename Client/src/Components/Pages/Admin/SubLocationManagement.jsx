@@ -63,13 +63,14 @@ const SubLocationManagement = () => {
     };
 
         const handleCreate = async (subLocation) => {
+            console.log(JSON.stringify(subLocation));
         const response = await fetch(`${APIURL}/SubLocation`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`
             },
-            body: JSON.stringify(category)
+            body: JSON.stringify(subLocation)
         });
         const data = await response.json();
         setSubLocations([...subLocations, data]);

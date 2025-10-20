@@ -3,8 +3,8 @@ import { useAuth } from '../../../contexts/AuthContext';
 import ActivityListCard from './ActivityListCard';
 import ActivityNewPop from './ActivityNewPop';
 import './Admin.css';
-import { useCategories } from '../../contexts/CategoryContext';
-import { APIURL } from '../../../config';
+import { useCategories } from '../../../contexts/CategoryContext';
+
 
 const ActivityManagement = () => {
     const [activities, setActivities] = useState([]); // full list
@@ -17,6 +17,7 @@ const ActivityManagement = () => {
     const [categoryFilter, setCategoryFilter] = useState('');
     const [view, setView] = useState(false);
       const [newPopup, setNewPopup] = useState(false);
+    const { APIURL } = useAuth();
 
     const { categories } = useCategories(); 
 
