@@ -1,18 +1,8 @@
 .display-list-container {
-  width: 90%;
-  overflow: hidden;
-  display: "flex";
-  flex-direction: "row";
-  height: "20vh" 
+  border: 1px solid #dddddd00;
 }
 
 .my-swiper {
   width: 100%;
 }
 
-.my-swiper .swiper-slide {
-  display: flex;
-  justify-content: center;
-  flex-shrink: 0;
-  width: auto;
-}

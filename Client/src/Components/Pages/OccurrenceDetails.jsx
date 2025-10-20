@@ -79,7 +79,7 @@ const OccurrenceDetails = () => {
      {console.log(occurrence)}
       <div className="details-title">
         <h4>{occurrence.activityName}</h4>
-        <img src={occurrence.imgUrl} alt={occurrence.activityName}/>
+        <img src={`https://picsum.photos/400/250?random=${occurrence.id}`} alt={occurrence.activityName}/>
       </div>
         <h2>Location: {occurrence.subLocationName}, {occurrence.locationName} </h2>
         <h2>date: {date}</h2>

@@ -52,9 +52,18 @@ footer {
 
 .body
 {
-    display: flex;
+}
+.main-content
+{
+    flex: column;
+    align-items: center;
+    justify-content: center;
 }
 
+.main-content .middle-content
+{
+    padding: 4rem 1rem 4rem 1rem;
+}
 /* Searchbar.jsx */
 
 form .searchform {
