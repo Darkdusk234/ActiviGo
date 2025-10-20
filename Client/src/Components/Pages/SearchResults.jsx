@@ -2,11 +2,13 @@ import React from "react";
 import {useState, useEffect} from 'react';
 import DetailedSearch from "../DetailedSearch";
 import SingleResultDisplay from "../Display/SingleResultDisplay";
+import { useAuth } from "../../contexts/AuthContext";
 
 const SearchResults = ({searchresults}) => {
 
 const [loading, setLoading] = useState(true);
 const [results, setResults] = useState([]);
+const { APIURL } = useAuth();
 
 useEffect(() => {
 
@@ -21,7 +23,7 @@ useEffect(() => {
 
 const fetchResults = async (searchTerms) => {
     // Fetch data based on searchTerms
-    await fetch('https://localhost:7201/api/ActivityOccurence/search', {
+    await fetch(`${APIURL}/ActivityOccurence/search`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(searchTerms)

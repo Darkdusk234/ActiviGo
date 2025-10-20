@@ -10,7 +10,7 @@ const CategoryManagement = () => {
     const [categories, setCategories] = useState([]); // full list
     const [filteredCategories, setFilteredCategories] = useState([]); // filtered list
     const [view, setView] = useState(false);
-    const { user } = useAuth();
+    const { user, APIURL } = useAuth();
 
     const [nameFilter, setNameFilter] = useState('');  
 
@@ -34,7 +34,7 @@ const CategoryManagement = () => {
             setFilteredCategories(newCategories.filter(category =>
                 category.name.toLowerCase().includes(nameFilter.toLowerCase())
             ));
-            await fetch(`https://localhost:7201/api/Category/${id}`, {
+            await fetch(`${APIURL}/Category/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const CategoryManagement = () => {
 
     const handleEdit = async (category) => {
         if(confirm(`Är du säker på att du vill redigera kategorin med id ${category.id}?`)) {
-            await fetch(`https://localhost:7201/api/Category/${category.id}`, {
+            await fetch(`${APIURL}/Category/${category.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const CategoryManagement = () => {
     useEffect(() => {
         // Fetch categories from API
         const fetchCategories = async () => {
-            const response = await fetch('https://localhost:7201/api/Category',
+            const response = await fetch(`${APIURL}/Category`,
                 { method: 'GET', 
                     headers: { 'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}` }

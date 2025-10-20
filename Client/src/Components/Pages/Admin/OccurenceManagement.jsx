@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 
 const OccurenceManagement = () => {
 
-    const { user } = useAuth();
+    const { user, APIURL } = useAuth();
     const { id } = useParams();
     const { filter } = useParams();
     console.log(useParams());
@@ -22,7 +22,7 @@ const OccurenceManagement = () => {
         
         const fetchOccurrences = async () => {
             try {
-                const response = await fetch(`https://localhost:7201/api/ActivityOccurence`);
+                const response = await fetch(`${APIURL}/ActivityOccurence`);
                 const data = await response.json();
                 setOccurrences(data);
                 

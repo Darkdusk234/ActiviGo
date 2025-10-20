@@ -8,6 +8,7 @@ const LocationManagement = () => {
     const [filteredLocations, setFilteredLocations] = useState([]); // filtered list
     const [nameFilter, setNameFilter] = useState('');
     const [view, setView] = useState(false);
+    const { user, APIURL } = useAuth();
 
     const handleViewToggle = () => {
         setView(!view);
@@ -22,7 +23,6 @@ const LocationManagement = () => {
             )
         );
     };
-    const { user } = useAuth();
 
     const handleRemove = async (id) => {
         if (window.confirm(`Are you sure you want to remove location with id ${id}?`)) {
@@ -31,7 +31,7 @@ const LocationManagement = () => {
             setFilteredLocations(newLocations.filter(location =>
                 location.name.toLowerCase().includes(nameFilter.toLowerCase())
             ));
-            await fetch(`https://localhost:7201/api/Location/${id}`, {
+            await fetch(`${APIURL}/Location/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ const LocationManagement = () => {
 
     const handleEdit = async (location) => {
         if (window.confirm(`Are you sure you want to edit location with id ${location.id}?`)) {
-            await fetch(`https://localhost:7201/api/Location/${location.id}`, {
+            await fetch(`${APIURL}/Location/${location.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const LocationManagement = () => {
 
     useEffect(() => {
         const fetchLocations = async () => {
-            const response = await fetch('https://localhost:7201/api/Location', {
+            const response = await fetch(`${APIURL}/Location`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -10,12 +10,13 @@ export function useAuth() {
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const APIURL = import.meta.env.VITE_API_URL;
 
 
     useEffect(() => {
         // Check if user is logged in on component mount
         const fetchUser = async () => {
-            fetch('https://localhost:7201/api/Auth/AuthCheck', { method: 'GET', headers: { 'Content-Type': 'application/json',
+            fetch(`${APIURL}/Auth/AuthCheck`, { method: 'GET', headers: { 'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('authToken')}` } })
             .then(response => response.json())
             .then(data => {
@@ -40,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const login = (credentials) => {
-        fetch('https://localhost:7201/api/Auth/Login', {
+        fetch(`${APIURL}/Auth/Login`, {
             method: 'POST',
             headers: {  'Content-Type': 'application/json' },
             body: JSON.stringify(credentials)
@@ -64,14 +65,14 @@ export const AuthProvider = ({ children }) => {
 
     const logout = (user) => {
         setUser(null);
-        fetch('https://localhost:7201/api/Auth/Logout', { method: 'POST' })
+        fetch(`${APIURL}/Auth/Logout`, { method: 'POST' })
         .catch(error => {
             console.error('Error logging out:', error);
         });
     };
 
     const register = (registrationInfo) => {
-        fetch('https://localhost:7201/api/Auth', {
+        fetch(`${APIURL}/Auth`, {
             method: 'Post',
             headers: {  'Content-Type': 'application/json' },
             body: JSON.stringify(registrationInfo)
@@ -86,7 +87,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>      
+        <AuthContext.Provider value={{ user, login, logout, APIURL, register }}>      
             {children}
         </AuthContext.Provider>
     );
