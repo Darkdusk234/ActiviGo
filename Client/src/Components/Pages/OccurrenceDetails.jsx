@@ -48,9 +48,9 @@ const OccurrenceDetails = () => {
     {
       try {
         const res = await fetch(`${API_URL}/Booking`, {
-          method: "Get",
+          method: "Post",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({"activityOccurenceId": id, "participants": 50})
+          body: JSON.stringify({"activityOccurenceId": user.id, "participants": participants})
         });
 
         if (res.ok) {
