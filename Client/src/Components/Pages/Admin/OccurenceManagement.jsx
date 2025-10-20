@@ -5,7 +5,7 @@ import './Admin.css';
 import DetailedSearch from '../../DetailedSearch';
 import { useCategories } from '../../../contexts/CategoryContext';
 import { useActivities } from '../../../contexts/ActivityContext';
-import { useLocations } from '../../../contexts/LocationContext';
+import { useSubLocations } from '../../../contexts/SubLocationContext';
 import { useParams } from 'react-router-dom';
 
 const OccurenceManagement = () => {
@@ -13,9 +13,12 @@ const OccurenceManagement = () => {
     const { user, APIURL } = useAuth();
     const { id } = useParams();
     const { filter } = useParams();
-    console.log(useParams());
     const [occurrences, setOccurrences] = useState([]);
-    const [idName, setIdName]   = useState('');
+    const [idName, setIdName] = useState('');
+
+    // To get names for ids
+    const { activities } = useActivities();
+    const { subLocations } = useSubLocations();
 
     useEffect(() => {
         // fetch all occurences
@@ -24,6 +27,7 @@ const OccurenceManagement = () => {
             try {
                 const response = await fetch(`${APIURL}/ActivityOccurence`);
                 const data = await response.json();
+                console.log(data);
                 setOccurrences(data);
                 
             } catch (error) {
@@ -36,7 +40,9 @@ const OccurenceManagement = () => {
 
     const filterOccurences = (filter, id) => {
         if(filter === 'activity')
+        {
             return occurrences.filter(occ => occ.activityId.toString() === id);
+        }
         // if(filter === 'location')
         //     return occurrences.filter(occ => occ.locationId.toString() === id);
         if(filter === 'sublocation')
@@ -45,12 +51,27 @@ const OccurenceManagement = () => {
         //     return occurrences.filter(occ => occ.categoryId.toString() === id);
     }
 
+    const getNameById = (type, id) => {
+        if(type === 'activity')
+        {
+            
+            const activity = activities.find(act => act.id.toString() === id);
+
+            return activity ? activity.name : '';
+        }
+        if(type === 'sublocation')
+        {
+            const subLocation = subLocations.find(loc => loc.id.toString() === id);
+            return subLocation ? subLocation.name : '';
+        }
+    }
 
     return (
         <>
         <div className="management-items-container">
             <h1>Occurence Management</h1>
-            <h2>Occurences by: {filter}: {id}</h2>
+            <h2>Occurences for {filter.charAt(0).toUpperCase() + filter.slice(1)}: {getNameById(filter, id)}</h2>
+            <button>Sort by latest</button>
             {filterOccurences(filter, id).map(occ => (
                 <OccurenceListCard key={occ.id} item={occ} />
             ))}

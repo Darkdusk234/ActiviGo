@@ -75,7 +75,7 @@ const ActivityManagement = () => {
 
     const handleRemove = async (id) => {
         if (window.confirm(`Are you sure you want to remove activity with id ${id}?`)) {
-            const newActivities = activities.filter(activity => activity.id !== id);
+            const newActivities = allActivities.filter(activity => activity.id !== id);
             setActivities(newActivities);
             setFilteredActivities(newActivities.filter(activity =>
                 activity.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -112,7 +112,7 @@ const ActivityManagement = () => {
     useEffect(() => {
         setActivities(activities);
         setFilteredActivities(activities);
-    }, []);
+    }, [handleCreate]);
 
     useEffect(() => {
         let filtered = allActivities;
