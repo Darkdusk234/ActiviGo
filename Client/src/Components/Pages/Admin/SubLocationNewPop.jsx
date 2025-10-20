@@ -29,7 +29,7 @@ const SubLocationNewPop = ({handleCreate, closePopup}) => {
         <div className="popup-background">
             <form className="popup-card" onSubmit={(e) => {
                 e.preventDefault();
-                console.log({name, description, maxCapacity, indoor, locationId});
+                
                 handleCreate({name, description, maxCapacity, indoor, locationId});
                 close();
             }}>

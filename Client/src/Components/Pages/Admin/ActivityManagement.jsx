@@ -23,6 +23,11 @@ const ActivityManagement = () => {
     const { categories } = useCategories(); 
     const { activities } = useActivities();
 
+    useEffect(() => {
+        setActivities(activities);
+        setFilteredActivities(activities);
+    }, []);
+
     const handleViewToggle = () => {
         setView(!view);
     };
@@ -50,6 +55,7 @@ const ActivityManagement = () => {
     };
 
     const handleCreate = async (activity) => {
+        console.log('Creating activity:', JSON.stringify(activity));
         const response = await fetch(`${APIURL}/Activity`, {
             method: 'POST',
             headers: {
@@ -59,7 +65,7 @@ const ActivityManagement = () => {
             body: JSON.stringify(activity)
         });
         const data = await response.json();
-        setActivities([...activities, data]);
+        setActivities([...allActivities, data]);
         setFilteredActivities([...filteredActivities, data]);
     }
 
