@@ -67,6 +67,7 @@ const OccurenceManagement = () => {
     }
 
     const handleCancel = async (id) => {
+        if (window.confirm(`Are you sure you want to cancel occurrence with id ${id}?`)) {
         await fetch(`${APIURL}/ActivityOccurence/cancel/${id}`, {
             method: 'PUT',
             headers: {
@@ -75,26 +76,35 @@ const OccurenceManagement = () => {
             }
         });
     }
+    }
 
     const handleRemove = async (id) => {
-        await fetch(`${APIURL}/ActivityOccurence/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-            }
-        });
+        if (window.confirm(`Are you sure you want to remove occurrence with id ${id}?`)) {
+            await fetch(`${APIURL}/ActivityOccurence/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            });
+        }
     }
 
     const handleEdit = async (occurrence) => {
-        await fetch(`${APIURL}/ActivityOccurence/${occurrence.id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-            },
-            body: JSON.stringify(occurrence)
-        });
+
+        if (window.confirm(`Are you sure you want to edit occurrence with id ${occurrence.id}?`)) {
+            {
+
+                await fetch(`${APIURL}/ActivityOccurence/${occurrence.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify(occurrence)
+                });
+            }
+        }
     }
 
     return (

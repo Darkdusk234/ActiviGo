@@ -55,7 +55,7 @@ const SubLocationListCard = ({ item, removeSubLocation, editSubLocation }) => {
                             <p>Indoors:</p>
                             <input type="checkbox" id="indoors" className="checkbox" name="indoors" defaultChecked={item.indoors}></input>
                             <p>At location:</p>
-                            <select>
+                            <select defaultValue={item.locationId}>
                                 <option value={item.locationId}>{item.locationId}</option>
                                 {locationNames.map((location, index) => (
                                     <option key={index} value={location} selected={location === item.locationId}>{location}</option>

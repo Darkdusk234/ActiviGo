@@ -35,12 +35,15 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
                     const formData = new FormData(e.target);
                     const updatedOccurence = {
                         id: item.id,
-                        activityId: formData.get("activityId"),
+                        activityId: item.activityId,
                         startTime: formData.get("startTime"),
                         endTime: formData.get("endTime"),
-                        sublocationId: formData.get("sublocationId")
+                        sublocationId: formData.get("sublocationId"),
+                        capacity: formData.get("capacity"),
+                        price: formData.get("price")
                     };
                     editOccurence(updatedOccurence);
+                    console.log(updatedOccurence);
                     setEditMode(false);
                 }}>
                     <div className="admin-list-card-info">
@@ -51,15 +54,13 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
                             <input type="datetime-local" className="input-startTime" id="startTime" name="startTime" defaultValue={item.startTime} placeholder="Start Time" />
                             <p>End Time</p>
                             <input type="datetime-local" className="input-endTime" id="endTime" name="endTime" defaultValue={item.endTime} placeholder="End Time" />
-                            <p>Location</p>
+                            <p>SubLocation</p>
                             <select id="sublocationId" name="sublocationId">
                                 {subLocations.map(loc => (
                                     <option key={loc.id} value={loc.id}>{loc.name}</option>
                                 ))}
                             </select>
-                            <p>Price:</p>
-                            <input type="number" className="input-price" id="price" name="price" defaultValue={item.price} placeholder="Price" />
-                            <p>Max Capacity:</p>
+                          <p>Max Capacity:</p>
                             <input type="number" className="input-capacity" id="capacity" name="capacity" defaultValue={item.capacity} placeholder="Max Capacity" />
                         </div>
                     </div>
@@ -83,7 +84,7 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
 
                                 <p>Location: </p><p>{item.subLocationName}, {item.locationName}</p>
                                 <p>Category: </p><p>{item.categoryName}</p>
-                                <p>Current participation count: </p><p>{item.capacity - item.availableSpots} / {item.capacity}</p>
+                                <p>Current participation count: </p><p>{(parseInt(item.capacity) - parseInt(item.availableSpots))} / {item.capacity}</p>
                                 <p>Price: </p><p>{item.price} SEK</p>
                                 
                             </div>
