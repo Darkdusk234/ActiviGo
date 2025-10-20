@@ -5,6 +5,7 @@ import Layout from "./Components/Layout/Layout";
 import Home from "./Components/Pages/Home";
 import LoginForm from './Components/LoginForm'
 import SearchResults from './Components/Pages/SearchResults';
+import MyBookings from './Components/Display/MyBookings';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/search" element={<SearchResults />} />
           <Route path="/" element={<Home />} />
+          <Route path="/my-bookings" element={<MyBookings />} />
         </Route>
       </Routes>
     </BrowserRouter>
