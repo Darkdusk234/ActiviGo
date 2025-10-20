@@ -19,7 +19,8 @@ namespace ActiviGoApi.Services.Mapping
                     .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Activity.Price))
                     .ForMember(dest => dest.SubLocationName, opt => opt.MapFrom(src => src.SubLocation.Name))
                     .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Activity.Category.Name))
-                    .ForMember(dest => dest.LocationName, opt => opt.MapFrom(src => src.SubLocation.Location.Name));    
+                    .ForMember(dest => dest.LocationName, opt => opt.MapFrom(src => src.SubLocation.Location.Name))
+                    .ForMember(dest => dest.ActivityDescription, opt => opt.MapFrom(src => src.Activity.Description));    
 
             CreateMap<CreateActivityOccurrenceDTO, ActivityOccurence>()
                     .ForMember(dest => dest.Id, opt => opt.Ignore())
