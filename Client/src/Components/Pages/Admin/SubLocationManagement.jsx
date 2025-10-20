@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import SubLocationListCard from './SubLocationListCard';
 import './Admin.css';
+import SubLocationNewPop from './SubLocationNewPop';
 
 const SubLocationManagement = () => {
     const [subLocations, setSubLocations] = useState([]); // full list
@@ -9,6 +10,7 @@ const SubLocationManagement = () => {
     const [nameFilter, setNameFilter] = useState('');
     const [view, setView] = useState(false);
     const { user, APIURL } = useAuth();
+      const [newPopup, setNewPopup] = useState(false);
 
     const handleViewToggle = () => {
         setView(!view);
@@ -60,6 +62,20 @@ const SubLocationManagement = () => {
         }
     };
 
+        const handleCreate = async (subLocation) => {
+        const response = await fetch(`${APIURL}/SubLocation`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+            body: JSON.stringify(category)
+        });
+        const data = await response.json();
+        setSubLocations([...subLocations, data]);
+        setFilteredSubLocations([...filteredSubLocations, data]);
+    }
+
     useEffect(() => {
         const fetchSubLocations = async () => {
             const response = await fetch(`${APIURL}/SubLocation`, {
@@ -86,7 +102,7 @@ const SubLocationManagement = () => {
                 <>
                 <div className = "admin-buttons">
                            <button className="btn" onClick={() => setView(!view)}>View SubLocations</button>
-                           <button className="btn">Add New</button>
+                           <button className="btn" onClick={() => setNewPopup(!newPopup)}>Add New</button>
                        </div>
                        <div className="view-toggle">
                         {!view ? (
@@ -101,9 +117,9 @@ const SubLocationManagement = () => {
                        </div>
                            )}
                        </div>
-                      
-                  
-                
+
+                  {newPopup && (<SubLocationNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
+
                 </>
             )}
         </div>

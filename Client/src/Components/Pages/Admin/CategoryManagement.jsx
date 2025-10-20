@@ -4,6 +4,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 import AdminListCard from './CategoryListCard';
 
 import './Admin.css';
+import CategoryNewPop from './CategoryNewPop';
 
 const CategoryManagement = () => {
 
@@ -11,6 +12,8 @@ const CategoryManagement = () => {
     const [filteredCategories, setFilteredCategories] = useState([]); // filtered list
     const [view, setView] = useState(false);
     const { user, APIURL } = useAuth();
+    const [newPopup, setNewPopup] = useState(false);
+
 
     const [nameFilter, setNameFilter] = useState('');  
 
@@ -64,8 +67,19 @@ const CategoryManagement = () => {
         }
     }
 
-
-
+    const handleCreate = async (category) => {
+        const response = await fetch(`${APIURL}/Category`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+            body: JSON.stringify(category)
+        });
+        const data = await response.json();
+        setCategories([...categories, data]);
+        setFilteredCategories([...filteredCategories, data]);
+    }
 
     useEffect(() => {
         // Fetch categories from API
@@ -93,7 +107,7 @@ const CategoryManagement = () => {
                 <>
                 <div className = "admin-buttons">
                            <button className="btn" onClick={() => setView(!view)}>View Categories</button>
-                           <button className="btn">Add New</button>
+                           <button className="btn" onClick={()=> setNewPopup(!newPopup)}>Add New</button>
                        </div>
                        <div className="view-toggle">
                         {!view ? (
@@ -108,6 +122,7 @@ const CategoryManagement = () => {
                        </div>
                            )}
                        </div>
+                       {newPopup && (<CategoryNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
                       
                   
                 

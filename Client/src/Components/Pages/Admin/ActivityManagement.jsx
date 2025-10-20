@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import ActivityListCard from './ActivityListCard';
+import ActivityNewPop from './ActivityNewPop';
 import './Admin.css';
-import { useCategories } from '../../../contexts/CategoryContext';
+import { useCategories } from '../../contexts/CategoryContext';
+import { APIURL } from '../../../config';
 
 const ActivityManagement = () => {
     const [activities, setActivities] = useState([]); // full list
@@ -14,6 +16,7 @@ const ActivityManagement = () => {
     const [maxPriceFilter, setMaxPriceFilter] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
     const [view, setView] = useState(false);
+      const [newPopup, setNewPopup] = useState(false);
 
     const { categories } = useCategories(); 
 
@@ -43,6 +46,21 @@ const ActivityManagement = () => {
         setCategoryFilter(e.target.value);
     };
 
+    const handleCreate = async (activity) => {
+        const response = await fetch(`${APIURL}/Activity`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+            body: JSON.stringify(activity)
+        });
+        const data = await response.json();
+        setActivities([...activities, data]);
+        setFilteredActivities([...filteredActivities, data]);
+    }
+
+
 
     const { user } = useAuth();
 
@@ -53,7 +71,7 @@ const ActivityManagement = () => {
             setFilteredActivities(newActivities.filter(activity =>
                 activity.name.toLowerCase().includes(nameFilter.toLowerCase())
             ));
-            await fetch(`https://localhost:7201/api/Activity/${id}`, {
+            await fetch(`${APIURL}/Activity/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -65,7 +83,7 @@ const ActivityManagement = () => {
 
     const handleEdit = async (activity) => {
         if (window.confirm(`Are you sure you want to edit activity with id ${activity.id}?`)) {
-            await fetch(`https://localhost:7201/api/Activity/${activity.id}`, {
+            await fetch(`${APIURL}/Activity/${activity.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -84,7 +102,7 @@ const ActivityManagement = () => {
 
     useEffect(() => {
         const fetchActivities = async () => {
-            const response = await fetch('https://localhost:7201/api/Activity', {
+            const response = await fetch(`${APIURL}/Activity`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -140,7 +158,7 @@ const ActivityManagement = () => {
                 <>
                 <div className = "admin-buttons">
                            <button className="btn" onClick={handleViewToggle}>View Activities</button>
-                           <button className="btn">Add New</button>
+                           <button className="btn" onClick={() => setNewPopup(!newPopup)}>Add New</button>
                        </div>
                        <div className="view-toggle">
                         {!view ? (
@@ -168,7 +186,7 @@ const ActivityManagement = () => {
                           </div>
                            )}
                        </div>
-                      
+                      {newPopup && (<ActivityNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
                   
                 
                 </>

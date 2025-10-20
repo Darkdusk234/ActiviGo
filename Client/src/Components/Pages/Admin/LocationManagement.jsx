@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import LocationListCard from './LocationListCard';
+import LocationNewPop from './LocationNewPop';
 import './Admin.css';
 
 const LocationManagement = () => {
@@ -9,6 +10,7 @@ const LocationManagement = () => {
     const [nameFilter, setNameFilter] = useState('');
     const [view, setView] = useState(false);
     const { user, APIURL } = useAuth();
+      const [newPopup, setNewPopup] = useState(false);
 
     const handleViewToggle = () => {
         setView(!view);
@@ -60,6 +62,20 @@ const LocationManagement = () => {
         }
     };
 
+        const handleCreate = async (location) => {
+        const response = await fetch(`${APIURL}/Location`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+            body: JSON.stringify(category)
+        });
+        const data = await response.json();
+        setLocations([...locations, data]);
+        setFilteredLocations([...filteredLocations, data]);
+    }
+
     useEffect(() => {
         const fetchLocations = async () => {
             const response = await fetch(`${APIURL}/Location`, {
@@ -86,7 +102,7 @@ const LocationManagement = () => {
                 <>
                 <div className = "admin-buttons">
                            <button className="btn" onClick={() => setView(!view)}>View Locations</button>
-                           <button className="btn">Add New</button>
+                           <button className="btn" onClick={() => setNewPopup(!newPopup)}>Add New</button>
 
                        </div>
                        <div className="view-toggle">
@@ -103,7 +119,7 @@ const LocationManagement = () => {
                            )}
                        </div>
                       
-                  
+                  {newPopup && (<LocationNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
                 
                 </>
             )}
