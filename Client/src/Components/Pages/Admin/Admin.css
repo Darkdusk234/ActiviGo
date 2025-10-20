@@ -148,6 +148,8 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* navbar  styles */
+
 .admin-nav {
     background-color: #333;
     padding: 10px;
@@ -177,6 +179,19 @@ button:hover {
 
     box-shadow: -2px -2px 5px rgb(179, 177, 177);
     
+}
+
+.admin-logged-in {
+    position: absolute;
+    right: 40px;
+    color: white;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+.admin-logged-in:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .filter-list input {

@@ -3,7 +3,7 @@ import { useRef, useEffect, useState, useContext } from "react";
 import { useAuth } from '../../contexts/AuthContext';
 import LoginDropBox from "./LoginDropBox";
 import './Layout.css';
-import { AuthContext } from "../../contexts/AuthContext";
+
 const NavLogin = () => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -30,7 +30,7 @@ const NavLogin = () => {
 
     return(
         <>
-            {isLoggedIn ? (<img src="../src/assets/loginpic.png" alt="Login" className="NavLogin" onClick={() => showLoginBox()}/> ) : (<div className="NavLogin" onClick="//Länk till mina sidor">Mina Sidor</div>) }
+            {!isLoggedIn ? (<img src="../src/assets/loginpic.png" alt="Login" className="NavLogin" onClick={() => showLoginBox()}/> ) : (<div className="NavLogin" onClick="//Länk till mina sidor">Mina Sidor</div>) }
             {loginVisible ? (<LoginDropBox />) : ("")}
         </>
     )
