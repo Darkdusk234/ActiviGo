@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useCategories } from '../../contexts/CategoryContext'
 import CategoryCard from '../Cards/CategoryCard'
+import './CategoryList.css'
 
 const CategoryList = () => {
     const { categories } = useCategories
