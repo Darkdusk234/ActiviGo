@@ -3,14 +3,16 @@ import { useAuth } from '../../../contexts/AuthContext';
 import SubLocationListCard from './SubLocationListCard';
 import './Admin.css';
 import SubLocationNewPop from './SubLocationNewPop';
+import { useSubLocations } from '../../../contexts/SubLocationContext';
 
 const SubLocationManagement = () => {
-    const [subLocations, setSubLocations] = useState([]); // full list
+    const [allSubLocations, setSubLocations] = useState([]); // full list
     const [filteredSubLocations, setFilteredSubLocations] = useState([]); // filtered list
     const [nameFilter, setNameFilter] = useState('');
     const [view, setView] = useState(false);
     const { user, APIURL } = useAuth();
       const [newPopup, setNewPopup] = useState(false);
+    const { subLocations } = useSubLocations();
 
     const handleViewToggle = () => {
         setView(!view);
@@ -20,7 +22,7 @@ const SubLocationManagement = () => {
         const value = e.target.value;
         setNameFilter(value);
         setFilteredSubLocations(
-            subLocations.filter(subLocation =>
+            allSubLocations.filter(subLocation =>
                 subLocation.name.toLowerCase().includes(value.toLowerCase())
             )
         );
@@ -28,7 +30,7 @@ const SubLocationManagement = () => {
 
     const handleRemove = async (id) => {
         if (window.confirm(`Are you sure you want to remove sublocation with id ${id}?`)) {
-            const newSubLocations = subLocations.filter(subLocation => subLocation.id !== id);
+            const newSubLocations = allSubLocations.filter(subLocation => subLocation.id !== id);
             setSubLocations(newSubLocations);
             setFilteredSubLocations(newSubLocations.filter(subLocation =>
                 subLocation.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -73,27 +75,14 @@ const SubLocationManagement = () => {
             body: JSON.stringify(subLocation)
         });
         const data = await response.json();
-        setSubLocations([...subLocations, data]);
+        setSubLocations([...allSubLocations, data]);
         setFilteredSubLocations([...filteredSubLocations, data]);
     }
 
     useEffect(() => {
-        const fetchSubLocations = async () => {
-            const response = await fetch(`${APIURL}/SubLocation`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                }
-            });
-            const data = await response.json();
-            setSubLocations(data);
-            setFilteredSubLocations(data.filter(subLocation =>
-                subLocation.name.toLowerCase().includes(nameFilter.toLowerCase())
-            ));
-        };
-        fetchSubLocations();
-    }, [handleEdit]);
+        setSubLocations(subLocations);
+        setFilteredSubLocations(subLocations);
+    }, []);
 
     return (
         <>
@@ -129,3 +118,4 @@ const SubLocationManagement = () => {
 };
 
 export default SubLocationManagement;
+

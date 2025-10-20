@@ -4,10 +4,11 @@ import ActivityListCard from './ActivityListCard';
 import ActivityNewPop from './ActivityNewPop';
 import './Admin.css';
 import { useCategories } from '../../../contexts/CategoryContext';
+import { useActivities } from '../../../contexts/ActivityContext';
 
 
 const ActivityManagement = () => {
-    const [activities, setActivities] = useState([]); // full list
+    const [allActivities, setActivities] = useState([]); // full list
     const [filteredActivities, setFilteredActivities] = useState([]); // filtered list
     const [nameFilter, setNameFilter] = useState('');
     const [lengthFilter, setLengthFilter] = useState('');
@@ -20,6 +21,7 @@ const ActivityManagement = () => {
     const { APIURL } = useAuth();
 
     const { categories } = useCategories(); 
+    const { activities } = useActivities();
 
     const handleViewToggle = () => {
         setView(!view);
@@ -102,22 +104,12 @@ const ActivityManagement = () => {
     };
 
     useEffect(() => {
-        const fetchActivities = async () => {
-            const response = await fetch(`${APIURL}/Activity`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                }
-            });
-            const data = await response.json();
-            setActivities(data);
-        };
-        fetchActivities();
+        setActivities(activities);
+        setFilteredActivities(activities);
     }, []);
 
     useEffect(() => {
-        let filtered = activities;
+        let filtered = allActivities;
         if (nameFilter) {
             filtered = filtered.filter(activity =>
                 activity.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -149,7 +141,7 @@ const ActivityManagement = () => {
             );
         }
         setFilteredActivities(filtered);
-    }, [activities, nameFilter, lengthFilter, maxLengthFilter, maxParticipantsFilter, maxPriceFilter, categoryFilter]);
+    }, [allActivities, nameFilter, lengthFilter, maxLengthFilter, maxParticipantsFilter, maxPriceFilter, categoryFilter]);
 
     return (
         <>
