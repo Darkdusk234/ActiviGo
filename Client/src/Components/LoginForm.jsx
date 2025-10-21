@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { useAuth } from '../contexts/AuthContext';
 
-const LoginForm = () => {
+const LoginForm = ( {close}) => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const { login } = useAuth();
@@ -20,6 +20,7 @@ const LoginForm = () => {
         } catch (error) {
             console.error('Login failed:', error);
         }
+        close();
     };
 
     return (

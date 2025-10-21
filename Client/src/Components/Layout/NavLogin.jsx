@@ -2,13 +2,25 @@ import React from "react";
 import { useRef, useEffect, useState, useContext } from "react";
 import { useAuth } from '../../contexts/AuthContext';
 import LoginDropBox from "./LoginDropBox";
-import './Layout.css';
+import UserDropBox from "./UserDropMenu";
+import './Login.css';
 
 const NavLogin = () => {
 
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
-    const [loginVisible, setLoginVisible] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [boxVisible, setBoxVisible] = useState(false);
     const { user } = useAuth();
+
+    
+    function showBox() {
+
+        setBoxVisible(!boxVisible);
+
+    }
+
+    function closeBox() {
+        setBoxVisible(false);
+    }
 
     useEffect(() => {
 
@@ -22,16 +34,12 @@ const NavLogin = () => {
             }
     }, [])
 
-    const showLoginBox = () => {
 
-        setLoginVisible(!loginVisible);
-
-    }
 
     return(
         <>
-            {!isLoggedIn ? (<img src="../src/assets/loginpic.png" alt="Login" className="NavLogin" onClick={() => showLoginBox()}/> ) : (<div className="NavLogin" >Mina Sidor</div>) }
-            {loginVisible ? (<LoginDropBox />) : ("")}
+            <img src="../src/assets/loginpic.png" alt="Login" className="NavLogin" onClick={() => showBox()}/> 
+            {boxVisible ? (<LoginDropBox close={closeBox}/>) : ""}
         </>
     )
 }
