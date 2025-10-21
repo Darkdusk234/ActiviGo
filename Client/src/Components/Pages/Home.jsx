@@ -4,20 +4,29 @@ import ActivityList from "../Display/ActivityList";
 import SearchResults from "../Pages/SearchResults";
 
 import ActivityOccurrenceList from "../Display/ActivityOccurrenceList";
+import SearchBar from "../Layout/Searchbar";
 
 
 export default function Home() {
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Kategorier</h2>
-      <CategoryList />
-      <h2 className="text-2xl font-bold mt-8 mb-4">Händelser</h2>
-      <ActivityOccurrenceList />
-      <h2 className="text-2xl font-bold mt-8 mb-4">Aktiviteter</h2>
-      <ActivityList />
-      <div>
-
+    <div>
+     <div className="welcome-message">
+        <h1>Välkommen till ActiviGo!</h1>
+        <p >
+          Upptäck spännande aktiviteter och evenemang i din närhet. Använd vår sökfunktion för att hitta det som passar just dig!
+        </p>
+        <div className="searchbar-container">
+          <SearchBar/>
+        </div>
       </div>
-    </div>
+      <div className="carousels">
+        <h2>Kategorier</h2>
+        <CategoryList />
+        <h2 className="text-2xl font-bold mt-8 mb-4">Händelser</h2>
+        <ActivityOccurrenceList />
+        <h2 className="text-2xl font-bold mt-8 mb-4">Aktiviteter</h2>
+        <ActivityList />
+      </div>
+     </div>
   );
 }

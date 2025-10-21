@@ -2,6 +2,7 @@ import React from "react";
 import {useState, useEffect} from 'react';
 import { useLocation } from "react-router-dom";
 import SingleResultDisplay from "../Display/SingleResultDisplay";
+import SearchBar from "../Layout/Searchbar";
 
 
 const GeneralSearch = () => {
@@ -34,10 +35,20 @@ useEffect(() => {
   }, [query]);
 
   return (
-    <div className ="search-results">
-        {loading ? "No results..." : results.map((results, index) => {
-           return <SingleResultDisplay key={index} result={results}/>;
-        })}
+    <div className="general-search-page">
+      <div className="welcome-message">
+              <p >
+                Upptäck spännande aktiviteter och evenemang i din närhet. Använd vår sökfunktion för att hitta det som passar just dig!
+              </p>
+              <div className="searchbar-container">
+                <SearchBar/>
+              </div>
+            </div>
+      <div className ="search-results">
+          {loading ? "No results..." : results.map((results, index) => {
+            return <SingleResultDisplay key={index} result={results}/>;
+          })}
+      </div>
     </div>
   );
 };
