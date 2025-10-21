@@ -1,8 +1,9 @@
 import React from 'react'
 import ActivityCard from '../Cards/ActivityCard'
+import { useActivities } from '../../contexts/ActivityContext'
 
 const ActivityListPage = () => {
-
+    const {activitiesInCategory} = useActivities();
     
   return (
     <>
