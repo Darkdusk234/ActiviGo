@@ -11,8 +11,7 @@ const OccurrenceDetails = () => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [participants, setParticipants] = useState('');
-  const API_URL = import.meta.env.VITE_API_URL;
-  const { user } = useAuth();
+  const { user, loading: authLoading, API_URL, fetchUser } = useAuth();
 
   useEffect(() => {
     const fetchOccurrence = async () => {
@@ -38,10 +37,11 @@ const OccurrenceDetails = () => {
 
   const handleBooking = async (e) => {
     e.preventDefault();
-    if (!user) {
-      alert("Du måste vara inloggad för att boka!");
-      return;
-    }
+    const currentUser = await fetchUser();
+  if (!currentUser) {
+    alert("Du måste vara inloggad för att boka!");
+    return;
+  }
 
     if (!participants || isNaN(participants) 
       || participants <= 0 || participants <= occurrence.availableSpots) 
@@ -50,7 +50,7 @@ const OccurrenceDetails = () => {
         const res = await fetch(`${API_URL}/Booking`, {
           method: "Post",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({"activityOccurenceId": user.id, "participants": participants})
+          body: JSON.stringify({"activityOccurenceId": id, "participants": participants})
         });
 
         if (res.ok) {
