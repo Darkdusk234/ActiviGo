@@ -16,6 +16,7 @@ import CategoryManagement from './Components/Pages/Admin/CategoryManagement';
 import OccurenceManagement from './Components/Pages/Admin/OccurenceManagement';
 import BookingManagement from './Components/Pages/Admin/BookingManagement';
 import CategoryListPage from './Components/Pages/CategoryListPage';
+import ActivityListPage from './Components/Pages/ActivityListPage';
 
 
 function App() {
@@ -28,7 +29,8 @@ function App() {
           <Route path="/search" element={<SearchResults />} />
           <Route path="/general-search" element={<GeneralSearch />} />
           <Route path="/" element={<Home />} />   
-          <Route path="/categories" element={<CategoryListPage />}/>
+          <Route path="/categories" element={<CategoryListPage />} />
+          <Route path="/activities/:categoryName" element={<ActivityListPage />} />
         </Route>
         <Route element ={<AdminPage />}>
           <Route path="/admin" element={<AdminDashboard />} />
