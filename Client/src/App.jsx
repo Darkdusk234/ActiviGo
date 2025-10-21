@@ -34,8 +34,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/my-bookings" element={<MyBookings />} />
           <Route path="/general-search" element={<GeneralSearch />} />
-          <Route path="/occurrence/:id" element={<OccurrenceDetails />} />
-          <Route path="/" element={<Home />} />   
+          <Route path="/occurrence/:id" element={<OccurrenceDetails />} /> 
           <Route path="/categories" element={<CategoryListPage />} />
           <Route path="/activities/:categoryname" element={<ActivityListPage />} />
         </Route>
