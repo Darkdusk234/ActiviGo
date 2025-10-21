@@ -30,7 +30,7 @@ export function ActivityProvider({ children }) {
   }, []);
 
   return (
-    <ActivityContext.Provider value={{ activities, loadingActivities, errorActivities }}>
+    <ActivityContext.Provider value={{ activities, loadingActivities, errorActivities, activitiesInCategory, setActivitiesInCategory }}>
       {children}
     </ActivityContext.Provider>
   );
