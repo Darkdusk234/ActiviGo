@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useActivities } from "../../contexts/ActivityContext";
 import "./CategoryCard.css";
 
@@ -5,7 +6,10 @@ export default function CategoryCard({ category }) {
   const { setActivitiesInCategory, activities } = useActivities()
 
   const handleMove = () => {
+    const connectedActivities = activities.filter((activity) => activity.CategoryId === category.Id)
+    setActivitiesInCategory(connectedActivities);
     
+    useNavigate('/activities/test')
   }
 
   return (
