@@ -9,6 +9,7 @@ export function useActivities() {
 
 export function ActivityProvider({ children }) {
   const [activities, setActivities] = useState([]);
+  const [activitiesInCategory, setActivitiesInCategory] = useState([]);
   const [loadingActivities, setLoading] = useState(true);
   const [errorActivities, setError] = useState(null);
 
