@@ -15,7 +15,7 @@ const UserDropMenu = ({close}) => {
     }
 
     return(
-        <div class="user-drop-menu">
+        <div className="user-drop-menu">
             <p className="my-bookings"><Link to="/my-bookings">Mina bokningar</Link></p>
             <p className="logout" onClick={handleLogout}>Logga ut</p>
         </div>

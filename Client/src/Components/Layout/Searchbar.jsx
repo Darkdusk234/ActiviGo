@@ -9,16 +9,30 @@ export default function SearchBar({ isCompact = false }) {
   const navigate = useNavigate();
   const inputRef = useRef(null);
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim() !== "") {
-      navigate(`/general-search?query=${encodeURIComponent(query)}`);
+
+      navigate('/search', { state: {searchQuery: query, source: 'general'} });
       if (isCompact) {
         setIsExpanded(false); // Collapse after search in compact mode
         setQuery(""); // Clear input
       }
     }
   };
+
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (query.trim() !== "") {
+  //     navigate(`/general-search?query=${encodeURIComponent(query)}`);
+  //     if (isCompact) {
+  //       setIsExpanded(false); // Collapse after search in compact mode
+  //       setQuery(""); // Clear input
+  //     }
+  //   }
+  // };
   const handleIconClick = () => {
     if (isCompact) {
       setIsExpanded(true);
