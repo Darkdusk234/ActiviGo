@@ -37,7 +37,7 @@ function App() {
           <Route path="/admin/sublocations" element={<SubLocationManagement />} />
           <Route path="/admin/categories" element={<CategoryManagement />} />
           <Route path="/admin/occurrences/:filter/:id" element={<OccurenceManagement />} />
-
+          <Route path="/admin/occurrences" element={<OccurenceManagement />} />
           <Route path="/admin/bookings" element={<BookingManagement />} />
         </Route>
       </Routes>

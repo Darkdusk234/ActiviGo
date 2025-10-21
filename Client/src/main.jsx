@@ -6,15 +6,18 @@ import { AuthProvider } from './contexts/AuthContext.jsx'
 import { ActivityProvider } from './contexts/ActivityContext.jsx'
 import { CategoryProvider } from './contexts/CategoryContext.jsx'
 import { LocationProvider } from './contexts/LocationContext.jsx'
+import { SubLocationProvider } from './contexts/SubLocationContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
       <CategoryProvider>
         <LocationProvider>
-          <ActivityProvider>
-            <App />
-          </ActivityProvider>
+          <SubLocationProvider>
+            <ActivityProvider>
+              <App />
+            </ActivityProvider>
+          </SubLocationProvider>
         </LocationProvider>
       </CategoryProvider>
     </AuthProvider>
