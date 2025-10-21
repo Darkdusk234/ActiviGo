@@ -1,6 +1,13 @@
+import { useActivities } from "../../contexts/ActivityContext";
 import "./CategoryCard.css";
 
 export default function CategoryCard({ category }) {
+  const { setActivitiesInCategory, activities } = useActivities()
+
+  const handleMove = () => {
+    
+  }
+
   return (
     <div className="category-card">
       <div className="category-card-content">
