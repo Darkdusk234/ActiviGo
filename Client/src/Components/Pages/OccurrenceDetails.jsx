@@ -43,25 +43,35 @@ const OccurrenceDetails = () => {
       return;
     }
 
-    if (!participants || isNaN(participants) 
-      || participants <= 0 || participants <= occurrence.availableSpots) 
-    {
-      try {
-        const res = await fetch(`${API_URL}/Booking`, {
-          method: "Post",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({"activityOccurenceId": user.id, "participants": participants})
-        });
+    if (!participants || isNaN(participants) || participants <= 0) {
+    alert("Ange ett giltigt antal deltagare!");
+    return;
+  }
 
-        if (res.ok) {
-          alert("Bokningen lyckades!");
-        } else {
-          alert("Något gick fel vid bokning");
-        }
-      } catch (err) {
-        console.error("Booking error:", err);
-      }
+  if (participants > occurrence.availableSpots) {
+    alert("För många deltagare! Det finns bara " + occurrence.availableSpots + " platser kvar.");
+    return;
+  }
+  try {
+    const res = await fetch(`${API_URL}/Booking`, {
+      method: "Post",
+      headers: { 
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+       },
+      body: JSON.stringify({
+        "activityOccurenceId": id,
+        "participants": participants})
+    });
+
+    if (res.ok) {
+      alert("Bokningen lyckades!");
+    } else {
+      alert("Något gick fel vid bokning");
     }
+  } catch (err) {
+    console.error("Booking error:", err);
+  }
   };
   const splitDateTime = (startTime, endTime) => {
         const [startDatePart, startTimePart] = startTime.split('T');
