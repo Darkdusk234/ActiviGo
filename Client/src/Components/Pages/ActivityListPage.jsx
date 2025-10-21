@@ -1,5 +1,6 @@
 import React from 'react'
 import ActivityCard from '../Cards/ActivityCard'
+import './ActivityList.css'
 import { useActivities } from '../../contexts/ActivityContext'
 
 const ActivityListPage = () => {
@@ -11,7 +12,7 @@ const ActivityListPage = () => {
             <ul className='ActivityList'>
                 {activitiesInCategory.map((activity, index) => (
                     <li key={index}>
-                        <ActivityCardCard activity={activity} />
+                        <ActivityCard activity={activity} />
                     </li>
                 ))}
             </ul>
