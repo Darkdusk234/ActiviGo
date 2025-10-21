@@ -1,0 +1,70 @@
+.my-bookings {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+} 
+.my-bookings h1 {
+    margin-bottom: 0.5rem;
+}
+
+.count {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.empty {
+    text-align: center;
+    color: #999;
+    padding: 2rem;
+}
+
+.error {
+    background: #fee;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.error p {
+    color: #c00;
+    margin-bottom: 1rem;
+}
+
+.error button {
+    padding: 0.5rem 1rem;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.bookings-list {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.booking-item {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.booking-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.booking-item h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.booking-item p {
+    margin: 0.5rem 0;
+    color: #666;
+}

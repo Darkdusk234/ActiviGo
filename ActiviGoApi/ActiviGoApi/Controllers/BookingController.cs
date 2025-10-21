@@ -51,6 +51,7 @@ namespace ActiviGoApi.Api.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("bookings/user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
