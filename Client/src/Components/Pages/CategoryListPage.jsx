@@ -4,7 +4,7 @@ import CategoryCard from '../Cards/CategoryCard'
 import './CategoryList.css'
 
 const CategoryListPage = () => {
-    const { categories } = useCategories
+    const { categories } = useCategories();
 
   return (
     <>
