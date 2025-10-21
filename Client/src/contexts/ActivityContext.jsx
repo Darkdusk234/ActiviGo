@@ -9,6 +9,7 @@ export function useActivities() {
 
 export function ActivityProvider({ children }) {
   const [activities, setActivities] = useState([]);
+  const [activitiesInCategory, setActivitiesInCategory] = useState([]);
   const [loadingActivities, setLoading] = useState(true);
   const [errorActivities, setError] = useState(null);
 
@@ -29,7 +30,7 @@ export function ActivityProvider({ children }) {
   }, []);
 
   return (
-    <ActivityContext.Provider value={{ activities, loadingActivities, errorActivities }}>
+    <ActivityContext.Provider value={{ activities, loadingActivities, errorActivities, activitiesInCategory, setActivitiesInCategory }}>
       {children}
     </ActivityContext.Provider>
   );
