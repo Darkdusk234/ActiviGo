@@ -4,12 +4,13 @@ import "./CategoryCard.css";
 
 export default function CategoryCard({ category }) {
   const { setActivitiesInCategory, activities } = useActivities()
+  const navigate = useNavigate();
 
   const handleMove = () => {
     const connectedActivities = activities.filter((activity) => activity.categoryId === category.id)
     setActivitiesInCategory(connectedActivities);
 
-    window.location.replace("/activities/test");
+    navigate(`/activities/${category.name}`)
   }
 
   return (

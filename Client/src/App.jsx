@@ -30,7 +30,7 @@ function App() {
           <Route path="/general-search" element={<GeneralSearch />} />
           <Route path="/" element={<Home />} />   
           <Route path="/categories" element={<CategoryListPage />} />
-          <Route path="/activities/test" element={<ActivityListPage />} />
+          <Route path="/activities/:categoryname" element={<ActivityListPage />} />
         </Route>
         <Route element ={<AdminPage />}>
           <Route path="/admin" element={<AdminDashboard />} />
