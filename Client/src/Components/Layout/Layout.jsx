@@ -11,7 +11,7 @@ export default function Layout() {
     <div className="header-content">
       <Header />
       </div>
-      <main className="flex-1">
+      <main className="middle-content">
         <Outlet />
       </main>
       <Footer />

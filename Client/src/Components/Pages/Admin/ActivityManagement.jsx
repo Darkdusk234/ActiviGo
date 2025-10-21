@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import ActivityListCard from './ActivityListCard';
+import ActivityNewPop from './ActivityNewPop';
 import './Admin.css';
 import { useCategories } from '../../../contexts/CategoryContext';
+import { useActivities } from '../../../contexts/ActivityContext';
+
 
 const ActivityManagement = () => {
-    const [activities, setActivities] = useState([]); // full list
+    const [allActivities, setActivities] = useState([]); // full list
     const [filteredActivities, setFilteredActivities] = useState([]); // filtered list
     const [nameFilter, setNameFilter] = useState('');
     const [lengthFilter, setLengthFilter] = useState('');
@@ -14,8 +17,16 @@ const ActivityManagement = () => {
     const [maxPriceFilter, setMaxPriceFilter] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
     const [view, setView] = useState(false);
+      const [newPopup, setNewPopup] = useState(false);
+    const { APIURL } = useAuth();
 
     const { categories } = useCategories(); 
+    const { activities } = useActivities();
+
+    useEffect(() => {
+        setActivities(activities);
+        setFilteredActivities(activities);
+    }, []);
 
     const handleViewToggle = () => {
         setView(!view);
@@ -43,17 +54,31 @@ const ActivityManagement = () => {
         setCategoryFilter(e.target.value);
     };
 
+    const handleCreate = async (activity) => {
+        console.log('Creating activity:', JSON.stringify(activity));
+        const response = await fetch(`${APIURL}/Activity`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+            body: JSON.stringify(activity)
+        });
+
+    }
+
+
 
     const { user } = useAuth();
 
     const handleRemove = async (id) => {
         if (window.confirm(`Are you sure you want to remove activity with id ${id}?`)) {
-            const newActivities = activities.filter(activity => activity.id !== id);
+            const newActivities = allActivities.filter(activity => activity.id !== id);
             setActivities(newActivities);
             setFilteredActivities(newActivities.filter(activity =>
                 activity.name.toLowerCase().includes(nameFilter.toLowerCase())
             ));
-            await fetch(`https://localhost:7201/api/Activity/${id}`, {
+            await fetch(`${APIURL}/Activity/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -65,7 +90,7 @@ const ActivityManagement = () => {
 
     const handleEdit = async (activity) => {
         if (window.confirm(`Are you sure you want to edit activity with id ${activity.id}?`)) {
-            await fetch(`https://localhost:7201/api/Activity/${activity.id}`, {
+            await fetch(`${APIURL}/Activity/${activity.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,7 +99,7 @@ const ActivityManagement = () => {
                 body: JSON.stringify(activity)
             });
             // update local state
-            const newActivities = activities.map(act => act.id === activity.id ? { ...act, ...activity } : act);
+            const newActivities = allActivities.map(act => act.id === activity.id ? { ...act, ...activity } : act);
             setActivities(newActivities);
             setFilteredActivities(newActivities.filter(act =>
                 act.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -83,22 +108,13 @@ const ActivityManagement = () => {
     };
 
     useEffect(() => {
-        const fetchActivities = async () => {
-            const response = await fetch('https://localhost:7201/api/Activity', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                }
-            });
-            const data = await response.json();
-            setActivities(data);
-        };
-        fetchActivities();
-    }, []);
+        setActivities(activities);
+        setFilteredActivities(activities);
+    }, [allActivities]);
 
     useEffect(() => {
-        let filtered = activities;
+        let filtered = allActivities;
+        console.log(allActivities);
         if (nameFilter) {
             filtered = filtered.filter(activity =>
                 activity.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -130,7 +146,7 @@ const ActivityManagement = () => {
             );
         }
         setFilteredActivities(filtered);
-    }, [activities, nameFilter, lengthFilter, maxLengthFilter, maxParticipantsFilter, maxPriceFilter, categoryFilter]);
+    }, [allActivities, nameFilter, lengthFilter, maxLengthFilter, maxParticipantsFilter, maxPriceFilter, categoryFilter]);
 
     return (
         <>
@@ -140,7 +156,7 @@ const ActivityManagement = () => {
                 <>
                 <div className = "admin-buttons">
                            <button className="btn" onClick={handleViewToggle}>View Activities</button>
-                           <button className="btn">Add New</button>
+                           <button className="btn" onClick={() => setNewPopup(!newPopup)}>Add New</button>
                        </div>
                        <div className="view-toggle">
                         {!view ? (
@@ -168,7 +184,7 @@ const ActivityManagement = () => {
                           </div>
                            )}
                        </div>
-                      
+                      {newPopup && (<ActivityNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
                   
                 
                 </>

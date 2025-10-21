@@ -2,15 +2,21 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import AdminListCard from './CategoryListCard';
+import { useCategories } from '../../../contexts/CategoryContext';
 
 import './Admin.css';
+import CategoryNewPop from './CategoryNewPop';
 
 const CategoryManagement = () => {
 
-    const [categories, setCategories] = useState([]); // full list
+    const [allCategories, setCategories] = useState([]); // full list
     const [filteredCategories, setFilteredCategories] = useState([]); // filtered list
     const [view, setView] = useState(false);
     const { user, APIURL } = useAuth();
+    const [newPopup, setNewPopup] = useState(false);
+
+    const {categories} = useCategories();
+
 
     const [nameFilter, setNameFilter] = useState('');  
 
@@ -18,7 +24,7 @@ const CategoryManagement = () => {
         const value = e.target.value;
         setNameFilter(value);
         setFilteredCategories(
-            categories.filter(category =>
+            allCategories.filter(category =>
                 category.name.toLowerCase().includes(value.toLowerCase())
             )
         );
@@ -29,7 +35,7 @@ const CategoryManagement = () => {
     const handleRemove = async (id) => {
 
         if (confirm(`Är du säker på att du vill ta bort kategorin med id ${id}?`)) {
-            const newCategories = categories.filter(category => category.id !== id);
+            const newCategories = allCategories.filter(category => category.id !== id);
             setCategories(newCategories);
             setFilteredCategories(newCategories.filter(category =>
                 category.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -64,26 +70,24 @@ const CategoryManagement = () => {
         }
     }
 
-
-
+    const handleCreate = async (category) => {
+        const response = await fetch(`${APIURL}/Category`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+            body: JSON.stringify(category)
+        });
+        const data = await response.json();
+        setCategories([...categories, data]);
+        setFilteredCategories([...filteredCategories, data]);
+    }
 
     useEffect(() => {
-        // Fetch categories from API
-        const fetchCategories = async () => {
-            const response = await fetch(`${APIURL}/Category`,
-                { method: 'GET', 
-                    headers: { 'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
-                }
-            );
-            const data = await response.json();
-            setCategories(data);
-            setFilteredCategories(data.filter(category =>
-                category.name.toLowerCase().includes(nameFilter.toLowerCase())
-            ));
-        };
-        fetchCategories();
-    }, [handleEdit]);
+       setCategories(categories);
+       setFilteredCategories(categories);
+    }, []);
 
     return (
         <>
@@ -93,7 +97,7 @@ const CategoryManagement = () => {
                 <>
                 <div className = "admin-buttons">
                            <button className="btn" onClick={() => setView(!view)}>View Categories</button>
-                           <button className="btn">Add New</button>
+                           <button className="btn" onClick={()=> setNewPopup(!newPopup)}>Add New</button>
                        </div>
                        <div className="view-toggle">
                         {!view ? (
@@ -108,6 +112,7 @@ const CategoryManagement = () => {
                        </div>
                            )}
                        </div>
+                       {newPopup && (<CategoryNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
                       
                   
                 

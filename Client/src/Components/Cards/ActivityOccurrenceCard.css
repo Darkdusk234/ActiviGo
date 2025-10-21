@@ -6,8 +6,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 250px;                     /* lagom höjd för textinnehåll */
-  width: 260px;                      /* passar i swiper */
+  min-height: 60vh;                     /* lagom höjd för textinnehåll */
+  min-width: 50vh;                      /* passar i swiper */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   text-align: left;
@@ -18,6 +18,13 @@
   transform: translateY(-2px);
 }
 
+.occurrence-card img {
+  border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
+}
 .occurrence-card-content {
   padding: 1rem;
   display: flex;

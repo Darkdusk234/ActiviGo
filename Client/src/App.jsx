@@ -5,6 +5,8 @@ import Layout from "./Components/Layout/Layout";
 import Home from "./Components/Pages/Home";
 import LoginForm from './Components/LoginForm'
 import SearchResults from './Components/Pages/SearchResults';
+
+import MyBookings from './Components/Display/MyBookings';
 import GeneralSearch from './Components/Pages/GeneralSearch';
 import AdminPage from './Components/Pages/Admin/AdminPage';
 import AdminDashboard from './Components/Pages/Admin/AdminDashboard';
@@ -17,6 +19,7 @@ import OccurenceManagement from './Components/Pages/Admin/OccurenceManagement';
 import BookingManagement from './Components/Pages/Admin/BookingManagement';
 import CategoryListPage from './Components/Pages/CategoryListPage';
 import ActivityListPage from './Components/Pages/ActivityListPage';
+import OccurrenceDetails from "./Components/Pages/OccurrenceDetails";
 
 
 function App() {
@@ -27,7 +30,11 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/search" element={<SearchResults />} />
+
+          <Route path="/" element={<Home />} />
+          <Route path="/my-bookings" element={<MyBookings />} />
           <Route path="/general-search" element={<GeneralSearch />} />
+          <Route path="/occurrence/:id" element={<OccurrenceDetails />} />
           <Route path="/" element={<Home />} />   
           <Route path="/categories" element={<CategoryListPage />} />
           <Route path="/activities/:categoryname" element={<ActivityListPage />} />
@@ -40,8 +47,9 @@ function App() {
           <Route path="/admin/sublocations" element={<SubLocationManagement />} />
           <Route path="/admin/categories" element={<CategoryManagement />} />
           <Route path="/admin/occurrences/:filter/:id" element={<OccurenceManagement />} />
-
+          <Route path="/admin/occurrences" element={<OccurenceManagement />} />
           <Route path="/admin/bookings" element={<BookingManagement />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,23 +1,125 @@
+/* Base styles for the form */
 .searchform {
-    display: flex;
-    margin: 1rem 1rem;
-    justify-content: center;
-    z-index: 1000;
-    width: 100%;
-    background-color: #dbdbe1;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 
-.searchform .input {
-    background-color: #fff;
-    color: #101010;
+/* Full mode: Similar to original design */
+.searchform.full {
+  background-color: #ffffff; /* White background */
+  padding: 10px 15px; /* Padding inside the form */
+  border-radius: 25px; /* Rounded corners */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 400px; /* Limit form width */
+  width: 100%; /* Responsive width */
+  gap: 10px; /* Space between input and button */
 }
 
-.searchform button {
-    background-color: #ff6464;
-    color: #fff;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+/* Compact mode: Smaller for header */
+.searchform.compact {
+  max-width: 200px; /* Smaller width for header */
+  width: 100%;
+}
+
+/* Input wrapper for both modes */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+/* Input styles */
+.search-input {
+  padding: 8px 10px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: #333;
+  background-color: #afafaf; /* Light gray background for input */
+  border-radius: 20px;
+  transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+}
+
+/* Placeholder styling */
+.search-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* Full mode input */
+.searchform.full .search-input {
+  width: 100%;
+  background-color: white;
+}
+
+/* Compact mode input: Hidden when not expanded */
+.searchform.compact .search-input {
+  width: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Compact mode input when expanded */
+.searchform.compact.expanded .search-input {
+  width: 150px; /* Suitable for header */
+  opacity: 1;
+  padding: 8px 10px;
+  margin-right: 10px;
+}
+
+/* Search icon for compact mode */
+.search-icon {
+  cursor: pointer;
+  color: #333;
+  padding: 8px;
+  transition: opacity 0.3s ease;
+}
+
+/* Hide icon when expanded in compact mode */
+.searchform.compact.expanded .search-icon {
+  opacity: 0;
+}
+
+/* Button for full mode */
+.search-button {
+  background-color: #28a745; /* Green to match original */
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Button hover effect */
+.search-button:hover {
+  background-color: #218838; /* Darker green */
+  transform: scale(1.05);
+}
+
+/* Button disabled state */
+.search-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .searchform.full {
+    max-width: 100%; /* Full width on smaller screens */
+    padding: 8px 12px; /* Smaller padding */
+  }
+
+  .searchform.compact.expanded .search-input {
+    width: 120px; /* Smaller input on mobile */
+  }
+
+  .search-button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
 }

@@ -29,6 +29,7 @@ export function ActivityProvider({ children }) {
   getData();
   }, []);
 
+
   return (
     <ActivityContext.Provider value={{ activities, loadingActivities, errorActivities, activitiesInCategory, setActivitiesInCategory }}>
       {children}
