@@ -8,6 +8,7 @@ import LoginDropBox from "./LoginDropBox";
 
 export default function Header() {
   return (
+
     <header className="header-container">
       <div className="header-nav">
       <Navbar/>
@@ -18,6 +19,7 @@ export default function Header() {
       </div>
       <div className="header-title-container">
         <Link to="/"> <h1 className="header-title">ActiviGo!</h1> </Link>
+
       </div>
     </header>
   );
