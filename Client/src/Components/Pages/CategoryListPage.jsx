@@ -3,7 +3,7 @@ import { useCategories } from '../../contexts/CategoryContext'
 import CategoryCard from '../Cards/CategoryCard'
 import './CategoryList.css'
 
-const CategoryList = () => {
+const CategoryListPage = () => {
     const { categories } = useCategories
 
   return (
@@ -21,4 +21,4 @@ const CategoryList = () => {
   )
 }
 
-export default CategoryList
+export default CategoryListPage
