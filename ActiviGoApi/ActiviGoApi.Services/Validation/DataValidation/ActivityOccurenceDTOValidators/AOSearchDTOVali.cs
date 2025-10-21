@@ -12,7 +12,7 @@ namespace ActiviGoApi.Services.Validation.DataValidation.ActivityOccurenceDTOVal
     {
         public AOSearchDTOVali() 
         {
-           
+
             RuleFor(x => x.StartTime)
                 .LessThan(x => x.EndTime).WithMessage("Start time must be earlier than end time");
 

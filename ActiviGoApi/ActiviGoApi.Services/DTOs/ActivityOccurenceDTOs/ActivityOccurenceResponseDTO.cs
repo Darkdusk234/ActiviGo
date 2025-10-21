@@ -10,7 +10,10 @@ namespace ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs
     {
         public int Id { get; set; }
         public string ActivityName { get; set; } = string.Empty;
+        public string ActivityDescription { get; set; } = string.Empty;
         public string SubLocationName { get; set; } = string.Empty;
+        public string LocationName { get; set; } = string.Empty;
+        public string CategoryName { get; set; } = string.Empty;
         public string IMGUrl { get; init; } = string.Empty;
         public decimal Price { get; init; }
         public DateTime StartTime { get; set; }

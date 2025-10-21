@@ -5,15 +5,15 @@ import Navbar from "./Navbar";
 import NavLogin from "./NavLogin";
 import './Layout.css';
 
-export default function Header({ onSearch }) {
+export default function Header() {
   return (
     <header>
       <Navbar/>
-      <div className="searchbar-container">
-        <SearchBar onSearch={onSearch} />
+      <div className="header-title-container">
+        <Link to="/"> <h1 className="header-title">ActiviGo!</h1> </Link>
       </div>
-      <div className="NavLogin-container">
-        <NavLogin />
+      <div className="searchbar-container">
+        <SearchBar/>
       </div>
     </header>
   );

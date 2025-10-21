@@ -30,8 +30,8 @@ const NavLogin = () => {
 
     return(
         <>
-            {isLoggedIn ? (<img src="../src/assets/loginpic.png" className="NavLogin" onClick={() => showLoginBox()}/> ) : (<div className="NavLogin" onClick="//Länk till mina sidor">Mina Sidor</div>) }
-            {!loginVisible ? (<LoginDropBox />) : ("")}
+            {isLoggedIn ? (<img src="../src/assets/loginpic.png" alt="Login" className="NavLogin" onClick={() => showLoginBox()}/> ) : (<div className="NavLogin" onClick="//Länk till mina sidor">Mina Sidor</div>) }
+            {loginVisible ? (<LoginDropBox />) : ("")}
         </>
     )
 }

@@ -107,9 +107,11 @@ namespace ActiviGoApi.Api.Controllers
                 return BadRequest($"Validation failed: {errors}");
             }
 
+            var userName = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             try
             {
-                var updated = await _service.UpdateAsync(id, updateDto, ct);
+                var updated = await _service.UpdateAsync(id, updateDto, userName, ct);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)
@@ -128,9 +130,11 @@ namespace ActiviGoApi.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CancelBooking(int id, CancellationToken ct)
         {
+            var userName = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             try
             {
-                await _service.CancelBookingAsync(id, ct);
+                await _service.CancelBookingAsync(id, userName, ct);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)

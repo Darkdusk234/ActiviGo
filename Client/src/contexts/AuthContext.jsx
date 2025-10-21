@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem('authToken'));
     const [loading, setLoading] = useState(true);
+    const APIURL = import.meta.env.VITE_API_URL;
 
 
     useEffect(() => {
@@ -38,27 +39,31 @@ export const AuthProvider = ({ children }) => {
             } catch (e) {
                 console.log("Not logged in", e);
             } finally {
+
                 setLoading(false);
             }
         };
         
         fetchUser();
+
     }, []);
 
-    const login = async (credentials) => {
-        try {
-            const response = await fetch('https://localhost:7201/api/Auth/Login', {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(credentials)
-            });
 
-            if (!response.ok) {
-                throw new Error('Login failed');
+    const login = (credentials) => {
+        fetch(`${APIURL}/Auth/Login`, {
+            method: 'POST',
+            headers: {  'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
             }
-
-            const data = await response.json();
+            throw new Error('Login failed');
+        })
+        .then(data => {
+            setToken(data.token);
+            setUser(data);
             
             // console.log('Login response:', data);
             // console.log('Response type:', typeof data);
@@ -98,17 +103,37 @@ export const AuthProvider = ({ children }) => {
 
     const logout = (user) => {
         setUser(null);
+
         setToken(null); // clear token
         localStorage.removeItem('authToken');   // remove from storage
-        fetch('https://localhost:7201/api/Auth/Logout', { method: 'POST' })
+
+        fetch(`${APIURL}/Auth/Logout`, { method: 'POST' })
+
         .catch(error => {
             console.error('Error logging out:', error);
         });
     };
 
+    const register = (registrationInfo) => {
+        fetch(`${APIURL}/Auth`, {
+            method: 'Post',
+            headers: {  'Content-Type': 'application/json' },
+            body: JSON.stringify(registrationInfo)
+        })
+        .then(response => {
+            if(response.ok)
+            {
+                return "Registration complete."
+            }
+            throw new Error('Registration Failed')
+        })
+    }
+
     return (
-        <AuthContext.Provider value={{ user, token, login, logout }}>      
+
+        <AuthContext.Provider value={{ user, token, login, APIURL, register, logout }}>      
             {loading ? <div>Loading...</div> : children}
+
         </AuthContext.Provider>
     );
 

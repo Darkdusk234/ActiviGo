@@ -1,9 +1,18 @@
 import "./ActivityOccurrenceCard.css";
+import { useNavigate } from "react-router-dom";
+
 export default function ActivityOccurrenceCard({ occurrence }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+        navigate(`/occurrence/${occurrence.id}`);
+    };
   return (
-    <div className="occurrence-card">
+    <div className="occurrence-card"
+    onClick={handleClick}
+    >
         <img
-        src={occurrence.IMGUrl|| "https://via.placeholder.com/300x200"}
+        src={`https://picsum.photos/400/250?random=${occurrence.id}` || occurrence.imgUrl}
         alt={"bild"}
       />
       <div className="occurrence-card-content">

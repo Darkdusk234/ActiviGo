@@ -1,0 +1,10 @@
+.single-result
+{
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    width: 80%;
+    border-radius: 5px;
+    background-color: #e7e5dd;
+    color: black;
+}

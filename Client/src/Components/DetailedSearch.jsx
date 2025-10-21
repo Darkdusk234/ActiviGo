@@ -63,6 +63,7 @@ const DetailedSearch = ({fetchResults}) => {
         const data = Object.fromEntries(formData.entries());
        
         fetchResults({
+            name: data.name,
             category: data.category,
             activity: data.activity,
             fromDate: data.fromDate,
@@ -80,7 +81,7 @@ const DetailedSearch = ({fetchResults}) => {
     return(
         <>
             <form className = "detailed-search-form" onSubmit={handleSubmit}>
-                <input type= "text" placeholder="Fritext..."/>
+                <input type= "text" name="name" placeholder="Fritext..."/>
                <label htmlFor="fromDate">Från:</label> <input type= "date" name="fromDate"/>
                <label htmlFor="toDate">Till:</label> <input type= "date" name="toDate"/>
                <label htmlFor="activity">Aktivitet:</label> <select id ="activity" name="activity">

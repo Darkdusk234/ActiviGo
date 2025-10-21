@@ -7,9 +7,11 @@ export default function Layout() {
 
   // What are these class names? /Gustav
   return (
-    <div className="flex flex-col min-h-screen"> 
+    <div className="main-content"> 
+    <div className="header-content">
       <Header />
-      <main className="flex-1">
+      </div>
+      <main className="middle-content">
         <Outlet />
       </main>
       <Footer />

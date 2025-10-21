@@ -4,11 +4,6 @@ import NavLogin from "./NavLogin";
 import './Layout.css'
 
 export default function Navbar() {
-  const handleSearch = (query) => {
-    console.log("Söker efter:", query);
-    // Här kan du navigera eller filtrera listor baserat på query
-  };
-
   return (
     <nav
 
@@ -19,15 +14,6 @@ export default function Navbar() {
         <Link to="/my-bookings">Mina Bokningar</Link>
         <Link to="/about">About</Link>
         <Link to="/search">Search</Link>
-
-        
-      </div>
-      <div>
-        <SearchBar/>
-      </div>
-      <div>
-      <NavLogin />
-
       </div>
     </nav>
   );
