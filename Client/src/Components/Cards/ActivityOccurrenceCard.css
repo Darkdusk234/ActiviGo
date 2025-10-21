@@ -6,8 +6,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-height: 60vh;                     /* lagom höjd för textinnehåll */
-  max-width: 40vh;                      /* passar i swiper */
+  min-height: 60vh;                     /* lagom höjd för textinnehåll */
+  min-width: 50vh;                      /* passar i swiper */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   text-align: left;
