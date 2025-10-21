@@ -3,7 +3,7 @@ export default function ActivityCard({ activity }) {
   return (
     <div className="activity-card">
       <img
-        src={activity.imgUrl || "https://via.placeholder.com/300x200"}
+        src={`https://picsum.photos/400/250?random=${activity.id}` || activity.imgUrl}
         alt={activity.name}
       />
       <div className="activity-card-content">

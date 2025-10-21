@@ -7,10 +7,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  text-align: center;
+  min-width: 40vh;
+  max-height: 50vh;
 }
 
 .category-card:hover {
@@ -21,11 +21,14 @@
 .category-card-title {
   font-weight: 600;
   font-size: 1.125rem; /* ca 18px */
-  margin-bottom: 0.25rem;
+  padding: 0 2rem 0 0;
   color: black;
+  text-align: center;
+  border: 2px solid rgba(0, 0, 0, 0);
 }
 
 .category-card-description {
   font-size: 0.875rem; /* ca 14px */
   color: #24262a; /* grå text */
+  text-align: center;
 }
