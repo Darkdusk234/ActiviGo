@@ -35,11 +35,13 @@ namespace ActiviGoApi.Services.Services
         {
             //var occurrences = await _unitOfWork.ActivityOccurrences.GetAllAsync(ct);
             var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(includeProperties: "Activity,SubLocation,SubLocation.Location,Activity.Category");
-            var filteredOccurrences = occurrences.Where(fo => 
-                (fo.Activity != null && fo.Activity.Name != null && fo.Activity.Name.Contains(dto.Query, StringComparison.OrdinalIgnoreCase))
+            var filteredOccurrences = occurrences.Where(fo =>
+               fo.StartTime > DateTime.Now && fo.EndTime > DateTime.Now &&
+                ((fo.Activity != null && fo.Activity.Name != null && fo.Activity.Name.Contains(dto.Query, StringComparison.OrdinalIgnoreCase))
                 || (fo.SubLocation != null && fo.SubLocation.Name != null && fo.SubLocation.Name.Contains(dto.Query, StringComparison.OrdinalIgnoreCase))
                 || (fo.SubLocation.Location != null && fo.SubLocation.Location.Name != null && fo.SubLocation.Location.Name.Contains(dto.Query, StringComparison.OrdinalIgnoreCase))
-                || (fo.Activity.Category != null && fo.Activity.Category.Name != null && fo.Activity.Category.Name.Contains(dto.Query, StringComparison.OrdinalIgnoreCase))
+                || (fo.Activity.Category != null && fo.Activity.Category.Name != null && fo.Activity.Category.Name.Contains(dto.Query, StringComparison.OrdinalIgnoreCase)))
+               
              );
 
             if (filteredOccurrences == null || !filteredOccurrences.Any())
@@ -162,6 +164,8 @@ namespace ActiviGoApi.Services.Services
         public async Task<IEnumerable<ActivityOccurenceResponseDTO>> GetFilteredActivityOccurences(ActivityOccurenceSearchFilterDTO dto, CancellationToken ct = default)
         {
             var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(includeProperties: "Activity,Activity.Category,SubLocation,SubLocation.Location",FilterFunction(dto), ct);
+
+
             return _mapper.Map<IEnumerable<ActivityOccurenceResponseDTO>>(occurrences);
         }
 
@@ -174,6 +178,8 @@ namespace ActiviGoApi.Services.Services
                          (dto.LocationId == null || x.SubLocation.LocationId == dto.LocationId) &&
                          (dto.StartTime == null || x.StartTime >= dto.StartTime) &&
                          (dto.EndTime == null || x.EndTime <= dto.EndTime) &&
+                         (x.StartTime > DateTime.Now) &&
+                         (x.EndTime > DateTime.Now) &&
                          (dto.AvailableToBook == null || x.AvailableSpots >= 0) &&
                          (dto.NameFilter == null || x.Activity.Name.Contains(dto.NameFilter));
         }
