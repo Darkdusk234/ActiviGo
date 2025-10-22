@@ -50,7 +50,7 @@ const DetailedSearch = ({fetchResults}) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
-       console.log(data);
+       
         fetchResults({
             name: !data.name ? null : data.name,
             categoryId: !data.category ? null : data.category,
