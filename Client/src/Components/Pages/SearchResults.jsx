@@ -61,6 +61,7 @@ const fetchGeneralResults = async(searchTerms) => {
 }
 
 const fetchResults = async (searchTerms) => {
+    console.log(searchTerms);
     // Fetch data based on searchTerms
     await fetch(`${APIURL}/ActivityOccurence/search`, {
         method: 'POST',
