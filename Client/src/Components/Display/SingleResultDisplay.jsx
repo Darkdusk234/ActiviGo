@@ -43,7 +43,7 @@ const SingleResultDisplay = ({ result }) => {
         <div 
         className = "single-result"
         onClick={handleClick}>
-            {console.log(result)  }
+           
             <h4>{result.activityName}</h4>
             <p>available spots: {result.availableSpots}/{result.capacity}</p>
             <p>date: {date}</p>
