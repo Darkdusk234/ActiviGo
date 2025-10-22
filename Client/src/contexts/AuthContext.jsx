@@ -32,9 +32,9 @@ export const AuthProvider = ({ children }) => {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    if (data.user) {
-                        setUser(data.user);
-                    }
+                   
+                        setUser(data);
+                    
                 }
             } catch (e) {
                 console.log("Not logged in", e);
@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }) => {
 
 
     const login = (credentials) => {
+
         fetch(`${APIURL}/Auth/Login`, {
             method: 'POST',
             headers: {  'Content-Type': 'application/json' },
@@ -94,8 +95,9 @@ export const AuthProvider = ({ children }) => {
             }
 
             return data;
-
         })
+    
+
     };
 
     const logout = (user) => {
