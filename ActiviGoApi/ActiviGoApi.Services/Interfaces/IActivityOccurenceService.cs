@@ -1,5 +1,6 @@
 ﻿using ActiviGoApi.Core.Models;
 using ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs;
+using ActiviGoApi.Services.DTOs.WeatherDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,9 @@ namespace ActiviGoApi.Services.Interfaces
         Task CancelOccurranceAsync(int id, CancellationToken ct);
         Task<IEnumerable<ActivityOccurenceResponseDTO>> GetFilteredActivityOccurences(ActivityOccurenceSearchFilterDTO dto, CancellationToken ct = default);
         Task<IEnumerable<ActivityOccurenceResponseDTO>> GetGeneralSearchAsync(GeneralSearchDTO query, CancellationToken ct = default);
+
+        Task<WeatherResponseDTO> AddWeatherToResponse(DateTime dateAndTime, string latitude, string longitude, CancellationToken ct);
+
+
     }
 }

@@ -69,7 +69,7 @@ namespace ActiviGoApi.Services.Services
             var toReturn = _mapper.Map<ActivityOccurenceResponseDTO>(occurrence);
 
             toReturn.Weather = await AddWeatherToResponse(occurrence.StartTime, occurrence.SubLocation.Location.Latitude, occurrence.SubLocation.Location.Longitude, ct);
-        
+            
             return toReturn;
         }
 
@@ -199,7 +199,7 @@ namespace ActiviGoApi.Services.Services
             var options = new RestClientOptions("https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/")
             {
                 ThrowOnAnyError = true,
-                Timeout = TimeSpan.FromMilliseconds(3000)
+                Timeout = TimeSpan.FromMilliseconds(30000)
 
             };
             // Example $"lon/{dto.Longitude}/lat/{dto.Latitude}/data.json?timeseries={timeseries}?parameters={parameters}";
@@ -232,9 +232,12 @@ namespace ActiviGoApi.Services.Services
 
             // Creating a dateTime-string :
 
-            string dt = dateAndTime.ToString();
+            string dt = dateAndTime.ToString("s") + "Z";
 
             string date = dateAndTime.ToString("yyyy-MM-dd");
+
+            Console.WriteLine("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" + dt + "SSSSSSSSSSSSSSSSSSSSSSSS");
+            Console.WriteLine("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF" + dt + "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
 
             // loops trough all json nodes in json array
             foreach (var n in arr)

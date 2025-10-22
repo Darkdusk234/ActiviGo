@@ -23,7 +23,7 @@ namespace ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs
         public int AvailableSpots { get; set; }
         public bool IsCancelled { get; set; }
 
-        public WeatherResponseDTO? Weather { get; set; }
+        public WeatherResponseDTO Weather { get; set; } = new WeatherResponseDTO();
 
         // Foreign Keys
         public int ActivityId { get; set; }
