@@ -225,6 +225,22 @@ namespace ActiviGoApi.WebApi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("adminstatistics")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAdminStatistics(CancellationToken ct)
+        {
+            try
+            {
+                var statistics = await _occurrenceService.GetAdminStatistics(ct);
+                return Ok(statistics);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while retrieving statistics");
+            }
+        }
     }
     
 }
