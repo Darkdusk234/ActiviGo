@@ -168,9 +168,10 @@ namespace ActiviGoApi.Services.Services
         public Expression<Func<ActivityOccurence, bool>> FilterFunction(ActivityOccurenceSearchFilterDTO dto)
         {
             return x => (dto.ActivityId == null || x.ActivityId == dto.ActivityId) &&
+                        (dto.CategoryId == null || x.Activity.CategoryId == dto.CategoryId) &&
                          (dto.SubLocationId == null || x.SubLocationId == dto.SubLocationId) &&
                          (dto.ActivityId == null || x.ActivityId == dto.ActivityId) &&
-                            (dto.LocationId == null || x.SubLocation.LocationId == dto.LocationId) &&
+                         (dto.LocationId == null || x.SubLocation.LocationId == dto.LocationId) &&
                          (dto.StartTime == null || x.StartTime >= dto.StartTime) &&
                          (dto.EndTime == null || x.EndTime <= dto.EndTime) &&
                          (dto.AvailableToBook == null || x.AvailableSpots >= 0) &&
