@@ -78,7 +78,6 @@ return (
             <h3>{booking.activityName || 'Aktivitet'}</h3>
             <p>📅 Bokad: {new Date(booking.bookingTime).toLocaleDateString('sv-SE')}</p>
             <p>👥 Deltagare: {booking.participants}</p>
-            <p>🕐 Tid: {(booking.activityStartTime)} - {(booking.activityEndTime)}</p>
             <p>Status: {booking.isCancelled ? '❌ Avbokad' : '✅ Aktiv'}</p>
             </div>
         ))}
