@@ -4,6 +4,10 @@ import { useActivities } from "../contexts/ActivityContext";
 import { useCategories } from "../contexts/CategoryContext";
 import { useLocations } from "../contexts/LocationContext";
 import './Layout/Layout.css';
+import './DetailedSearch.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt as FaMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt as FaCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 const DetailedSearch = ({fetchResults}) => {
 
@@ -20,7 +24,6 @@ const DetailedSearch = ({fetchResults}) => {
   
 
     useEffect( () => {
-        
         const getData = async () => {
             if (!loadingActivities && activities) {
                 setActivities(activities);
@@ -72,32 +75,72 @@ const DetailedSearch = ({fetchResults}) => {
     return(
         <>
         <h4>Filtrera din sökning:</h4>
+        <div className="search-form-container">
             <form className = "detailed-search-form" onSubmit={handleSubmit}>
-                <input type= "text" name="name" placeholder="Fritext..."/>
-               <label htmlFor="fromDate">Från:</label> <input type= "date" name="fromDate"/>
-               <label htmlFor="toDate">Till:</label> <input type= "date" name="toDate"/>
-               <label htmlFor="activity">Aktivitet:</label> <select id ="activity" name="activity">
-                <option value="">Alla</option>
-                    {activityInfo.map((activity, index) => (
-                        <option key={index} value={activity.id}>{activity.name}</option>
-                    ))}
-                </select>
-                <label htmlFor="category">Kategori:</label> <select id ="category" name="category">
-                    <option value="">Alla</option>
-                    {categoryInfo.map((category, index) => (
-                        <option key={index} value={category.id}>{category.name}</option>
-                    ))}
-                </select>
-                <label htmlFor="location">Plats:</label><select id ="location" name="location">
-                    <option value="">Alla</option>
+                <div className="searchform">
+                    <input className="search-input" type= "text" name="name" placeholder="Sök..."/>
+                    <button className="search-button" type="submit">Sök</button>
+                </div>
+                <div className="filter-section">
+                <div className="search-field">
+                <p>Aktivitet</p>
+                <div className="select-row">
+                    <select className="option-filter" id ="activity" name="activity">
+                    <option value="">Välj</option>
+                        {activityInfo.map((activity, index) => (
+                            <option key={index} value={activity.id}>{activity.name}</option>
+                        ))}
+                    </select>
+                </div>
+                </div>
+                <div className="search-field">
+                    <p>Kategori</p>
+                    <div className="select-row">
+                        <select className="option-filter" id ="category" name="category">
+                            <option value="">Kategori</option>
+                            {categoryInfo.map((category, index) => (
+                                <option key={index} value={category.id}>{category.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+                <div className="search-field">
+                    <p>Plats</p>
+                    <div className="select-row">
+                    <span className="icon"><FontAwesomeIcon icon={FaMapMarkerAlt} /></span>
+                    <select className="option-filter" id ="location" name="location">
+                    <option value="">Välj</option>
                     {locationsInfo.map((location, index) => (
                         <option key={index} value={location.id}>{location.name}</option>
                     ))}
                 </select>
-                <label htmlFor="availableToBook">Minst antal lediga platser:</label> <input type="checkbox" id="availableToBook" name="availableToBook"/>
 
-                <button type="submit">Sök</button>
+                    </div>
+                </div>
+                </div>
+                <div className="datefilter">
+                    <div className="date-box">
+                        <p>Från</p>
+                        <div className="date-input-wrapper">
+                            <span className="icon"><FontAwesomeIcon icon={FaCalendarAlt} /></span>
+                            <input type= "date" name="fromDate"/>
+                        </div>
+                    </div>
+                    <div className="date-box">
+                        <p>Till</p>
+                        <div className="date-input-wrapper">
+                        <span className="icon"><FontAwesomeIcon icon={FaCalendarAlt} /></span>
+                        <input type= "date" name="toDate"/>
+                        </div>
+                    </div>
+                
+                
+                </div>
+                <div className="checkbox-filter">
+                    <label htmlFor="availableToBook">Minst antal lediga platser:</label> <input type="checkbox" id="availableToBook" name="availableToBook"/>
+                </div>
             </form>
+        </div>
         </>
     )
 }
