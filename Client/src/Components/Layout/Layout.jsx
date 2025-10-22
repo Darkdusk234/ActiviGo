@@ -8,13 +8,16 @@ export default function Layout() {
   // What are these class names? /Gustav
   return (
     <div className="main-content"> 
-    <div className="header-content">
-      <Header />
+      <div className="header-content">
+        <Header />
       </div>
       <main className="middle-content">
-        <Outlet />
+          <Outlet />
       </main>
-      <Footer />
+      <div className="footer-content">
+        <Footer />
+      </div>
     </div>
+      
   );
 }

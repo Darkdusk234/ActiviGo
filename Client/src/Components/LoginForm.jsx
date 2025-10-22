@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
-
 import { useAuth } from '../contexts/AuthContext';
+import './Layout/Login.css';
 
 const LoginForm = ( {close}) => {
     const [userName, setUserName] = useState('');
