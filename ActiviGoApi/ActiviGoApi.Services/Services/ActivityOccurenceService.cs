@@ -228,6 +228,8 @@ namespace ActiviGoApi.Services.Services
                 MostBookedActivity = popularActivity != null ? _mapper.Map<GetActivityResponse>(popularActivity) : null,
                 MostBookedLocation = popularLocation != null ? _mapper.Map<LocationRequestDTO>(popularLocation) : null
             };
+
+            return statistics;
         }
     }
 }
