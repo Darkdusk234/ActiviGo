@@ -95,10 +95,11 @@ export const AuthProvider = ({ children }) => {
 
             return data;
 
-        } catch (error) {
+        })
+        /*catch (error) {
             console.error('Error logging in:', error);
             throw error;
-        }
+        }*/
     };
 
     const logout = (user) => {

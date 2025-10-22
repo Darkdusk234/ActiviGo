@@ -11,12 +11,14 @@ const OccurrenceDetails = () => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [participants, setParticipants] = useState('');
-  const { user, loading: authLoading, API_URL, fetchUser } = useAuth();
+  const { user, loading: authLoading, APIURL, fetchUser } = useAuth();
+
 
   useEffect(() => {
     const fetchOccurrence = async () => {
+      console.log(id);
       try {
-        const res = await fetch(`${API_URL}/ActivityOccurence/${id}`);
+        const res = await fetch(`${APIURL}/ActivityOccurence/${id}`);
         const data = await res.json();
         setOccurrence(data);
       } catch (err) {

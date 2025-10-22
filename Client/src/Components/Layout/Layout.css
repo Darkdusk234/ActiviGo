@@ -74,6 +74,7 @@ footer {
     display: flex;
     justify-content: center;
     margin: 5rem 0 10rem 0;
+    height: 15vh;
 }
 
 .welcome-message{
