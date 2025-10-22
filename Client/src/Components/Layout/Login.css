@@ -1,10 +1,16 @@
 .login-dropbox {
     z-index: 99;
-    border: 3px solid gold;
+    border: 1px solid rgb(101, 165, 255);
+    background-color: rgb(232, 232, 232);
     position:absolute;
+    border-radius: 10px;
     top: 5rem;
     right: 1rem;
     max-width: 200px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
 }
 
 .user-drop-menu {
@@ -20,10 +26,13 @@
     width: 98%;
     padding: 0px;
 }
+.user-drop-menu h2{
+    color: black;
+}
 
 .user-drop-menu p:hover {
     cursor: pointer;
-    border: 1px solid gold;
+    border: 1px solid rgb(101, 165, 255);
 }
 
 .my-bookings {
@@ -31,4 +40,42 @@
     max-width: 99%;
     width: 98%;
     padding: 0px;
+}
+
+.login-dropbox input{
+    background-color: rgb(251, 251, 251);
+    color: black;
+    width: 95%;
+    margin: 0.5rem 0;
+}
+.login-dropbox button{
+    background-color: rgb(62, 109, 203);
+    color: white;
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+}
+
+.login-dropbox button:hover{
+    background-color: rgb(35, 70, 153);
+}
+
+.login-dropbox p{
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    color: blue;
+}
+
+.login-dropbox .message {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: red;
+}
+.login-message {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: black;
 }

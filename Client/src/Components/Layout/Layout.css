@@ -102,15 +102,3 @@ footer {
 
 
 /* detailedsearch */
-.detailed-search-form
-{    display: flex;
-    flex-direction: row;
-    background-color: beige;
-    border: 3px solid gold;
-
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    padding: 5px;
-
-}

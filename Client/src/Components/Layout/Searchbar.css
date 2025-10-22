@@ -89,7 +89,7 @@
 /* Search icon for compact mode */
 .search-icon {
   cursor: pointer;
-  color: #333;
+  color: #6f6e6e;
   padding: 8px;
   transition: opacity 0.3s ease;
 }

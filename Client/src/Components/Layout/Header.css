@@ -41,6 +41,6 @@ nav .menu-items a{
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1rem;
+    gap: 4rem;
     margin-right: 1rem;
 }

@@ -19,13 +19,16 @@ export default function Home() {
           <SearchBar/>
         </div>
       </div>
+      <div className="explore-prompt">
+        <p>Utforska</p>
+      </div>
       <div className="carousels">
         <h2>Kategorier</h2>
         <CategoryList />
-        <h2 className="text-2xl font-bold mt-8 mb-4">Händelser</h2>
-        <ActivityOccurrenceList />
         <h2 className="text-2xl font-bold mt-8 mb-4">Aktiviteter</h2>
         <ActivityList />
+        <h2 className="text-2xl font-bold mt-8 mb-4">Händelser</h2>
+        <ActivityOccurrenceList />
       </div>
      </div>
   );
