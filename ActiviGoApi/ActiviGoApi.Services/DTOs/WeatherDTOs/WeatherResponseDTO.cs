@@ -11,7 +11,7 @@ namespace ActiviGoApi.Services.DTOs.WeatherDTOs
         public string AirTemperature { get; init; } = string.Empty;
         public string WindSpeed { get; init; } = string.Empty;
         public string ProbabilityOfPrecipitation { get; init; } = string.Empty;
-        public int SymbolCode { get; init; }
+        public string SymbolCode { get; init; } = string.Empty;
         public string DateAndTime { get; init; } = string.Empty;
     }
 }
