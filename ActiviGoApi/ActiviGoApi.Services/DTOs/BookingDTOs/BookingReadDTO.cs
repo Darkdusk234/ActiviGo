@@ -14,5 +14,8 @@ namespace ActiviGoApi.Services.DTOs.BookingDTOs
 
         //public string? UserName { get; set; }
         public string? ActivityName { get; set; }
+
+        public DateTime ActivityStartTime { get; set; }
+        public DateTime ActivityEndTime { get; set; }
     }
 }
