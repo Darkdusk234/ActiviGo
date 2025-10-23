@@ -31,10 +31,10 @@ const LocationNewPop = ({handleCreate, closePopup}) => {
                 <label>Adress:</label>
                     <input type="text" value={adress} onChange={(e) => setAdress(e.target.value)} required />
                 <label>Latitud:</label>
-                    <input type="text" value={latitude} onChange={(e) => setLatitude(e.target.value)} required />
+                    <input type="text" value={latitude} onChange={(e) => setLatitude(e.target.value)} required min="55" max="69" />
 
                 <label>Longitud:</label>
-                    <input type="text" value={longitude} onChange={(e) => setLongitude(e.target.value)} required />
+                    <input type="text" value={longitude} onChange={(e) => setLongitude(e.target.value)} required min="10" max="25"/>
 
                 <button type="submit">Skapa</button>
                 <button type="button" onClick={close}>Avbryt</button>
