@@ -62,13 +62,6 @@ const SingleResultDisplay = ({ result }) => {
                     </div>
                 </div>
             </div>
-            {showBook && (
-                <div className="result-book">
-                    <button className="book-button" onClick={(e) => { e.stopPropagation(); navigate(`/occurrence/:${result.id}`); }}>
-                        Book
-                    </button>
-                </div>
-            )}
         </div>
         </>
     )
