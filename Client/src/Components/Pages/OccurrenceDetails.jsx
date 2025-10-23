@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from '../../contexts/AuthContext';
+import { getActivityOccurrenceById } from "../../api/Services/activityOccurrenceService";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faCalendarAlt, faClock, faInfoCircle, faUsers, faTag, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import "./OccurrenceDetails.css";
@@ -14,14 +15,12 @@ const OccurrenceDetails = () => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [participants, setParticipants] = useState('');
-  const { user, loading: authLoading, APIURL, fetchUser } = useAuth();
+  const { user, loading: authLoading, fetchUser } = useAuth();
 
   useEffect(() => {
     const fetchOccurrence = async () => {
       try {
-        const res = await fetch(`${APIURL}/ActivityOccurence/${id}`);
-        const data = await res.json();
-        console.log(data);
+        data = getActivityOccurrenceById(id);
         setOccurrence(data);
       } catch (err) {
         console.error("Failed to load occurrence details:", err);
