@@ -21,8 +21,22 @@ nav .menu-items{
 
 nav .menu-items a{
     text-decoration: none;
+    font-size: 2.0rem;
     color: rgb(35, 108, 255);
     margin: 0 1rem;
+    transition: transform 0.2s ease;
+    -webkit-transition: transform 0.2s ease;
+    -moz-transition: transform 0.2s ease;
+    -ms-transition: transform 0.2s ease;
+    -o-transition: transform 0.2s ease;
+}
+
+nav .menu-items a:hover{
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
 }
 
 .header-title-container {
