@@ -13,7 +13,7 @@ namespace ActiviGoApi.Services.Validation.DataValidation.ActivityDtoValidators
         public CreateActivityRequest_Validator() 
         { 
             RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Description).NotEmpty(); 
+            RuleFor(x => x.Description).NotEmpty();
             RuleFor(x => x.IsActive).NotEmpty();
             RuleFor(x => x.DurationInMinutes).GreaterThan(30);
             RuleFor(x => x.MaxParticipants).GreaterThan(1);
