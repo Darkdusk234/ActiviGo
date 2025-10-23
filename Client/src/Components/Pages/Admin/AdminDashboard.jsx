@@ -1,46 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import LoginForm from "../..//LoginForm";
+import { Link } from "react-router-dom";
 import './Admin.css';
-import WeatherCard from "../../Cards/WeatherCard";
+
 
 const AdminDashboard = () => {
 
     const { user, APIURL } = useAuth();
-    const [weather, setWeather] = useState(null);
-    const [code, setCode] = useState(null); 
 
-    useEffect( () => {
-        
-        const fetchWeather = async () => {
-            try {
-                const response = await fetch(`${APIURL}/Weather/weather-at-time`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ latitude: "59", longitude: "19", date: "2025-10-23", time: "14:00:00" }),
-                });
-                const data = await response.json();
-                console.log(data);
-                setWeather(data);
-            } catch (error) {
-                console.error('Error fetching weather data:', error);
-            }
-        };
-        fetchWeather();
-    }, []);
 
-    useEffect(() => {
-        
-        setCode(weather?.symbolCode);
-    }, [weather]);
+
     return (
         <div className="admin-dashboard">
             <h1>Admin Dashboard</h1>
-            {!user ? <LoginForm/> : <p>En liten dashboard</p>}
-            <div>
-                {weather && <WeatherCard weather={weather} />}
+            {!user ? <LoginForm/> : <p>Navigera i menyn eller med knapparna nedanför</p>}
+            <div className="dashboard-content">
+                {!user ? <p>Vänligen logga in för att administrera ActiviGo!</p> : (
+                    <div className="dashboard-items">
+                        <Link to="/admin/locations" className="dashboard-item">
+                        <div>
+                            <h4>Hantera platser</h4>
+                            <p>Skapa, redigera och ta bort platser där aktiviteter kan äga rum.</p>
+                        </div>
+                        </Link>
+                        <Link to="/admin/sub-locations" className="dashboard-item">
+                        <div>
+                            <h4>Hantera underplatser</h4>
+                            <p>Skapa, redigera och ta bort underplatser kopplade till platser.</p>
+                        </div>
+                        </Link>
+                        <Link to="/admin/activities" className="dashboard-item">       
+                        <div >
+                            <h4>Hantera aktiviteter</h4>
+                            <p>Skapa, redigera och ta bort aktiviteter.</p>
+                            <p>Hantera tillfällen för aktiviteter</p>
+                        </div>
+                        </Link>
+                        <Link to="/admin/categories" className="dashboard-item">
+                        <div>
+                            <h4>Hantera kategorier</h4>
+                            <p>Skapa, redigera och ta bort kategorier för att organisera aktiviteter.</p>
+                        </div>
+                        </Link>
+                    </div>
+                )}
                 
             </div>
         </div>

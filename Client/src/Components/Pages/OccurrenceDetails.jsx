@@ -11,12 +11,12 @@ const OccurrenceDetails = () => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [participants, setParticipants] = useState('');
-  const { user, loading: authLoading, API_URL, fetchUser } = useAuth();
+  const { user, loading: authLoading, APIURL, fetchUser } = useAuth();
 
   useEffect(() => {
     const fetchOccurrence = async () => {
       try {
-        const res = await fetch(`${API_URL}/ActivityOccurence/${id}`);
+        const res = await fetch(`${APIURL}/ActivityOccurence/${id}`);
         const data = await res.json();
         console.log(data);
         setOccurrence(data);
@@ -48,7 +48,7 @@ const OccurrenceDetails = () => {
       || participants <= 0 || participants <= occurrence.availableSpots) 
     {
       try {
-        const res = await fetch(`${API_URL}/Booking`, {
+        const res = await fetch(`${APIURL}/Booking`, {
           method: "Post",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({"activityOccurenceId": id, "participants": participants})

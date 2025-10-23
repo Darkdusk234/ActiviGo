@@ -280,3 +280,59 @@ button:hover {
     color: #721c24;
     text-decoration: line-through;
 }
+
+/* Dashboard Styles */
+.admin-dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.dashboard-items {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    margin-top: 50px;
+    max-width: 60%;
+}
+
+.dashboard-item {
+    border: 3px solid gold;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 30%;
+    max-height: 200px;
+    min-height: 150px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: transform 0.2s;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    color: black;
+}
+
+.dashboard-item h4 {
+    margin: 0;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+.dashboard-item:hover {
+    transform: scale(1.05);
+}
