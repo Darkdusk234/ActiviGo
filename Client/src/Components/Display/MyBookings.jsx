@@ -3,11 +3,14 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faUsers, faClock, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import './MyBookings.css';
+import BookingCard from '../Cards/BookingCard';
 
 const MyBookings = () => {
     const [bookings, setBookings] = useState([]);
+    const [filteredBookings, setFilteredBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [filter, setFilter] = useState('upcoming'); // Standard: 'upcoming', 'past', 'cancelled'
     const { token, APIURL } = useContext(AuthContext);
 
     useEffect(() => {
@@ -36,6 +39,7 @@ const MyBookings = () => {
 
             const data = await response.json();
             setBookings(data);
+            setFilteredBookings(data);
             setError(null);
         } catch (err) {
             setError(err.message);
@@ -43,6 +47,31 @@ const MyBookings = () => {
             setLoading(false);
         }
     };
+
+    const applyFilter = () => {
+        const now = new Date().getTime();
+        let filtered = [...bookings];
+
+        switch (filter) {
+            case 'upcoming':
+                filtered = filtered.filter(booking => new Date(booking.activityStartTime) >= now);
+                break;
+            case 'past':
+                filtered = filtered.filter(booking => new Date(booking.activityStartTime) < now && !booking.isCancelled);
+                break;
+            case 'cancelled':
+                filtered = filtered.filter(booking => booking.isCancelled);
+                break;
+            default:
+                filtered = [...bookings];
+        }
+
+        setFilteredBookings(filtered);
+    };
+
+    useEffect(() => {
+        applyFilter();
+    }, [filter, bookings]);
 
     if (loading) {
         return (
@@ -68,33 +97,25 @@ const MyBookings = () => {
     return (
         <div className="my-bookings">
             <h1>Mina Bokningar</h1>
-            <p className="count">Du har {bookings.length} {bookings.length == 1 ? ('bokning') : ('bokningar')}</p>
+            <div className="filter-tabs">
+                <button className={filter === 'upcoming' ? 'active' : ''} onClick={() => setFilter('upcoming')}>
+                    Kommande
+                </button>
+                <button className={filter === 'past' ? 'active' : ''} onClick={() => setFilter('past')}>
+                    Gamla
+                </button>
+                <button className={filter === 'cancelled' ? 'active' : ''} onClick={() => setFilter('cancelled')}>
+                    Avbokade
+                </button>
+            </div>
+            <p className="count">Du har {filteredBookings.length} {filteredBookings.length == 1 ? ('bokning') : ('bokningar')}</p>
             
-            {bookings.length === 0 ? (
-                <p className="empty">Du har inga bokningar än.</p>
+            {filteredBookings.length === 0 ? (
+                <p className="empty">Inga bokningar matchar filtret.</p>
             ) : (
                 <div className="bookings-list">
-                    {bookings.map(booking => (
-                        <div className="booking-item" key={booking.id || booking.bookingTime}>
-                            <div className='booking-img'>
-                            <img
-                                src={`https://picsum.photos/400/250?random=${booking.activityId}` || activity.imgUrl}
-                                alt={booking.activityName}
-                            />
-                            </div>
-                            <div className='info'>
-                                <h3>{booking.activityName || 'Aktivitet'}</h3>
-                                <p><FontAwesomeIcon icon={faCalendarAlt} /> Bokad: {new Date(booking.bookingTime).toLocaleDateString('sv-SE')}</p>
-                                <p><FontAwesomeIcon icon={faUsers} /> Bokade platser: {booking.participants}</p>
-                                <p><FontAwesomeIcon icon={faClock} /> Tid: {new Date(booking.activityStartTime).toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' })} - {new Date(booking.activityEndTime).toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' })}</p>
-                                <p>Status: {booking.isCancelled ? <FontAwesomeIcon icon={faTimes} /> : <FontAwesomeIcon icon={faCheck} />} {booking.isCancelled ? 'Avbokad' : 'Aktiv'}</p>
-                                <p>{booking.isOutdoor ? 'Utomhus' : 'Inomhus'}</p>
-                                <p>{booking.subLocationName}</p>
-                            </div>
-                            <div className='booking-cancel-btn'>
-                                <button>Avboka</button>
-                            </div>
-                        </div>
+                    {filteredBookings.map(booking => (
+                        <BookingCard key={booking.id || booking.bookingTime} items={booking} />
                     ))}
                 </div>
             )}
