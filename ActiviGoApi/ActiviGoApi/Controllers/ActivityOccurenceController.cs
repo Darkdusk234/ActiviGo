@@ -35,8 +35,32 @@ namespace ActiviGoApi.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ActivityOccurenceResponseDTO>>> GetAllOccurrences(CancellationToken ct)
         {
-            var occurrences = await _occurrenceService.GetAllAsync(ct);
-            return Ok(occurrences);
+            try
+            {
+                var occurrences = await _occurrenceService.GetAllAsync(ct);
+                return Ok(occurrences);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while retrieving activity occurrences");
+
+        }
+
+        [HttpGet("admin")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ActivityOccurenceResponseDTO>>> GetAllOccurrencesForAdmin(CancellationToken ct)
+        {
+            try
+            {
+                var occurrences = await _occurrenceService.AdminGetAllAsync(ct);
+                return Ok(occurrences);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while retrieving activity occurrences for admin");
+
+            }
         }
 
         /// <summary>
