@@ -31,7 +31,7 @@ const SubLocationNewPop = ({handleCreate, closePopup}) => {
                 e.preventDefault();
                 
                 handleCreate({name, description, maxCapacity, indoor, locationId});
-                close();
+                
             }}>
                 <h2>Ny Underplats</h2>
                 <label>Namn:</label>

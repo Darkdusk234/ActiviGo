@@ -316,10 +316,7 @@ button:hover {
     font-size: 16px;
 }
 
-.popup-card select option {
-    padding: 8px;
-    height: 40px;   
-}
+
 .popup-card button {
     margin-top: 15px;
     padding: 8px 12px;

@@ -13,12 +13,10 @@ const ActivityManagement = () => {
     const [nameFilter, setNameFilter] = useState('');
     const [lengthFilter, setLengthFilter] = useState('');
     const [maxLengthFilter, setMaxLengthFilter] = useState('');
-    const [maxParticipantsFilter, setMaxParticipantsFilter] = useState('');
     const [maxPriceFilter, setMaxPriceFilter] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
-    const [view, setView] = useState(false);
       const [newPopup, setNewPopup] = useState(false);
-    const { APIURL } = useAuth();
+    const { APIURL, user } = useAuth();
 
     const { categories } = useCategories(); 
     const { activities } = useActivities();
@@ -26,11 +24,8 @@ const ActivityManagement = () => {
     useEffect(() => {
         setActivities(activities);
         setFilteredActivities(activities);
-    }, []);
+    }, [activities]);
 
-    const handleViewToggle = () => {
-        setView(!view);
-    };
 
     const handleLengthFilterChange = (e) => {
         setLengthFilter(Number.parseInt(e.target.value));
@@ -44,9 +39,6 @@ const ActivityManagement = () => {
         setNameFilter(e.target.value);
     };
 
-    const handleMaxParticipantsChange = (e) => {
-        setMaxParticipantsFilter(Number.parseInt(e.target.value));
-    };
     const handleMaxPriceChange = (e) => {
         setMaxPriceFilter(Number.parseFloat(e.target.value));
     };
@@ -55,7 +47,6 @@ const ActivityManagement = () => {
     };
 
     const handleCreate = async (activity) => {
-        console.log('Creating activity:', JSON.stringify(activity));
         const response = await fetch(`${APIURL}/Activity`, {
             method: 'POST',
             headers: {
@@ -64,32 +55,51 @@ const ActivityManagement = () => {
             },
             body: JSON.stringify(activity)
         });
+        if (!response.ok) {
+            const data = await response.json();
+            alert('Misslyckades med att skapa aktivitet: ' + data.map(error => error.errorMessage).join(', '));
+            setNewPopup(false);
+            return;
+        }
+        if (response.ok) {
+            const data = await response.json();
+            alert("Aktivitet skapad.");
+            setActivities([...allActivities, data]);
+            setFilteredActivities([...filteredActivities, data]);
+            setNewPopup(false);
+        }
+    };
 
-    }
-
-
-
-    const { user } = useAuth();
 
     const handleRemove = async (id) => {
-        if (window.confirm(`Are you sure you want to remove activity with id ${id}?`)) {
-            const newActivities = allActivities.filter(activity => activity.id !== id);
-            setActivities(newActivities);
-            setFilteredActivities(newActivities.filter(activity =>
-                activity.name.toLowerCase().includes(nameFilter.toLowerCase())
-            ));
+        if (window.confirm(`Är du säker på att du vill ta bort aktiviteten med id ${id}?`)) {
+            
             await fetch(`${APIURL}/Activity/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 }
+            })
+            .then(async response => {
+                if (!response.ok) {
+                    const data = await response.json();
+                    alert('Misslyckades med att ta bort aktivitet: ' + data.map(error => error.errorMessage).join(', '));
+                    return;
+                }
+                if (response.ok) {
+                    alert("Aktivitet borttagen.");
+                                // update local state
+                    const newActivities = allActivities.filter(activity => activity.id !== id);
+                    setActivities(newActivities);
+                    setFilteredActivities(newActivities);
+                }
             });
         }
     };
 
     const handleEdit = async (activity) => {
-        if (window.confirm(`Are you sure you want to edit activity with id ${activity.id}?`)) {
+        if (window.confirm(`Är du säker på att du vill redigera aktiviteten med id ${activity.id}?`)) {
             await fetch(`${APIURL}/Activity/${activity.id}`, {
                 method: 'PUT',
                 headers: {
@@ -97,6 +107,15 @@ const ActivityManagement = () => {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 },
                 body: JSON.stringify(activity)
+            })
+            .then(async response => {
+                if (!response.ok) {
+                    console.log(response);
+                    const data = await response.json();
+                    console.log(data);
+                    setNewPopup(false);
+                    return;
+                }
             });
             // update local state
             const newActivities = allActivities.map(act => act.id === activity.id ? { ...act, ...activity } : act);
@@ -104,17 +123,18 @@ const ActivityManagement = () => {
             setFilteredActivities(newActivities.filter(act =>
                 act.name.toLowerCase().includes(nameFilter.toLowerCase())
             ));
+            setNewPopup(false);
         }
     };
 
     useEffect(() => {
         setActivities(activities);
         setFilteredActivities(activities);
-    }, [allActivities]);
+        console.log(activities);
+    }, [activities]);
 
     useEffect(() => {
         let filtered = allActivities;
-        console.log(allActivities);
         if (nameFilter) {
             filtered = filtered.filter(activity =>
                 activity.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -130,11 +150,6 @@ const ActivityManagement = () => {
                 activity.durationInMinutes <= maxLengthFilter
             );
         }
-        if (maxParticipantsFilter) {
-            filtered = filtered.filter(activity =>
-                activity.maxParticipants <= maxParticipantsFilter
-            );
-        }
         if (maxPriceFilter) {
             filtered = filtered.filter(activity =>
                 activity.price <= maxPriceFilter
@@ -146,28 +161,24 @@ const ActivityManagement = () => {
             );
         }
         setFilteredActivities(filtered);
-    }, [allActivities, nameFilter, lengthFilter, maxLengthFilter, maxParticipantsFilter, maxPriceFilter, categoryFilter]);
+    }, [activities, allActivities, nameFilter, lengthFilter, maxLengthFilter, maxPriceFilter, categoryFilter]);
 
     return (
         <>
             <h1>Activity Management</h1>
                     <div className="management-items-container">
-            {!user ? <p>Please log in to manage activities.</p> : (
+            {!user ? <p>Vänligen logga in för att hantera aktiviteter.</p> : (
                 <>
                 <div className = "admin-buttons">
-                           <button className="btn" onClick={handleViewToggle}>View Activities</button>
-                           <button className="btn" onClick={() => setNewPopup(!newPopup)}>Add New</button>
+                           <button className="btn" onClick={() => setNewPopup(!newPopup)}>Lägg till ny</button>
                        </div>
-                       <div className="view-toggle">
-                        {!view ? (
-                               <p></p>
-                           ) : (<div>
+                       
+                        <div>
                             <div className="filter-list">
 
                                <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
                                <label>Minimumlängd:</label> <input type="number" placeholder="Min längd..." onChange={handleLengthFilterChange} />
                                <label>Maximumlängd:</label> <input type="number" placeholder="Max längd..." onChange={handleMaxLengthFilterChange} />
-                               <label>Max deltagare:</label> <input type="number" placeholder="Max deltagare..." onChange={handleMaxParticipantsChange} />
                                <label>Maxpris:</label> <input type="number" placeholder="Maxpris..." onChange={handleMaxPriceChange} /> 
                                <label>Kategori:</label><select onChange={handleCategoryFilterChange}>
                                       <option value="">Alla</option>
@@ -175,15 +186,14 @@ const ActivityManagement = () => {
                                           <option key={category.id} value={category.id}>{category.name}</option>
                                       ))}
                                </select>
-                               </div>
+                            </div>
                                <div className="results-section">
                            {filteredActivities.map(activity => (
                                <ActivityListCard key={activity.id} item={activity} removeActivity={handleRemove} editActivity={handleEdit}/>
                            ))}
                             </div>
                           </div>
-                           )}
-                       </div>
+                                      
                       {newPopup && (<ActivityNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
                   
                 

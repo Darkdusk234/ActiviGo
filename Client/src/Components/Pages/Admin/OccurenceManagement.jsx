@@ -25,9 +25,14 @@ const OccurenceManagement = () => {
         
         const fetchOccurrences = async () => {
             try {
-                const response = await fetch(`${APIURL}/ActivityOccurence`);
+                const response = await fetch(`${APIURL}/ActivityOccurence/admin`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
                 const data = await response.json();
-                console.log(data);
                 setOccurrences(data);
                 
             } catch (error) {
