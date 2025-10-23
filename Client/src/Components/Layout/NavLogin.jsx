@@ -28,10 +28,8 @@ const NavLogin = () => {
     useEffect(() => {
         const handleClose = (e) => {
             if (e.key === 'Escape' && boxVisible) {
-                console.log('Esc pressed, closing');
                 closeBox();
             } else if (e.type === 'click' && boxVisible && wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-                console.log('Click outside, closing. Target:', e.target.className);
                 closeBox();
             }
         };
