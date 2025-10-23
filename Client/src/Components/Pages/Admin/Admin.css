@@ -280,3 +280,23 @@ button:hover {
     color: #721c24;
     text-decoration: line-through;
 }
+/* error */
+.error-banner {
+    background: #fee;
+    color: #c00;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border: 1px solid #fcc;
+    animation: slideDown 0.3s ease;
+}
+/* great sucess */
+.success-banner {
+    background: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border: 1px solid #c3e6cb;
+    animation: slideDown 0.3s ease;
+}
