@@ -2,7 +2,6 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import './Admin.css';
 import { useLocations } from '../../../contexts/LocationContext';
-
 import { useAuth } from '../../../contexts/AuthContext';
 
 const SubLocationNewPop = ({handleCreate, closePopup}) => {
@@ -33,7 +32,7 @@ const SubLocationNewPop = ({handleCreate, closePopup}) => {
                 handleCreate({name, description, maxCapacity, indoor, locationId});
                 close();
             }}>
-                <h2>Ny Underplats</h2>
+                <h2>Nytt område</h2>
                 <h2 onClick={close}>X</h2>
                 <label>Namn:</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} required/>

@@ -22,9 +22,9 @@ const ActivityManagement = () => {
     const { categories } = useCategories(); 
     const { activities } = useActivities();
 
-    const [error, setError] = useState(null);   
+    const [error, setError] = useState(null);   // for error message
     const [loading, setLoading] = useState(false);
-    const [successMessage, setSuccessMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null); // for great succes
 
     const showSuccess = (message) => {
         setSuccessMessage(message);
@@ -65,26 +65,84 @@ const ActivityManagement = () => {
     const handleCategoryFilterChange = (e) => {
         setCategoryFilter(e.target.value);
     };
+    useEffect(() => {
+        setActivities(activities);
+        setFilteredActivities(activities);
+    }, [allActivities]);
+
+    useEffect(() => {
+        let filtered = allActivities;
+        console.log(allActivities);
+        if (nameFilter) {
+            filtered = filtered.filter(activity =>
+                activity.name.toLowerCase().includes(nameFilter.toLowerCase())
+            );
+        }
+        if (lengthFilter) {
+            filtered = filtered.filter(activity =>
+                activity.durationInMinutes >= lengthFilter
+            );
+        }
+        if (maxLengthFilter) {
+            filtered = filtered.filter(activity =>
+                activity.durationInMinutes <= maxLengthFilter
+            );
+        }
+        if (maxParticipantsFilter) {
+            filtered = filtered.filter(activity =>
+                activity.maxParticipants <= maxParticipantsFilter
+            );
+        }
+        if (maxPriceFilter) {
+            filtered = filtered.filter(activity =>
+                activity.price <= maxPriceFilter
+            );
+        }
+        if (categoryFilter) {
+            filtered = filtered.filter(activity =>
+                activity.categoryId === Number.parseInt(categoryFilter)
+            );
+        }
+        setFilteredActivities(filtered);
+    }, [allActivities, nameFilter, lengthFilter, maxLengthFilter, maxParticipantsFilter, maxPriceFilter, categoryFilter]);
+
+    const validateActivity = (activity) => {    // to check the wrong doings/inputs
+        const errors = [];
+        if (!activity.name || activity.name.trim().length === 0) {
+            errors.push('Namn är obligatoriskt');
+        }
+        if (!activity.description || activity.description.trim().length === 0) {
+            errors.push('Beskrivning är obligatorisk');
+        }
+        if (activity.isActive === undefined || activity.isActive === null) {
+            errors.push('IsActive måste anges');
+        }
+        if (!activity.durationInMinutes) {
+            errors.push('Längd är obligatorisk');
+        } else if (activity.durationInMinutes <= 30) {
+            errors.push('Längd måste vara större än 30 minuter');
+        }
+        if (!activity.maxParticipants) {
+            errors.push('MaxParticipants är obligatoriskt');
+        } else if (activity.maxParticipants <= 1) {
+            errors.push('MaxParticipants måste vara större än 1');
+        }
+        if (activity.price === undefined || activity.price === null) {
+            errors.push('Pris är obligatoriskt');
+        } else if (activity.price < 0) {
+            errors.push('Pris måste vara större än eller lika med 0');
+        }
+        if (!activity.categoryId) {
+            errors.push('Du måste välja en kategori');
+        }
+        return errors;
+    };
 
     const handleCreate = async (activity) => {
         // rules for creating
-        if (!activity.name || activity.name.trim().length < 2) {
-            showError('❌ Aktivitetsnamn måste vara minst 2 tecken');
-            return;
-        }
-    
-        if (!activity.description || activity.description.trim().length < 5) {
-            showError('❌ Beskrivning måste vara minst 5 tecken');
-            return;
-        }
-    
-        if (!activity.durationInMinutes || activity.durationInMinutes < 29) {
-            showError('❌ Längd måste vara minst 30 minut');
-            return;
-        }
-    
-        if (!activity.categoryId) {
-            showError('❌ Du måste välja en kategori');
+        const validationErrors = validateActivity(activity);
+        if (validationErrors.length > 0) {
+            showError(`❌ Valideringsfel:\n${validationErrors.join('\n')}`);
             return;
         }
         setLoading(true);
@@ -101,7 +159,6 @@ const ActivityManagement = () => {
                 body: JSON.stringify(activity)
             });
             // console.log('Response status:', response.status);
-
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('❌ Backend error:', errorText);
@@ -165,6 +222,11 @@ const ActivityManagement = () => {
         if (!window.confirm(`Är du säker på att du vill redigera aktivitet med id ${activity.id}?`)) {
             return;
         }
+        const validationErrors = validateActivity(activity);
+        if (validationErrors.length > 0) {
+            showError(`❌ Valideringsfel:\n${validationErrors.join('\n')}`);
+            return;
+        }
         setLoading(true);
         setError(null);
         try {
@@ -195,52 +257,11 @@ const ActivityManagement = () => {
         }
     };
 
-    useEffect(() => {
-        setActivities(activities);
-        setFilteredActivities(activities);
-    }, [allActivities]);
-
-    useEffect(() => {
-        let filtered = allActivities;
-        console.log(allActivities);
-        if (nameFilter) {
-            filtered = filtered.filter(activity =>
-                activity.name.toLowerCase().includes(nameFilter.toLowerCase())
-            );
-        }
-        if (lengthFilter) {
-            filtered = filtered.filter(activity =>
-                activity.durationInMinutes >= lengthFilter
-            );
-        }
-        if (maxLengthFilter) {
-            filtered = filtered.filter(activity =>
-                activity.durationInMinutes <= maxLengthFilter
-            );
-        }
-        if (maxParticipantsFilter) {
-            filtered = filtered.filter(activity =>
-                activity.maxParticipants <= maxParticipantsFilter
-            );
-        }
-        if (maxPriceFilter) {
-            filtered = filtered.filter(activity =>
-                activity.price <= maxPriceFilter
-            );
-        }
-        if (categoryFilter) {
-            filtered = filtered.filter(activity =>
-                activity.categoryId === Number.parseInt(categoryFilter)
-            );
-        }
-        setFilteredActivities(filtered);
-    }, [allActivities, nameFilter, lengthFilter, maxLengthFilter, maxParticipantsFilter, maxPriceFilter, categoryFilter]);
-
     return (
         <>
         <h1>Activity Management</h1>
         {error && (
-                <div className="error-banner">
+            <div className="error-banner" style={{ whiteSpace: 'pre-line' }}>
                     {error}
                 </div>
             )}
