@@ -237,18 +237,18 @@ namespace ActiviGoApi.Services.Services
 
 
 
-                // executing the request
-                var response = await client.ExecuteGetAsync(request, ct);
+            // executing the request
+            var response = await client.ExecuteGetAsync(request, ct);
 
-                if (!response.IsSuccessful)
-                {
+            if (!response.IsSuccessful)
+            {
                 throw new HttpRequestException("Error fetching from SMHI");
-                }
-                // putting weatherdata into a jsonobject 
-                var responseData = JsonSerializer.Deserialize<JsonObject>(response.Content);
+            }
+            // putting weatherdata into a jsonobject 
+            var responseData = JsonSerializer.Deserialize<JsonObject>(response.Content);
 
-                // creating array of all SMHI data
-                var arr = responseData?["timeSeries"].AsArray();
+            // creating array of all SMHI data
+            var arr = responseData?["timeSeries"].AsArray();
 
             // Creating a dateTime-string :
 
@@ -261,55 +261,55 @@ namespace ActiviGoApi.Services.Services
 
             // loops trough all json nodes in json array
             foreach (var n in arr)
+            {
+                var data = n?["data"];
+
+
+                var dtstring = n?["intervalParametersStartTime"].GetValue<string>();
+
+
+
+                if (n?["intervalParametersStartTime"].ToString() == dt)
                 {
-                    var data = n?["data"];
 
+                    // if there is a direct match of date and time, return it:
 
-                    var dtstring = n?["intervalParametersStartTime"].GetValue<string>();
-
-
-
-                    if (n?["intervalParametersStartTime"].ToString() == dt)
-                    {
-
-                        // if there is a direct match of date and time, return it:
-
-                        var weatherDto =
-                             new WeatherResponseDTO
-                             {
-                                 DateAndTime = n?["intervalParametersStartTime"].ToString(),
-                                 AirTemperature = data?["air_temperature"].ToString(),
-                                 WindSpeed = data?["wind_speed"].ToString(),
-                                 ProbabilityOfPrecipitation = data?["probability_of_precipitation"].ToString(),
-                                 SymbolCode = data?["symbol_code"].ToString().Remove(1)
-                             };
+                    var weatherDto =
+                         new WeatherResponseDTO
+                         {
+                             DateAndTime = n?["intervalParametersStartTime"].ToString(),
+                             AirTemperature = data?["air_temperature"].ToString(),
+                             WindSpeed = data?["wind_speed"].ToString(),
+                             ProbabilityOfPrecipitation = data?["probability_of_precipitation"].ToString(),
+                             SymbolCode = data?["symbol_code"].ToString().Remove(1)
+                         };
 
                     return weatherDto;
-                    }
-
-                    // If requested time is not present in weather data, return weather at 12:00 of requested date
-
-                    if (dtstring.Contains(date + "T" + "12:00:00Z"))
-                    {
-                        var weatherDto =
-                             new WeatherResponseDTO
-                             {
-                                 DateAndTime = n?["intervalParametersStartTime"].ToString(),
-                                 AirTemperature = data?["air_temperature"].ToString(),
-                                 WindSpeed = data?["wind_speed"].ToString(),
-                                 ProbabilityOfPrecipitation = data?["probability_of_precipitation"].ToString(),
-                                 SymbolCode = data?["symbol_code"].ToString().Remove(1)
-                             };
-
-                        return weatherDto;
-                    }
-
-
-
                 }
 
-            throw new Exception("Error processing weather request for activity occurence");
+                // If requested time is not present in weather data, return weather at 12:00 of requested date
 
+                if (dtstring.Contains(date + "T" + "12:00:00Z"))
+                {
+                    var weatherDto =
+                         new WeatherResponseDTO
+                         {
+                             DateAndTime = n?["intervalParametersStartTime"].ToString(),
+                             AirTemperature = data?["air_temperature"].ToString(),
+                             WindSpeed = data?["wind_speed"].ToString(),
+                             ProbabilityOfPrecipitation = data?["probability_of_precipitation"].ToString(),
+                             SymbolCode = data?["symbol_code"].ToString().Remove(1)
+                         };
+
+                    return weatherDto;
+                }
+
+
+
+            }
+
+            throw new Exception("Error processing weather request for activity occurence");
+        }
         public async Task<AdminStatisticsDTO> GetAdminStatistics(CancellationToken ct = default)
         {
             var categories = await _unitOfWork.Categories.GetAllAsync(ct);

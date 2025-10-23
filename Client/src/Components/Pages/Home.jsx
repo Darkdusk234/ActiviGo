@@ -19,13 +19,22 @@ export default function Home() {
           <SearchBar/>
         </div>
       </div>
+      <div className="explore-prompt">
+        <p>Utforska vårt utbut. Välj bland kategorier, aktiviteter eller kommande händelser</p>
+      </div>
       <div className="carousels">
         <h2>Kategorier</h2>
+        <div className="divider"></div>
         <CategoryList />
-        <h2 className="text-2xl font-bold mt-8 mb-4">Händelser</h2>
-        <ActivityOccurrenceList />
         <h2 className="text-2xl font-bold mt-8 mb-4">Aktiviteter</h2>
+        <div className="divider"></div>
         <ActivityList />
+        <h2 className="text-2xl font-bold mt-8 mb-4">Händelser</h2>
+        <div className="divider"></div>
+        <ActivityOccurrenceList />
+      </div>
+      <div style={{height:"10vh"}}>
+        <p></p>
       </div>
      </div>
   );
