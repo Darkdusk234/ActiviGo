@@ -9,14 +9,10 @@ const SubLocationManagement = () => {
     const [allSubLocations, setSubLocations] = useState([]); // full list
     const [filteredSubLocations, setFilteredSubLocations] = useState([]); // filtered list
     const [nameFilter, setNameFilter] = useState('');
-    const [view, setView] = useState(false);
     const { user, APIURL } = useAuth();
       const [newPopup, setNewPopup] = useState(false);
     const { subLocations } = useSubLocations();
 
-    const handleViewToggle = () => {
-        setView(!view);
-    };
 
     const handleFilterChange = (e) => {
         const value = e.target.value;
@@ -29,7 +25,7 @@ const SubLocationManagement = () => {
     };
 
     const handleRemove = async (id) => {
-        if (window.confirm(`Are you sure you want to remove sublocation with id ${id}?`)) {
+        if (window.confirm(`Är du säker på att du vill ta bort underplats med id ${id}?`)) {
             const newSubLocations = allSubLocations.filter(subLocation => subLocation.id !== id);
             setSubLocations(newSubLocations);
             setFilteredSubLocations(newSubLocations.filter(subLocation =>
@@ -46,7 +42,8 @@ const SubLocationManagement = () => {
     };
 
     const handleEdit = async (subLocation) => {
-        if (window.confirm(`Are you sure you want to edit sublocation with id ${subLocation.id}?`)) {
+        
+        if (window.confirm(`Är du säker på att du vill redigera underplats med id ${subLocation.id}?`)) {
             await fetch(`${APIURL}/SubLocation/${subLocation.id}`, {
                 method: 'PUT',
                 headers: {
@@ -54,13 +51,24 @@ const SubLocationManagement = () => {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 },
                 body: JSON.stringify(subLocation)
-            });
-            // update local state
+            })
+            .then(async response => {
+                if (!response.ok) {
+                    const data = await response.json();
+                    alert('Misslyckades med att redigera underplats: ' + data.map(error => error.errorMessage).join(', '));
+                    return;
+                }
+                if (response.ok) {
+                    alert("Underplats uppdaterad.");
+                                // update local state
             const newSubLocations = allSubLocations.map(loc => loc.id === subLocation.id ? { ...loc, ...subLocation } : loc);
             setSubLocations(newSubLocations);
             setFilteredSubLocations(newSubLocations.filter(loc =>
                 loc.name.toLowerCase().includes(nameFilter.toLowerCase())
             ));
+                }
+            });
+
         }
     };
 
@@ -88,25 +96,23 @@ const SubLocationManagement = () => {
         <>
             <h1>SubLocation Management</h1>
                     <div className="management-items-container">
-            {!user ? <p>Please log in to manage sublocations.</p> : (
+            {!user ? <p>Logga in för att hantera underplatser.</p> : (
                 <>
                 <div className = "admin-buttons">
-                           <button className="btn" onClick={() => setView(!view)}>View SubLocations</button>
-                           <button className="btn" onClick={() => setNewPopup(!newPopup)}>Add New</button>
+                           <button className="btn" onClick={() => setNewPopup(!newPopup)}>Lägg till ny</button>
                        </div>
-                       <div className="view-toggle">
-                        {!view ? (
-                               <p></p>
-                           ) : (<div className="filter-list">
+                       
+                        <div className="filter-list">
 
                                <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
-
+                          </div>
+                          <div className="item-list">
                            {filteredSubLocations.map(subLocation => (
                                <SubLocationListCard key={subLocation.id} item={subLocation} removeSubLocation={handleRemove} editSubLocation={handleEdit}/>
                            ))}
                        </div>
-                           )}
-                       </div>
+                           
+                       
 
                   {newPopup && (<SubLocationNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
 

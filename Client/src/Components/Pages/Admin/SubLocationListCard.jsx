@@ -7,7 +7,7 @@ const SubLocationListCard = ({ item, removeSubLocation, editSubLocation }) => {
     const [editMode, setEditMode] = useState(false);
     const [viewDetails, setViewDetails] = useState(false);
        const { locations, loadingLocations, errorLocations } = useLocations();
-        const [locationNames, setLocationNames] = useState([]);
+        const [allLocations, setLocations] = useState([]);
 
         // Close details view when clicking outside
         const handleClickOutside = (event) => {
@@ -21,13 +21,7 @@ const SubLocationListCard = ({ item, removeSubLocation, editSubLocation }) => {
 
 
         useEffect( () => {
-            const getData = async () => {
-                if (!loadingLocations && locations) {
-                    const names = locations.map(location => location.name);
-                    setLocationNames(names);
-                }
-            };
-            getData();
+            setLocations(locations);
         }, [loadingLocations, locations]);
 
     return (
@@ -39,7 +33,10 @@ const SubLocationListCard = ({ item, removeSubLocation, editSubLocation }) => {
                     const updatedSubLocation = {
                         id: item.id,
                         name: formData.get("name"),
-                        description: formData.get("description")
+                        description: formData.get("description"),
+                        maxCapacity: parseInt(formData.get("maxCapacity")),
+                        indoors: formData.get("indoors") === "on",
+                        locationId: parseInt(formData.get("location"))
                     };
                     editSubLocation(updatedSubLocation);
                     setEditMode(false);
@@ -48,24 +45,23 @@ const SubLocationListCard = ({ item, removeSubLocation, editSubLocation }) => {
                         <p className="id">Id: {item.id}</p>
                         <input type="text" className="input-name" id="name" name="name" defaultValue={item.name} />
                         <div className="editable-areas">
-                            <p>Description:</p>
+                            <p>Beskrivning:</p>
                                 <textarea id="description" name="description" defaultValue={item.description}></textarea>
-                            <p>Max capacity:</p>
+                            <p>Max kapacitet:</p>
                             <input type="number" className="input-number" id="maxCapacity" name="maxCapacity" defaultValue={item.maxCapacity}></input>
-                            <p>Indoors:</p>
+                            <p>Inomhus:</p>
                             <input type="checkbox" id="indoors" className="checkbox" name="indoors" defaultChecked={item.indoors}></input>
-                            <p>At location:</p>
-                            <select defaultValue={item.locationId}>
-                                <option value={item.locationId}>{item.locationId}</option>
-                                {locationNames.map((location, index) => (
-                                    <option key={index} value={location} selected={location === item.locationId}>{location}</option>
+                            <p>Plats:</p>
+                            <select id="location" name="location" defaultValue={item.locationId} >
+                                {allLocations.map((location, index) => (
+                                    <option key={index} value={location.id}>{location.name}</option>
                                 ))}
                             </select>
                         </div>
                     </div>
                     <div className="admin-list-card-buttons">
-                        <button type="submit">Save</button>
-                        <button type="button" onClick={() => setEditMode(false)}>Cancel</button>
+                        <button type="submit">Spara</button>
+                        <button type="button" onClick={() => setEditMode(false)}>Avbryt</button>
                     </div>
                 </form>
             ) : (
@@ -73,23 +69,23 @@ const SubLocationListCard = ({ item, removeSubLocation, editSubLocation }) => {
                     <div className="admin-list-card-info">
                         <p className="id">Id: {item.id}</p>
                         <h3>{item.name}</h3>
-                        {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Click for more details...</p>}
+                        {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Klicka för ytterligare detaljer...</p>}
                         {viewDetails && (
                             <div className="details-view">
-                                <p>Description:</p>
+                                <p>Beskrivning:</p>
                                 <p className="Description">{item.description}</p>
-                                <p>MaxCapacity:</p>
+                                <p>MaxKapacitet:</p>
                                 <p className="MaxCapacity">{item.maxCapacity}</p>
-                                <p>Indoors:</p>
-                                <p className="Indoors">{item.indoors ? "Yes" : "No"}</p>
-                                <p>LocationId:</p>
-                                <p className="LocationId">{item.locationId}</p>
+                                <p>Inomhus:</p>
+                                <p className="Indoors">{item.indoors ? "Ja" : "Nej"}</p>
+                                <p>Plats:</p>
+                                <p className="LocationId">{item.locationName}</p>
                             </div>
                         )}
                     </div>
                     <div className="admin-list-card-buttons">
-                        <button onClick={() => setEditMode(true)}>Edit</button>
-                        <button onClick={() => removeSubLocation(item.id)}>Remove</button>
+                        <button onClick={() => setEditMode(true)}>Redigera</button>
+                        <button onClick={() => removeSubLocation(item.id)}>Ta bort</button>
                     </div>
                 </>
             )}
