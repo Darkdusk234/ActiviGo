@@ -1,9 +1,15 @@
 .display-list-container {
   border: 1px solid #dddddd00;
   margin: 0 0 5rem 0;
+  padding-top: 5rem;
+  height: 100%;
 }
 
 .my-swiper {
   width: 100%;
+  min-height: 16vh;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
+
 

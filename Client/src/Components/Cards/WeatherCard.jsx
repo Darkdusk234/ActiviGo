@@ -1,8 +1,9 @@
 import React from "react";
+import "./WeatherCard.css";
 
 const WeatherCard = ({ weather }) => {
     if (!weather) {
-        return <div>No weather data available.</div>;
+        return (<div>No weather data available.</div>);
     }
     return (
         <div className="weather-card">
