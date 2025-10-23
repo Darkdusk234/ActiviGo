@@ -57,7 +57,7 @@ const SingleResultDisplay = ({ result }) => {
                     <div className="right-bottom-tag">
                         <p>Price: {!result.price ? 0 : result.price} SEK</p>
                         <button className="book-button" onClick={(e) => { e.stopPropagation(); navigate(`/occurrence/:${result.id}`); }}>
-                        Book
+                        Boka
                     </button>
                     </div>
                 </div>

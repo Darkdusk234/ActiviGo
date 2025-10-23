@@ -130,11 +130,12 @@ footer {
     font-weight: 500;
     margin-bottom: 2rem;
     color: #e6e6e6;
-    text-shadow: #9772ac 2px 2px 10px;
+    text-shadow: #7286acb1 2px 2px 10px;
 }   
 
 .carousels {
     padding-top: 2rem;
+    
 }
 .carousels h2{
     padding-top: 6rem;

@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    min-width: 130vh;
+    width: 130vh;
     margin: 10px 0;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -94,4 +94,11 @@
 
 .book-button:hover {
     background-color: #005ea6;
+}
+
+@media (max-width: 1958px) {
+  .expedia-result{
+    scale: 0.95;
+    width: 100%;
+}
 }

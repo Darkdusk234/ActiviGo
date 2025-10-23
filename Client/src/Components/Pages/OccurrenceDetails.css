@@ -61,7 +61,7 @@
   background-size: cover; /* Behåller originalstorlek */
   background-repeat: repeat; /* Repeterar bilden för att täcka utrymmet */
   background-position: center;
-  background-color: rgba(0, 0, 0, 0.349); /* Svart overlay med 50% opacitet */
+  background-color: rgba(0, 0, 0, 0.473); /* Svart overlay med 50% opacitet */
   background-blend-mode: multiply;
 }
 .content-info h4{
