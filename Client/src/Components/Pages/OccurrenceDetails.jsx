@@ -18,7 +18,6 @@ const OccurrenceDetails = () => {
 
   useEffect(() => {
     const fetchOccurrence = async () => {
-      console.log(id);
       try {
         const res = await fetch(`${APIURL}/ActivityOccurence/${id}`);
         const data = await res.json();
