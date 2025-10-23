@@ -41,8 +41,7 @@ const OccurrenceDetails = () => {
 
   const handleBooking = async (e) => {
     e.preventDefault();
-    const currentUser = await fetchUser();
-    if (!currentUser) {
+    if (!user) {
       alert("Du måste vara inloggad för att boka!");
       return;
     }
