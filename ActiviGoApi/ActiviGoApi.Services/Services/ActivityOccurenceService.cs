@@ -5,13 +5,18 @@ using ActiviGoApi.Services.DTOs.ActivityDTOs;
 using ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs;
 using ActiviGoApi.Services.DTOs.AdminDTOs;
 using ActiviGoApi.Services.DTOs.CategpryDtos;
+using ActiviGoApi.Services.DTOs.WeatherDTOs;
 using ActiviGoApi.Services.Interfaces;
 using AutoMapper;
+using RestSharp;
+using RestSharp.Serializers.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace ActiviGoApi.Services.Services
@@ -60,10 +65,26 @@ namespace ActiviGoApi.Services.Services
 
             if (occurrence == null)
             {
-                return null;
+                throw new KeyNotFoundException($"ActivityOccurence with id {id} not found!");
             }
 
-            return _mapper.Map<ActivityOccurenceResponseDTO>(occurrence);
+            var toReturn = _mapper.Map<ActivityOccurenceResponseDTO>(occurrence);
+
+            // Fetch weather data only if the activity is outdoors
+            if (occurrence.SubLocation.Indoors == false)
+            {
+                try
+                {
+                    toReturn.Weather = await AddWeatherToResponse(occurrence.StartTime, occurrence.SubLocation.Location.Latitude, occurrence.SubLocation.Location.Longitude, ct);
+                }
+                catch
+                {
+                    
+                }
+
+            }
+            
+            return toReturn;
         }
 
         public async Task<ActivityOccurenceResponseDTO> AddAsync(CreateActivityOccurrenceDTO createDTO, CancellationToken ct = default)
@@ -185,6 +206,102 @@ namespace ActiviGoApi.Services.Services
                          (dto.AvailableToBook == null || x.AvailableSpots >= 0) &&
                          (dto.NameFilter == null || x.Activity.Name.Contains(dto.NameFilter));
         }
+        public async Task<WeatherResponseDTO> AddWeatherToResponse(DateTime dateAndTime, string latitude, string longitude, CancellationToken ct)
+        {
+            // Setting options for fetching
+            var options = new RestClientOptions("https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/")
+            {
+                ThrowOnAnyError = true,
+                Timeout = TimeSpan.FromMilliseconds(30000)
+
+            };
+            // Example $"lon/{dto.Longitude}/lat/{dto.Latitude}/data.json?timeseries={timeseries}?parameters={parameters}";
+
+            // The added url part to get correct data
+            var url = $"lon/{longitude}/lat/{latitude}/data.json?parameters=air_temperature,probability_of_precipitation,symbol_code,wind_speed";
+
+            // Creating RestCLient
+            var client = new RestClient(options,
+                        configureSerialization: s => s.UseSystemTextJson(new System.Text.Json.JsonSerializerOptions()));
+
+            // forming the request
+            var request = new RestRequest(url);
+
+
+
+
+                // executing the request
+                var response = await client.ExecuteGetAsync(request, ct);
+
+                if (!response.IsSuccessful)
+                {
+                throw new HttpRequestException("Error fetching from SMHI");
+                }
+                // putting weatherdata into a jsonobject 
+                var responseData = JsonSerializer.Deserialize<JsonObject>(response.Content);
+
+                // creating array of all SMHI data
+                var arr = responseData?["timeSeries"].AsArray();
+
+            // Creating a dateTime-string :
+
+            string dt = dateAndTime.ToString("s") + "Z";
+
+            string date = dateAndTime.ToString("yyyy-MM-dd");
+
+            Console.WriteLine("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" + dt + "SSSSSSSSSSSSSSSSSSSSSSSS");
+            Console.WriteLine("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF" + dt + "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+
+            // loops trough all json nodes in json array
+            foreach (var n in arr)
+                {
+                    var data = n?["data"];
+
+
+                    var dtstring = n?["intervalParametersStartTime"].GetValue<string>();
+
+
+
+                    if (n?["intervalParametersStartTime"].ToString() == dt)
+                    {
+
+                        // if there is a direct match of date and time, return it:
+
+                        var weatherDto =
+                             new WeatherResponseDTO
+                             {
+                                 DateAndTime = n?["intervalParametersStartTime"].ToString(),
+                                 AirTemperature = data?["air_temperature"].ToString(),
+                                 WindSpeed = data?["wind_speed"].ToString(),
+                                 ProbabilityOfPrecipitation = data?["probability_of_precipitation"].ToString(),
+                                 SymbolCode = data?["symbol_code"].ToString().Remove(1)
+                             };
+
+                    return weatherDto;
+                    }
+
+                    // If requested time is not present in weather data, return weather at 12:00 of requested date
+
+                    if (dtstring.Contains(date + "T" + "12:00:00Z"))
+                    {
+                        var weatherDto =
+                             new WeatherResponseDTO
+                             {
+                                 DateAndTime = n?["intervalParametersStartTime"].ToString(),
+                                 AirTemperature = data?["air_temperature"].ToString(),
+                                 WindSpeed = data?["wind_speed"].ToString(),
+                                 ProbabilityOfPrecipitation = data?["probability_of_precipitation"].ToString(),
+                                 SymbolCode = data?["symbol_code"].ToString().Remove(1)
+                             };
+
+                        return weatherDto;
+                    }
+
+
+
+                }
+
+            throw new Exception("Error processing weather request for activity occurence");
 
         public async Task<AdminStatisticsDTO> GetAdminStatistics(CancellationToken ct = default)
         {
