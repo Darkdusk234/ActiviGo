@@ -68,7 +68,7 @@ const MyBookings = () => {
     return (
         <div className="my-bookings">
             <h1>Mina Bokningar</h1>
-            <p className="count">Du har {bookings.length} bokningar</p>
+            <p className="count">Du har {bookings.length} {bookings.length == 1 ? ('bokning') : ('bokningar')}</p>
             
             {bookings.length === 0 ? (
                 <p className="empty">Du har inga bokningar än.</p>
@@ -76,7 +76,11 @@ const MyBookings = () => {
                 <div className="bookings-list">
                     {bookings.map(booking => (
                         <div className="booking-item" key={booking.id || booking.bookingTime}>
-                            <div className='booking-img' style={{backgroundImg:`https://picsum.photos/400/250?random=${booking.activityId}`}}>
+                            <div className='booking-img'>
+                            <img
+                                src={`https://picsum.photos/400/250?random=${booking.activityId}` || activity.imgUrl}
+                                alt={booking.activityName}
+                            />
                             </div>
                             <div className='info'>
                                 <h3>{booking.activityName || 'Aktivitet'}</h3>

@@ -1,15 +1,19 @@
 .my-bookings {
     width: 100%;
     margin: 0 auto;
-    padding: 2rem;
-
 } 
 .my-bookings h1 {
     margin-bottom: 0.5rem;
+    font-size: 4rem;
+    font-weight: 800;
+    text-shadow: #333 4px 8px 10px;
 }
 .count {
-    color: #666;
+    color: #f7f7f7;
     margin-bottom: 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-shadow: #333 4px 4px 10px;
 }
 
 .empty {
@@ -40,9 +44,10 @@
 }
 
 .bookings-list {
-    display: grid;
+    display: flex;
+    justify-content: center;
+    width: 100%;
     gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
 .booking-item {
@@ -52,7 +57,7 @@
     padding: 1.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
-    width: 90vh;
+    width: 90%;
     display: flex;
     flex-direction: row;
 }
@@ -77,7 +82,19 @@
 }
 
 .booking-img{
-    width: 20vh;
-    background: cover;
-    
+    width: 40vh;
+    padding-right: 2rem;
+}
+.booking-img img{
+    width: 100%;
+    height: 100%;
+}
+.info {
+    width: 40%;
+}
+.booking-cancel-btn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 30%;
 }
