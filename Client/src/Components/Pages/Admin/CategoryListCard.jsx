@@ -6,6 +6,13 @@ const CategoryListCard = ({item, removeCategory, editCategory}) => {
     const [editMode, setEditMode] = useState(false);
     const [viewDetails, setViewDetails] = useState(false);  
 
+            const handleClickOutside = (event) => {
+            if (!event.target.closest('.details-view') && !event.target.closest('.details')) {
+                setViewDetails(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
 
     return (
         <>

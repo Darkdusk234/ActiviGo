@@ -23,17 +23,17 @@ const LocationNewPop = ({handleCreate, closePopup}) => {
                 handleCreate({ name, description, adress, latitude, longitude });
             }}>
                 <h2>Ny Plats</h2>
-                
+
                 <label>Namn:</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
                 <label>Beskrivning:</label>
                 <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
                 <label>Adress:</label>
                     <input type="text" value={adress} onChange={(e) => setAdress(e.target.value)} required />
-                <label>Latitude:</label>
+                <label>Latitud:</label>
                     <input type="text" value={latitude} onChange={(e) => setLatitude(e.target.value)} required />
 
-                <label>Longitude:</label>
+                <label>Longitud:</label>
                     <input type="text" value={longitude} onChange={(e) => setLongitude(e.target.value)} required />
 
                 <button type="submit">Skapa</button>
