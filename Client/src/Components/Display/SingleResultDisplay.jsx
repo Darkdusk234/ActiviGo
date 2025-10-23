@@ -40,18 +40,35 @@ const SingleResultDisplay = ({ result }) => {
 
     return(
         <>
-        <div 
-        className = "single-result"
-        onClick={handleClick}>
-           
-            <h4>{result.activityName}</h4>
-            <p>available spots: {result.availableSpots}/{result.capacity}</p>
-            <p>date: {date}</p>
-            <p>time: {startTime} - {endTime}</p>
-            <p>Category: {result.categoryName}</p>
-            <p>Location: {result.subLocationName}, {result.locationName} </p>
-            <p>Price: {!result.price ? 0 : result.price} SEK</p>
-            <img src={result.imgUrl} alt={result.activityName}/>
+        <div className="expedia-result">
+            <div className="result-image" onClick={handleClick}>
+                <img src={`https://picsum.photos/400/250?random=${result.id}`} alt={result.activityName} />
+            </div>
+            <div className="result-details" onClick={handleClick}>
+                <div className="top">
+                    <h4 className="result-title">{result.activityName}</h4>
+                    <p>Time: {startTime} - {endTime}</p>
+                </div>
+                <div className="result-info">
+                    <p>Available spots: {result.availableSpots}/{result.capacity}</p>
+                    <p>Date: {date}</p>
+                    <p>Category: {result.categoryName}</p>
+                    <p>Location: {result.subLocationName}, {result.locationName}</p>
+                    <div className="right-bottom-tag">
+                        <p>Price: {!result.price ? 0 : result.price} SEK</p>
+                        <button className="book-button" onClick={(e) => { e.stopPropagation(); navigate(`/occurrence/:${result.id}`); }}>
+                        Book
+                    </button>
+                    </div>
+                </div>
+            </div>
+            {showBook && (
+                <div className="result-book">
+                    <button className="book-button" onClick={(e) => { e.stopPropagation(); navigate(`/occurrence/:${result.id}`); }}>
+                        Book
+                    </button>
+                </div>
+            )}
         </div>
         </>
     )
