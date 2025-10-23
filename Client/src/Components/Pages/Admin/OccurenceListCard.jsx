@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSubLocations } from "../../../contexts/SubLocationContext";
+import './Admin.css';
 
 const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccurence }) => {
     const [editMode, setEditMode] = useState(false);
@@ -55,12 +56,12 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
                             <p>End Time</p>
                             <input type="datetime-local" className="input-endTime" id="endTime" name="endTime" defaultValue={item.endTime} placeholder="End Time" />
                             <p>SubLocation</p>
-                            <select id="sublocationId" name="sublocationId">
+                            <select id="sublocationId" name="sublocationId" defaultValue={item.subLocationId}>
                                 {subLocations.map(loc => (
                                     <option key={loc.id} value={loc.id}>{loc.name}</option>
                                 ))}
                             </select>
-                          <p>Max Capacity:</p>
+                          <p>Max antal deltagare:</p>
                             <input type="number" className="input-capacity" id="capacity" name="capacity" defaultValue={item.capacity} placeholder="Max Capacity" />
                         </div>
                     </div>
@@ -74,26 +75,26 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
                 <>
                     <div className="admin-list-card-info">
                         <p className="id">Id: {item.id}</p>
-                        <h3 className={!item.isCancelled ? '' : 'cancelled' }>{item.activityName}</h3>
-                        <p>Date: {date}</p>
-                        <p>Time: {startTime} - {endTime}</p>
+                        <h3 className={!item.isCancelled ? '' : 'cancelled' }>{!item.isCancelled ? item.activityName : item.activityName + " (Inställd)"}</h3>
+                        <p>Datum: {date}</p>
+                        <p>Tid: {startTime} - {endTime}</p>
 
                         {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Click for more details...</p>}
                         {viewDetails && (
                             <div className="details-view">
 
-                                <p>Location: </p><p>{item.subLocationName}, {item.locationName}</p>
-                                <p>Category: </p><p>{item.categoryName}</p>
-                                <p>Current participation count: </p><p>{(parseInt(item.capacity) - parseInt(item.availableSpots))} / {item.capacity}</p>
-                                <p>Price: </p><p>{item.price} SEK</p>
-                                
+                                <p>Plats: </p><p>{item.subLocationName}, {item.locationName}</p>
+                                <p>Nuvarande deltagarantal: </p><p>{(parseInt(item.capacity) - parseInt(item.availableSpots))} / {item.capacity}</p>
+                                <p>Pris: </p><p>{item.price} SEK</p>
+
                             </div>
                         )}
                     </div>
                     <div className="admin-list-card-buttons">
-                        <button onClick={() => setEditMode(true)}>Edit</button>
-                        <button onClick={() => removeOccurence(item.id)}>Remove</button>
-                        <button type="button" onClick={handleCancel}>{isCancelled ? 'Uncancel' : 'Cancel'}</button>
+                        <button onClick={() => setEditMode(true)}>Redigera</button>
+                        <button onClick={() => removeOccurence(item.id)}>Ta bort</button>
+                        {!isCancelled ? <button type="button" onClick={handleCancel}>Ställ in</button> : ''}
+                        
                     </div>
                 </>
             )}

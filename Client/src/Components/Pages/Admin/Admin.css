@@ -337,7 +337,6 @@ button:hover {
 .cancelled {
     background-color: #f8d7da;
     color: #721c24;
-    text-decoration: line-through;
 }
 
 /* Dashboard Styles */

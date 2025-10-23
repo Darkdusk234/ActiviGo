@@ -14,34 +14,13 @@ const OccurenceManagement = () => {
     const { id } = useParams();
     const { filter } = useParams();
     const [occurrences, setOccurrences] = useState([]);
+    const [filtered, setFiltered] = useState([]);
     const [idName, setIdName] = useState('');
 
     // To get names for ids
     const { activities } = useActivities();
     const { subLocations } = useSubLocations();
 
-    useEffect(() => {
-        // fetch all occurences
-        
-        const fetchOccurrences = async () => {
-            try {
-                const response = await fetch(`${APIURL}/ActivityOccurence/admin`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                    }
-                });
-                const data = await response.json();
-                setOccurrences(data);
-                
-            } catch (error) {
-                console.error("Error fetching occurrences:", error);
-            }
-        };
-
-        fetchOccurrences();
-    }, []);
 
     const filterOccurences = (filter, id) => {
         if(filter === 'activity')
@@ -72,32 +51,51 @@ const OccurenceManagement = () => {
     }
 
     const handleCancel = async (id) => {
-        if (window.confirm(`Are you sure you want to cancel occurrence with id ${id}?`)) {
+        if (window.confirm(`Är du säker på att du vill ställa in tillfället med id ${id}?`)) {
         await fetch(`${APIURL}/ActivityOccurence/cancel/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`
             }
+        })
+        .then(async response => {
+            if (!response.ok) {
+                const data = await response.json();
+                alert('Misslyckades med att ställa in tillfälle: ' + data.map(error => error.errorMessage).join(', '));
+                return;
+            }
+            if( response.ok) {
+                alert("Tillfälle inställt.");
+            }
         });
     }
     }
 
     const handleRemove = async (id) => {
-        if (window.confirm(`Are you sure you want to remove occurrence with id ${id}?`)) {
+        if (window.confirm(`Är du säker på att du vill ta bort tillfället med id ${id}?`)) {
             await fetch(`${APIURL}/ActivityOccurence/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 }
+            }).then(async response => {
+                if (!response.ok) {
+                    const data = await response.json();
+                    alert('Misslyckades med att ta bort tillfälle: ' + data.map(error => error.errorMessage).join(', '));
+                    return;
+                }
+                if (response.ok) {
+                    alert("Tillfälle borttaget.");
+                }
             });
         }
     }
 
     const handleEdit = async (occurrence) => {
-
-        if (window.confirm(`Are you sure you want to edit occurrence with id ${occurrence.id}?`)) {
+        console.log(occurrence);
+        if (window.confirm(`Är du säker på att du vill uppdatera tillfället med id: ${occurrence.id}?`)) {
             {
 
                 await fetch(`${APIURL}/ActivityOccurence/${occurrence.id}`, {
@@ -107,19 +105,66 @@ const OccurenceManagement = () => {
                         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                     },
                     body: JSON.stringify(occurrence)
+                })
+                .then(async response => {
+                    if (!response.ok) {
+                        const data = await response.json();
+                        alert('Redigering av tillfälle misslyckades: ' + data.map(error => error.errorMessage).join(', '));
+                        return;
+                    }
+                    if (response.ok) {
+                        alert("Tillfälle uppdaterat.");
+                    }
                 });
             }
         }
     }
 
+        const filterActive = () => {
+        
+        const activeOccurrences = filtered.filter(occ => !occ.isCancelled);
+        console.log(activeOccurrences);
+        setFiltered(activeOccurrences);
+        console.log(filtered);
+        
+    }
+
+    useEffect(() => {
+        // fetch all occurences
+        
+        const fetchOccurrences = async () => {
+            try {
+                const response = await fetch(`${APIURL}/ActivityOccurence/admin`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+                const data = await response.json();
+                setOccurrences(data);
+                setFiltered(filterOccurences(filter, id));
+                
+                
+            } catch (error) {
+                console.error("Error fetching occurrences:", error);
+            }
+        };
+
+        fetchOccurrences();
+    }, [handleEdit, filterActive]);
+
+
+
     return (
         <>
         <div className="management-items-container">
-            <h1>Occurence Management</h1>
-            <h2>Occurences for {filter.charAt(0).toUpperCase() + filter.slice(1)}: {getNameById(filter, id)}</h2>
-            <button>Sort by latest</button>
-            {filterOccurences(filter, id).map(occ => (
-                <OccurenceListCard key={occ.id} item={occ} removeOccurence={handleRemove} editOccurence={handleEdit} cancelOccurence={handleCancel} />
+            <h1>Hantera tillfällen</h1>
+            <h2>Aktivitetstillfällen för {filter.charAt(0).toUpperCase() + filter.slice(1)}: {getNameById(filter, id)}</h2>
+            {/* <button className="admin-button" onClick={filterActive}>Visa endast aktiva</button> */}
+            {filtered.map(occ => (
+                    <OccurenceListCard key={occ.id} item={occ} removeOccurence={handleRemove} editOccurence={handleEdit} cancelOccurence={handleCancel} />
+                
             ))}
         </div>
            
