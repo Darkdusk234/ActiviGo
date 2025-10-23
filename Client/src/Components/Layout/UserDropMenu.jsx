@@ -4,8 +4,7 @@ import './Login.css';
 import { Link } from 'react-router-dom';
 
 const UserDropMenu = ({ close }) => {
-    const { logout, user, fetchUser, token } = useAuth(); // Hämta allt från useAuth
-    const storedToken = localStorage.getItem('token');
+    const { logout, user, token } = useAuth(); 
     const [displayName, setDisplayName] = useState(user?.name || 'Användare'); // Lokal state för namn
 
     const handleLogout = () => {
@@ -14,15 +13,10 @@ const UserDropMenu = ({ close }) => {
     };
 
     useEffect(() => {
-        if (storedToken && fetchUser) {
-            fetchUser().then(fetchedUser => {
-                setDisplayName(fetchedUser?.userName || 'Användare'); // Uppdatera namn från fetchUser
-            }).catch(error => {
-                console.error('Failed to fetch user:', error);
-                setDisplayName('Användare'); // Fallback vid fel
-            });
+        if (token && user) {
+            setDisplayName(user?.userName || 'Användare'); // Uppdatera namn från fetchUser
         }
-    }, [storedToken, fetchUser]); // Kör när token eller fetchUser ändras
+    }, [token, user]); // Kör när token eller fetchUser ändras
 
     return (
         <div className="user-drop-menu">
