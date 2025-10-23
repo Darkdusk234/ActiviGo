@@ -1,7 +1,9 @@
 ﻿using ActiviGoApi.Core.Models;
 using ActiviGoApi.Infrastructur.Repositories;
+using ActiviGoApi.Services.DTOs;
 using ActiviGoApi.Services.DTOs.ActivityDTOs;
 using ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs;
+using ActiviGoApi.Services.DTOs.AdminDTOs;
 using ActiviGoApi.Services.DTOs.CategpryDtos;
 using ActiviGoApi.Services.DTOs.WeatherDTOs;
 using ActiviGoApi.Services.Interfaces;
@@ -204,7 +206,6 @@ namespace ActiviGoApi.Services.Services
                          (dto.AvailableToBook == null || x.AvailableSpots >= 0) &&
                          (dto.NameFilter == null || x.Activity.Name.Contains(dto.NameFilter));
         }
-
         public async Task<WeatherResponseDTO> AddWeatherToResponse(DateTime dateAndTime, string latitude, string longitude, CancellationToken ct)
         {
             // Setting options for fetching
@@ -302,6 +303,56 @@ namespace ActiviGoApi.Services.Services
 
             throw new Exception("Error processing weather request for activity occurence");
 
+        public async Task<AdminStatisticsDTO> GetAdminStatistics(CancellationToken ct = default)
+        {
+            var categories = await _unitOfWork.Categories.GetAllAsync(ct);
+            var activities = await _unitOfWork.Activities.GetAllAsync(ct);
+            var occurrences = await _unitOfWork.ActivityOccurrences.GetAllAsync(ct);
+            var bookings = await _unitOfWork.Bookings.GetAllAsync(ct);
+            var locations = await _unitOfWork.Locations.GetAllAsync(ct);
+
+            var bookingsLastMonth = bookings.Where(b => b.CreatedAt >= DateTime.UtcNow.AddDays(-31));
+
+            var popularCategory = categories
+                .Select(c => new
+                {
+                    Category = c,
+                    BookingCount = bookingsLastMonth.Count(b => b.ActivityOccurence != null && b.ActivityOccurence.Activity != null && b.ActivityOccurence.Activity.CategoryId == c.Id)
+                })
+                .OrderByDescending(c => c.BookingCount)
+                .FirstOrDefault()?.Category;
+
+            var popularActivity = activities
+                .Select(a => new
+                {
+                    Activity = a,
+                    BookingCount = bookingsLastMonth.Count(b => b.ActivityOccurence != null && b.ActivityOccurence.ActivityId == a.Id)
+                })
+                .OrderByDescending(a => a.BookingCount)
+                .FirstOrDefault()?.Activity;
+
+            var popularLocation = locations
+                .Select(l => new
+                {
+                    Location = l,
+                    BookingCount = bookingsLastMonth.Count(b => b.ActivityOccurence != null && b.ActivityOccurence.SubLocation != null && b.ActivityOccurence.SubLocation.LocationId == l.Id)
+                })
+                .OrderByDescending(l => l.BookingCount)
+                .FirstOrDefault()?.Location;
+
+            var statistics = new AdminStatisticsDTO
+            {
+                CategoriesCount = categories.Count(),
+                LocationsCount = locations.Count(),
+                ActivitiesCount = activities.Count(),
+                ActivityOccurrencesCount = occurrences.Count(),
+                BookingsLastMonth = bookingsLastMonth.Count(),
+                MostBookedCategory = popularCategory != null ? _mapper.Map<CategoryReadDto>(popularCategory) : null,
+                MostBookedActivity = popularActivity != null ? _mapper.Map<GetActivityResponse>(popularActivity) : null,
+                MostBookedLocation = popularLocation != null ? _mapper.Map<LocationRequestDTO>(popularLocation) : null
+            };
+
+            return statistics;
         }
     }
 }

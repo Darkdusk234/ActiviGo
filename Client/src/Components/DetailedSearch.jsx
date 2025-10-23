@@ -52,7 +52,7 @@ const DetailedSearch = ({fetchResults}) => {
         const data = Object.fromEntries(formData.entries());
        
         fetchResults({
-            name: !data.name ? null : data.name,
+            nameFilter: !data.name ? null : data.name,
             categoryId: !data.category ? null : data.category,
             activityId: !data.activity ? null : data.activity,
             locationId: !data.location ? null : data.location,
@@ -94,7 +94,7 @@ const DetailedSearch = ({fetchResults}) => {
                         <option key={index} value={location.id}>{location.name}</option>
                     ))}
                 </select>
-                <label htmlFor="availableToBook">Minst antal lediga platser:</label> <input type="checkbox" id="availableToBook" name="availableToBook"/>
+                <label htmlFor="availableToBook">Med lediga platser:</label> <input type="checkbox" id="availableToBook" name="availableToBook"/>
 
                 <button type="submit">Sök</button>
             </form>
