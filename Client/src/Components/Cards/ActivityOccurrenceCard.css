@@ -2,11 +2,10 @@
   margin: 1rem;
   border: 1px solid #e5e7eb;         /* ljusgrå kant */
   border-radius: 0.5rem;             /* rundade hörn */
-  background-color: #f9f9f9;         /* ljus bakgrund */
+  background-color: #eeeeee;         /* ljus bakgrund */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 50vh; 
+  min-height: 30vh; 
   max-height: 50vh;                    /* lagom höjd för textinnehåll */
   min-width: 50vh;                      /* passar i swiper */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -14,9 +13,30 @@
   text-align: left;
 }
 
+.top-content{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 3rem;
+}
+
+.top-content p{
+  color: #111;
+  font-size: 1.5rem;
+}
+.top-content h3{
+  color: #111;
+  font-size: 2.2rem;
+}
+
+
 .occurrence-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
+  transform: translateY(-8px) scale(1.01);
+  -webkit-transform: translateY(-8px) scale(1.01);
+  -moz-transform: translateY(-8px) scale(1.01);
+  -ms-transform: translateY(-8px) scale(1.01);
+  -o-transform: translateY(-8px) scale(1.01);
 }
 
 .occurrence-card img {
@@ -30,7 +50,7 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.6rem;
 }
 
 .occurrence-card-title {
@@ -52,4 +72,12 @@
   font-size: 0.9rem;
   font-weight: 600;
   color: #b91c1c; /* röd */
+}
+
+.bottom-content{
+  display: flex;
+  justify-content: flex-end;
+}
+.bottom-content p{
+  font-size: 1.5rem;
 }
