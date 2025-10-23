@@ -39,18 +39,18 @@ const CategoryListCard = ({item, removeCategory, editCategory}) => {
                 <><div className="admin-list-card-info">
                         <p className="id">Id: {item.id}</p>
                         <h3>{item.name}</h3>
-                        
-                        {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Click for more details...</p>}
+
+                        {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Klicka för mer information...</p>}
                         {viewDetails && (
                             <div className="details-view">
-                                <p>Description:</p>
+                                <p>Beskrivning:</p>
                                 <p className="Description">{item.description}</p>
                             </div>
                         )}
                     </div>
                     <div className="admin-list-card-buttons">
-                            <button onClick={() => setEditMode(true)}>Edit</button>
-                            <button onClick={() => removeCategory(item.id)}>Remove</button>
+                            <button onClick={() => setEditMode(true)}>Redigera</button>
+                            <button onClick={() => removeCategory(item.id)}>Ta bort</button>
 
                     </div></>)}
         </div>

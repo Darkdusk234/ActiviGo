@@ -17,12 +17,12 @@ const CategoryNewPop = ({handleCreate, closePopup}) => {
         <div className="popup-background">
             <div className="popup-card">
                 <h2>Ny Kategori</h2>
-                <h2 onClick={close}>X</h2>
                 <label>Namn:</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
                 <label>Beskrivning:</label>
                 <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
                 <button onClick={() => handleCreate({ name, description })}>Skapa</button>
+                <button onClick={() => close()}>Avbryt</button>
             </div>
         </div>
         </>
