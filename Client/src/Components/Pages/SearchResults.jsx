@@ -82,7 +82,9 @@ const fetchResults = async (searchTerms) => {
 return (
     <div className="results-page">
         <div className = "detail-search">
-            <DetailedSearch fetchResults={fetchResults}/>
+            <div className="search-filter">
+                <DetailedSearch fetchResults={fetchResults}/>
+            </div>
         </div>
         <div className ="search-results">
 
