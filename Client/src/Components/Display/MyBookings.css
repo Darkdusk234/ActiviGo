@@ -1,12 +1,12 @@
 .my-bookings {
-    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     padding: 2rem;
+
 } 
 .my-bookings h1 {
     margin-bottom: 0.5rem;
 }
-
 .count {
     color: #666;
     margin-bottom: 2rem;
@@ -52,6 +52,9 @@
     padding: 1.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
+    width: 90vh;
+    display: flex;
+    flex-direction: row;
 }
 
 .booking-item:hover {
@@ -62,9 +65,19 @@
 .booking-item h3 {
     margin-top: 0;
     color: #333;
+    font-size: 3rem;
+    font-weight: 600;
 }
 
 .booking-item p {
     margin: 0.5rem 0;
     color: #666;
+    font-size: 2rem;
+    font-weight: 300;
+}
+
+.booking-img{
+    width: 20vh;
+    background: cover;
+    
 }
