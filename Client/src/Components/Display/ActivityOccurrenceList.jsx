@@ -14,7 +14,6 @@ export default function ActivityOccurrenceList() {
       try {
         const data = await getActivityOccurrence();
         setOccurrences(data);
-        console.log(data);
         setError(null);
       } catch (err) {
         setError(err.message);
