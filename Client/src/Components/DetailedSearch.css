@@ -8,6 +8,11 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+.form-tag {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
 
 /* Form styling */
 .detailed-search-form {
@@ -16,7 +21,7 @@
   width: 100%;
   gap: 15px;
   padding: 15px;
-  background-color: rgba(244, 244, 244, 0.861);
+  background-color: rgba(244, 244, 244, 0);
   border-radius: 8px;
 }
 
@@ -83,7 +88,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border: 2px solid #7286c6;
+  border: 2px solid #b7c1e0;
   border-radius: 25px;
   padding: 5px 10px;
   background-color: rgb(255, 255, 255);
@@ -137,24 +142,35 @@
 /* Checkbox styling */
 .checkbox-filter {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
   padding: 10px;
 }
 
 .checkbox-filter label {
   font-size: 1.2rem;
   color: #414141;
-  margin: 0;
+  margin-top: -1rem;
+}
+.checkbox-filter input{
+  font-size: 2.2rem;
+  color: #414141;
+  margin-left: 1rem;
 }
 
-.checkbox-filter input[type="checkbox"] {
-  border: 2px solid #0071c2; /* Blå kant för att matcha temat */
-  border-radius: 4px; /* Rundade hörn för modern look */
-  background-color: #fff; /* Vit bakgrund för kontrast */
-  cursor: pointer; /* Pekare vid hover */
-  accent-color: #0071c2; /* Färg på krysset när markerad */
-  transition: transform 0.2s ease; /* Smidig skalning vid hover */
+.check-box {
+  border: 2px solid #0071c2;
+  /*Blåkantförattmatchatemat*/border-radius: 4px;
+  /*Vitbakgrundförkontrast*/cursor: pointer;
+  /*Pekarevidhover*/accent-color: #0071c2;
+  /*Färgpåkryssetnärmarkerad*/transition: transform 0.2s ease;
+   /* Smidig skalning vid hover */;
+  -webkit-transition: transform 0.2s ease;
+  -moz-transition: transform 0.2s ease;
+  -ms-transition: transform 0.2s ease;
+  -o-transition: transform 0.2s ease;
 }
 
 .checkbox-filter input[type="checkbox"]:hover {
@@ -164,9 +180,12 @@
 
 .checkbox-filter .checkbox-custom {
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  border: 2px solid #0071c2;
+  width: 34px;
+  height: 34px;
+  border: 2px solid #b7c1e0;
+  margin-left: -2rem;
+  margin-top: 1rem;
+  margin-right: 1rem;
   border-radius: 4px;
   background-color: #fff;
   position: relative;
@@ -227,7 +246,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border: 2px solid #7286c6;
+  border: 2px solid #b7c1e0;
   border-radius: 25px;
   padding: 5px 10px;
   background-color: #fff;

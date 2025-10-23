@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useActivities } from "../contexts/ActivityContext";
 import { useCategories } from "../contexts/CategoryContext";
 import { useLocations } from "../contexts/LocationContext";
-import './Layout/Layout.css';
+//import './Layout/Layout.css';
 import './DetailedSearch.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt as FaMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
@@ -74,8 +74,8 @@ const DetailedSearch = ({fetchResults}) => {
 
     return(
         <>
-        <h4>Filtrera din sökning:</h4>
         <div className="search-form-container">
+            <h4 className="form-tag">Filtrera din sökning:</h4>
             <form className = "detailed-search-form" onSubmit={handleSubmit}>
                 <div className="searchform">
                     <input className="search-input" type= "text" name="name" placeholder="Sök..."/>
@@ -137,7 +137,16 @@ const DetailedSearch = ({fetchResults}) => {
                 
                 </div>
                 <div className="checkbox-filter">
-                    <label htmlFor="availableToBook">Minst antal lediga platser:</label> <input type="checkbox" id="availableToBook" name="availableToBook"/>
+                   <label className="checkbox-container">
+                        <input
+                            type="checkbox"
+                            className="checkbox-input"
+                            id="availableToBook" 
+                            name="availableToBook"
+                        />
+                        <span className="checkbox-custom"></span>
+                        Minst antal lediga platser
+                </label>
                 </div>
             </form>
         </div>
