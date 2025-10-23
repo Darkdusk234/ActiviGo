@@ -82,10 +82,21 @@ const SubLocationManagement = () => {
             },
             body: JSON.stringify(subLocation)
         });
-        const data = await response.json();
-        setSubLocations([...allSubLocations, data]);
-        setFilteredSubLocations([...filteredSubLocations, data]);
-    }
+                if(!response.ok) {
+            const data = await response.json();
+            console.log(data.map(error => error.errorMessage).join(', '));
+            alert('Misslyckades med att skapa plats: \n ' + data.map(error => error.errorMessage).join(', '));
+            
+            setNewPopup(false);
+            return;
+        }
+        if(response.ok) {
+            const data = await response.json();
+            alert('Plats skapad: ' + data.name);
+            setSubLocations([...allSubLocations, data]);
+            setFilteredSubLocations([...filteredSubLocations, data]);
+            setNewPopup(false);}
+    };
 
     useEffect(() => {
         setSubLocations(subLocations);
