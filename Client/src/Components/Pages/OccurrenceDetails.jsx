@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faCalendarAlt, faClock, faInfoCircle, faUsers, faTag, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import "./OccurrenceDetails.css";
 import WeatherCard from "../Cards/WeatherCard";
+import OccurenceListCard from "./Admin/OccurenceListCard";
 
 const OccurrenceDetails = () => {
   const { id } = useParams();
@@ -15,12 +16,13 @@ const OccurrenceDetails = () => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [participants, setParticipants] = useState('');
-  const { user, loading: authLoading, fetchUser } = useAuth();
+  const { user, loading: authLoading, APIURL, token } = useAuth();
 
   useEffect(() => {
+    setLoading(true);
     const fetchOccurrence = async () => {
       try {
-        data = getActivityOccurrenceById(id);
+        const data = await getActivityOccurrenceById(id);
         setOccurrence(data);
       } catch (err) {
         console.error("Failed to load occurrence details:", err);
@@ -30,7 +32,7 @@ const OccurrenceDetails = () => {
     };
 
     fetchOccurrence();
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (occurrence && occurrence.startTime && occurrence.endTime) {
@@ -44,12 +46,24 @@ const OccurrenceDetails = () => {
       alert("Du måste vara inloggad för att boka!");
       return;
     }
+    if (isNaN(participants))
+    {
+      alert("Du måste ange antalet deltagare.")
+      return;
+    }
+    if(participants > occurrence.availableSpots || participants <= 0)
+    {
+      alert("Ogiltigt antal deltager")
+      return;
+    }
 
-    if (!participants || isNaN(participants) || participants <= 0 || participants <= occurrence.availableSpots) {
-      try {
+    try {
         const res = await fetch(`${APIURL}/Booking`, {
           method: "Post",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json" ,
+            "Authorization": `Bearer ${token}`
+          },
           body: JSON.stringify({ "activityOccurenceId": id, "participants": participants })
         });
 
@@ -57,12 +71,14 @@ const OccurrenceDetails = () => {
           alert("Bokningen lyckades!");
         } else {
           alert("Något gick fel vid bokning");
+          console.log(res.ok);
         }
+        return;
       } catch (err) {
         console.error("Booking error:", err);
+        return;
       }
-    }
-  };
+    };
 
   const splitDateTime = (startTime, endTime) => {
     const [startDatePart, startTimePart] = startTime.split('T');

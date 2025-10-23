@@ -55,9 +55,9 @@ namespace ActiviGoApi.Api.Controllers
         [HttpGet("bookings/user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetBookingsByUserId( CancellationToken ct)
+        public async Task<IActionResult> GetBookingsByUserId(CancellationToken ct)
         {
-            
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             try
             {
@@ -70,6 +70,7 @@ namespace ActiviGoApi.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpPost]
         public async Task<ActionResult<BookingReadDTO>> Create([FromBody] BookingCreateDTO createDto, CancellationToken ct)
         {
