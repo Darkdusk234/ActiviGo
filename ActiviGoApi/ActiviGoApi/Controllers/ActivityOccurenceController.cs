@@ -43,7 +43,7 @@ namespace ActiviGoApi.WebApi.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, "An error occurred while retrieving activity occurrences");
-
+            }
         }
 
         [HttpGet("admin")]
