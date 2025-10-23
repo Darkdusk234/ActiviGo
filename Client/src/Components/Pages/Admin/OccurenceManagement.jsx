@@ -222,8 +222,8 @@ const OccurenceManagement = () => {
                 <div>
                     <div className="filter-list">
 
-                               <label>Minst antal lediga platser:</label> <input type="number" placeholder="1" onChange={handleParticipantFilterChange} />
-                               <label>Minst antal deltagare:</label> <input type="number" placeholder="1" onChange={handleMinParticipantsChange} />
+                               <label>Minst antal lediga platser:</label> <input type="number" placeholder="0" onChange={handleParticipantFilterChange} />
+                               <label>Minst antal deltagare:</label> <input type="number" placeholder="0" onChange={handleMinParticipantsChange} />
                                <label>Plats:</label><select onChange={handleCategoryFilterChange}>
                                                     <option value="">Alla</option>
                                                     {subLocations.map(subLocation => (
