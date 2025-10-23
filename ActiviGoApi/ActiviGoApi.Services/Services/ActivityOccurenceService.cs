@@ -68,9 +68,17 @@ namespace ActiviGoApi.Services.Services
 
             var toReturn = _mapper.Map<ActivityOccurenceResponseDTO>(occurrence);
 
-            if(occurrence.SubLocation.Indoors == false)
+            // Fetch weather data only if the activity is outdoors
+            if (occurrence.SubLocation.Indoors == false)
             {
-                toReturn.Weather = await AddWeatherToResponse(occurrence.StartTime, occurrence.SubLocation.Location.Latitude, occurrence.SubLocation.Location.Longitude, ct);
+                try
+                {
+                    toReturn.Weather = await AddWeatherToResponse(occurrence.StartTime, occurrence.SubLocation.Location.Latitude, occurrence.SubLocation.Location.Longitude, ct);
+                }
+                catch
+                {
+                    
+                }
 
             }
             
