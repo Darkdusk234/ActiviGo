@@ -26,7 +26,7 @@ const ActivityNewPop = ({handleCreate, closePopup}) => {
             <form className="popup-card" onSubmit={(e) => { e.preventDefault();
                 handleCreate({ name, description, maxParticipants, durationInMinutes, price, isActive, categoryId, IMGUrl });
                 close();
-             }}>
+            }}>
                 <h2>Ny Plats</h2>
                 <h2 onClick={close}>X</h2>
                 <label>Namn:</label>
