@@ -32,7 +32,7 @@
   margin-top: 12px;
 }
 .img-container {
-  width: 100; /* Fyller förälderens bredd */
+    width: 100; /* Fyller förälderens bredd */
     height: 0px; /* Sätt en fast höjd, anpassa efter behov */
     background-size: 20%; /* Behåller originalstorlek */
     background-repeat: repeat; /* Repeterar bilden för att täcka utrymmet */
@@ -80,6 +80,7 @@
 /* --- Booking form --- */
 .container-wrapper{
   display: flex;
+  flex-direction: column;
   align-items: center;
   height: 50vh;
 }

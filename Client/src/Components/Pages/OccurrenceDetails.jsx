@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faCalendarAlt, faClock, faInfoCircle, faUsers, faTag, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import "./OccurrenceDetails.css";
+import WeatherCard from "../Cards/WeatherCard";
 
 const OccurrenceDetails = () => {
   const { id } = useParams();
@@ -92,7 +93,9 @@ const OccurrenceDetails = () => {
           <h2><FontAwesomeIcon icon={faMoneyBillWave} /> Pris: {!occurrence.price ? 0 : occurrence.price} SEK</h2>
         </div>
         <div className="container-wrapper">
-
+          <div className="weather-div">
+            <WeatherCard/>
+          </div>
           <div className="book-container">
             <h3>Boka aktivitet</h3>
             <p>Ange antalet platser du vill boka</p>
