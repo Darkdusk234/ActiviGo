@@ -1,7 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import "./ActivityCard.css";
 export default function ActivityCard({ activity }) {
+  const navigate = useNavigate();
+  
+  const handleMove = () => {
+    navigate('/search', { state: {searchQuery: { activityId: activity.id,}, source: 'detailed'} })
+  }
+
   return (
-    <div className="activity-card">
+    <div className="activity-card" onClick={handleMove}>
       <img
         src={`https://picsum.photos/400/250?random=${activity.id}` || activity.imgUrl}
         alt={activity.name}

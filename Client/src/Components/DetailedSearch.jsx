@@ -55,7 +55,7 @@ const DetailedSearch = ({fetchResults}) => {
         const data = Object.fromEntries(formData.entries());
        
         fetchResults({
-            name: !data.name ? null : data.name,
+            nameFilter: !data.name ? null : data.name,
             categoryId: !data.category ? null : data.category,
             activityId: !data.activity ? null : data.activity,
             locationId: !data.location ? null : data.location,

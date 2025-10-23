@@ -21,6 +21,7 @@ const OccurrenceDetails = () => {
       try {
         const res = await fetch(`${APIURL}/ActivityOccurence/${id}`);
         const data = await res.json();
+        console.log(data);
         setOccurrence(data);
       } catch (err) {
         console.error("Failed to load occurrence details:", err);

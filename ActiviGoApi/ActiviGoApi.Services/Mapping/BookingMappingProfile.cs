@@ -10,8 +10,12 @@ namespace ActiviGoApi.Services.Mapping
         {
             CreateMap<Booking, BookingReadDTO>()
                 .ForMember(dest => dest.ActivityName, opt => opt.MapFrom(src =>
-                    src.ActivityOccurence != null && src.ActivityOccurence.Activity != null 
-                        ? src.ActivityOccurence.Activity.Name: null));
+                    src.ActivityOccurence != null && src.ActivityOccurence.Activity != null
+                        ? src.ActivityOccurence.Activity.Name : null))
+                .ForMember(dest => dest.BookingTime, opt => opt.MapFrom(src => src.CreatedAt))
+                .ForMember(dest => dest.ActivityStartTime, opt => opt.MapFrom(src => src.ActivityOccurence.StartTime))
+                .ForMember(dest => dest.ActivityEndTime, opt => opt.MapFrom(src => src.ActivityOccurence.EndTime));
+
 
             CreateMap<BookingCreateDTO, Booking>()
                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
