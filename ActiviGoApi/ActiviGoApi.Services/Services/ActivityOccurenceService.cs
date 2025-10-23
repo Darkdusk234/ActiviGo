@@ -63,12 +63,16 @@ namespace ActiviGoApi.Services.Services
 
             if (occurrence == null)
             {
-                return null;
+                throw new KeyNotFoundException($"ActivityOccurence with id {id} not found!");
             }
 
             var toReturn = _mapper.Map<ActivityOccurenceResponseDTO>(occurrence);
 
-            toReturn.Weather = await AddWeatherToResponse(occurrence.StartTime, occurrence.SubLocation.Location.Latitude, occurrence.SubLocation.Location.Longitude, ct);
+            if(occurrence.SubLocation.Indoors == false)
+            {
+                toReturn.Weather = await AddWeatherToResponse(occurrence.StartTime, occurrence.SubLocation.Location.Latitude, occurrence.SubLocation.Location.Longitude, ct);
+
+            }
             
             return toReturn;
         }
