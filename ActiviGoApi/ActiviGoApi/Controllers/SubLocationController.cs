@@ -93,6 +93,7 @@ namespace ActiviGoApi.WebApi.Controllers
             {
 
                 var updated = await _subLocationService.UpdateSubLocationAsync(id, request, ct);
+
                 if (!updated)
                 {
                     return NotFound();
