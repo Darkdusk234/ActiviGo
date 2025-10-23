@@ -130,7 +130,6 @@ const ActivityManagement = () => {
     useEffect(() => {
         setActivities(activities);
         setFilteredActivities(activities);
-        console.log(activities);
     }, [activities]);
 
     useEffect(() => {

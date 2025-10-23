@@ -11,8 +11,18 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
     const [isCancelled, setIsCancelled] = useState(item.isCancelled);
     const { subLocations } = useSubLocations();
 
+                // Close details view when clicking outside
+        const handleClickOutside = (event) => {
+            if (!event.target.closest('.details-view') && !event.target.closest('.details')) {
+                setViewDetails(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
     useEffect(() => {
         splitDateTime(item.startTime, item.endTime);
+        setIsCancelled(item.isCancelled);
     }, []); 
 
         const splitDateTime = (startTime, endTime) => {
@@ -25,7 +35,7 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
 
     const handleCancel = () => {
         cancelOccurence(item.id);
-        setIsCancelled(true);
+        
     }
 
     return (
@@ -51,11 +61,11 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
                         <p className="id">Id: {item.id}</p>
                         <h3>{item.activityName}</h3>
                         <div className="editable-areas">
-                            <p>Start Time</p>
+                            <p>Starttid:</p>
                             <input type="datetime-local" className="input-startTime" id="startTime" name="startTime" defaultValue={item.startTime} placeholder="Start Time" />
-                            <p>End Time</p>
+                            <p>Sluttid:</p>
                             <input type="datetime-local" className="input-endTime" id="endTime" name="endTime" defaultValue={item.endTime} placeholder="End Time" />
-                            <p>SubLocation</p>
+                            <p>Plats:</p>
                             <select id="sublocationId" name="sublocationId" defaultValue={item.subLocationId}>
                                 {subLocations.map(loc => (
                                     <option key={loc.id} value={loc.id}>{loc.name}</option>
@@ -66,8 +76,8 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
                         </div>
                     </div>
                     <div className="admin-list-card-buttons">
-                        <button type="submit">Save</button>
-                        <button type="button" onClick={() => setEditMode(false)}>Cancel</button>
+                        <button type="submit">Spara</button>
+                        <button type="button" onClick={() => setEditMode(false)}>Avbryt</button>
 
                     </div>
                 </form>
@@ -79,7 +89,7 @@ const OccurenceListCard = ({ item, removeOccurence, editOccurence, cancelOccuren
                         <p>Datum: {date}</p>
                         <p>Tid: {startTime} - {endTime}</p>
 
-                        {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Click for more details...</p>}
+                        {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Klicka för ytterligare detaljer...</p>}
                         {viewDetails && (
                             <div className="details-view">
 
