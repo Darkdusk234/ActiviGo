@@ -25,7 +25,7 @@ namespace ActiviGoApi.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> CreateActivity([FromBody] CreateActivityRequest dto, CancellationToken ct = default)
+        public async Task<ActionResult<GetActivityResponse>> CreateActivity([FromBody] CreateActivityRequest dto, CancellationToken ct = default)
         {
             var validationResult = await _createValidator.ValidateAsync(dto, ct);
             if (!validationResult.IsValid)
@@ -37,7 +37,7 @@ namespace ActiviGoApi.WebApi.Controllers
             {
                 var result = await _activityService.CreateActivityAsync(dto, ct);
 
-                return Ok("Activity created successfully");
+                return Ok(result);
             }
             catch(KeyNotFoundException ex)
             { 

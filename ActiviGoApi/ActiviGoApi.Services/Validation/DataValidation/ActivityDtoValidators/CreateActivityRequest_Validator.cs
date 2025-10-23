@@ -14,9 +14,8 @@ namespace ActiviGoApi.Services.Validation.DataValidation.ActivityDtoValidators
         { 
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Description).NotEmpty();
-            RuleFor(x => x.IsActive).NotEmpty();
-            RuleFor(x => x.DurationInMinutes).GreaterThan(30);
-            RuleFor(x => x.MaxParticipants).GreaterThan(1);
+            RuleFor(x => x.IsActive).NotNull();
+            RuleFor(x => x.DurationInMinutes).GreaterThanOrEqualTo(30);
             RuleFor(x => x.Price).GreaterThanOrEqualTo(0);
             RuleFor(x => x.CategoryId).NotEmpty();
 

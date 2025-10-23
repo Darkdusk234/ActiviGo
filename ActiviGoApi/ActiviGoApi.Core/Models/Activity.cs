@@ -20,8 +20,6 @@ namespace ActiviGoApi.Core.Models
         public string IMGUrl { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
 
-        public int MaxParticipants;
-
         // Foreign Keys
         [Required]
         public int CategoryId { get; set; }

@@ -4,6 +4,7 @@ using ActiviGoApi.Infrastructur.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ActiviGoApi.Infrastructur.Migrations
 {
     [DbContext(typeof(ToadContext))]
-    partial class ToadContextModelSnapshot : ModelSnapshot
+    [Migration("20251023113944_mxprticipants-fix")]
+    partial class mxprticipantsfix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +68,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Activities", (string)null);
+                    b.ToTable("Activities");
 
                     b.HasData(
                         new
@@ -371,7 +374,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasIndex("SubLocationId");
 
-                    b.ToTable("ActivityOccurences", (string)null);
+                    b.ToTable("ActivityOccurences");
 
                     b.HasData(
                         new
@@ -678,7 +681,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("ActiviGoApi.Core.Models.Category", b =>
@@ -707,7 +710,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -911,7 +914,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("Locations");
 
                     b.HasData(
                         new
@@ -1191,7 +1194,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("SubLocations", (string)null);
+                    b.ToTable("SubLocations");
 
                     b.HasData(
                         new
@@ -1428,7 +1431,7 @@ namespace ActiviGoApi.Infrastructur.Migrations
 
                     b.HasIndex("SubLocationsId");
 
-                    b.ToTable("ActivitySubLocation", (string)null);
+                    b.ToTable("ActivitySubLocation");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
