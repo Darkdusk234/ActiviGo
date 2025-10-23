@@ -33,8 +33,15 @@ namespace ActiviGoApi.Services.Services
 
         public async Task<IEnumerable<ActivityOccurenceResponseDTO>> GetAllAsync(CancellationToken ct = default)
         {
-            //var occurrences = await _unitOfWork.ActivityOccurrences.GetAllAsync(ct);
-            var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(includeProperties: "Activity,SubLocation");
+            
+            var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(includeProperties: "Activity,SubLocation,SubLocation.Location", filter: x => x.StartTime > DateTime.Now);
+            return _mapper.Map<IEnumerable<ActivityOccurenceResponseDTO>>(occurrences);
+        }
+
+        public async Task<IEnumerable<ActivityOccurenceResponseDTO>> AdminGetAllAsync(CancellationToken ct = default)
+        {
+
+            var occurrences = await _unitOfWork.ActivityOccurrences.GetFilteredAsync(includeProperties: "Activity,SubLocation,SubLocation.Location", ct: ct);
             return _mapper.Map<IEnumerable<ActivityOccurenceResponseDTO>>(occurrences);
         }
 

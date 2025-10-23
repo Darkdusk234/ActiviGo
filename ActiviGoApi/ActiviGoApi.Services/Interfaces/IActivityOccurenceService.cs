@@ -13,6 +13,7 @@ namespace ActiviGoApi.Services.Interfaces
     public interface IActivityOccurenceService
     {
         Task<IEnumerable<ActivityOccurenceResponseDTO>> GetAllAsync(CancellationToken ct = default);
+        Task<IEnumerable<ActivityOccurenceResponseDTO>> AdminGetAllAsync(CancellationToken ct = default);
         Task<ActivityOccurenceResponseDTO?> GetByIdAsync(int id, CancellationToken ct = default);
         Task<ActivityOccurenceResponseDTO> AddAsync(CreateActivityOccurrenceDTO createDto, CancellationToken ct = default);
         Task<ActivityOccurenceResponseDTO?> UpdateAsync(int id, UpdateActivityOccurrenceDTO updateDto, CancellationToken ct = default);
