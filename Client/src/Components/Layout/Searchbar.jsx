@@ -59,15 +59,16 @@ export default function SearchBar({ isCompact = false }) {
           onChange={(e) => setQuery(e.target.value)}
           onBlur={handleBlur}
           placeholder="Sök..."
-          className="search-input"
+          className="searchbar-input"
         />
         {isCompact && !isExpanded && (
           <span className="search-icon" onClick={handleIconClick}>
             {/* Inline SVG for search icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
+              width="2rem"
+              height="2rem"
+              fontSize="1rem"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -82,7 +83,7 @@ export default function SearchBar({ isCompact = false }) {
         )}
       </div>
       {!isCompact && (
-        <button type="submit" className="search-button">
+        <button type="submit" className="searchbar-button" id="search-btn">
           Sök
         </button>
       )}

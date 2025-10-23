@@ -25,6 +25,7 @@
     max-width: 99%;
     width: 98%;
     padding: 0px;
+    max-height: 2rem;
 }
 .user-drop-menu h2{
     color: black;
@@ -32,7 +33,7 @@
 
 .user-drop-menu p:hover {
     cursor: pointer;
-    border: 1px solid rgb(101, 165, 255);
+    background: rgba(90, 90, 255, 0.153);
 }
 
 .my-bookings {

@@ -4,7 +4,7 @@
     background-color: rgb(247, 247, 247);
     display: flex;
     flex-direction: column;
-    max-height: 8vh;
+    height: 8%;
 }
 .header-nav{
     display: flex;
@@ -16,7 +16,8 @@
 nav .menu-items{
     text-decoration: none;
     color: black;
-    margin: 1rem 1rem;
+    display: flex;
+    gap: 1rem;
 }
 
 nav .menu-items a{
@@ -40,11 +41,8 @@ nav .menu-items a:hover{
 }
 
 .header-title-container {
-    margin-top: -3rem;
     text-align: center;
-    margin-bottom: 2rem;
     text-size-adjust: 2rem;
-
 }
 
 .header-title-container h1{

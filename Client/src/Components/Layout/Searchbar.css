@@ -3,18 +3,17 @@
   display: flex;
   align-items: center;
   box-sizing: border-box;
+  flex-wrap: nowrap;
 }
 
 /* Full mode: Similar to original design */
 .searchform.full {
-  background-color: #ffffff;
-  padding: 10px 15px;
+  background-color: #eeeeee;
+  padding: 0rem 1rem 0rem 1rem;
   border-radius: 40px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  max-width: 45vh;
-  /*Limitformwidth*/width: 100%;
-  min-width: 45vh;
-  height: 90px;
+  width: 45rem;
+  height: 6rem;
   /*Responsivewidth*/gap: 10px;
   -webkit-border-radius: 40px;
   -moz-border-radius: 40px;
@@ -37,41 +36,41 @@
 }
 
 /* Input styles */
-.searchform.full .search-input {
-  padding: 8px 10px;
+.searchform.full .searchbar-input {
   border: none;
   outline: none;
-  font-size: 2.3rem;
-  color: #333;
-  background-color: #afafaf; /* Light gray background for input */
-  border-radius: 20px;
+  padding: 1rem 1rem 1rem 2rem;
+  font-size: 2.7rem;
+  width: 80%;
+  color: #242424;
+  background-color: #e4e4e4;
+  /*Lightgraybackgroundforinput*/border-radius: 20px;
   transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+  -webkit-transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+  -moz-transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+  -ms-transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+  -o-transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
 }
-.searchform.compact .search-input {
+.searchform.compact .searchbar-input {
   padding: 8px 10px;
   border: none;
   outline: none;
   font-size: 1rem;
   color: #333;
-  background-color: #c6c6c6; /* Light gray background for input */
+  background-color: #b5b5b5; /* Light gray background for input */
   border-radius: 20px;
   transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
 }
 
 /* Placeholder styling */
-.search-input::placeholder {
+.searchbar-input::placeholder {
   color: #999;
   font-style: italic;
 }
 
 /* Full mode input */
-.searchform.full .search-input {
-  width: 100%;
-  background-color: white;
-}
-
 /* Compact mode input: Hidden when not expanded */
-.searchform.compact .search-input {
+.searchform.compact .searchbar-input {
   width: 0;
   opacity: 0;
   padding: 0;
@@ -79,7 +78,7 @@
 }
 
 /* Compact mode input when expanded */
-.searchform.compact.expanded .search-input {
+.searchform.compact.expanded .searchbar-input {
   width: 150px; /* Suitable for header */
   opacity: 1;
   padding: 8px 10px;
@@ -100,24 +99,28 @@
 }
 
 /* Button for full mode */
-.search-button {
-  background-color: #28a745;
+.searchbar-button{
+  background-color: #214bd2;
   /*Greentomatchoriginal*/color: #ffffff;
   border: none;
-  border-radius: 20px;
-  padding: 8px 16px;
-  font-size: 2.3rem;
+  border-radius: 2.4rem;
+  padding: 1.2rem 1.6rem;
+  font-size: 2.2rem;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   -webkit-transition: background-color 0.3s ease, transform 0.2s ease;
   -moz-transition: background-color 0.3s ease, transform 0.2s ease;
   -ms-transition: background-color 0.3s ease, transform 0.2s ease;
   -o-transition: background-color 0.3s ease, transform 0.2s ease;
+  -webkit-border-radius: 2.4rem;
+  -moz-border-radius: 2.4rem;
+  -ms-border-radius: 2.4rem;
+  -o-border-radius: 2.4rem;
 }
 
 /* Button hover effect */
-.search-button:hover {
-  background-color: #218838; /* Darker green */
+.searchbar-button:hover {
+  background-color: #50be25; /* Darker green */
   transform: scale(1.05);
 }
 
@@ -129,17 +132,7 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .searchform.full {
-    max-width: 100%; /* Full width on smaller screens */
-    padding: 8px 12px; /* Smaller padding */
-  }
-
   .searchform.compact.expanded .search-input {
     width: 120px; /* Smaller input on mobile */
-  }
-
-  .search-button {
-    padding: 6px 12px;
-    font-size: 0.9rem;
   }
 }

@@ -9,13 +9,13 @@
   justify-content: center;
   box-shadow: 2px 5px 11px rgb(0, 0, 0);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  width: 40vh;
-  height: 20vh;
+  width: 30vmin;
+  height: 17vmin;
 }
 .category-card-content {
   padding: 1rem;
-  width: 40vh;
-  height: 10vh;
+  width: 80%;
+  height: 50%;
   text-align: center;
   background: rgba(255, 255, 255, 0.726);
 }
@@ -31,17 +31,16 @@
 
 .category-card-title {
   font-weight: 600;
-  font-size: 2.125rem; /* ca 18px */
+  font-size: 1.5rem; /* ca 18px */
   padding: 0 2rem 0 0;
   color: rgb(0, 0, 0);
   text-align: center;
   border: 2px solid rgba(62, 62, 62, 0);
-  width: 50%;
   text-shadow: #ffffff 1px 2px 2px;
 }
 
 .category-card-description {
-  font-size: 1.875rem; /* ca 14px */
+  font-size: 1.2rem; /* ca 14px */
   color: #0c0d0f; /* grå text */
   text-align: center;
 }
