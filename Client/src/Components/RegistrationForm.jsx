@@ -34,6 +34,7 @@ const RegistrationForm = () => {
             <input
                 type="text"
                 value={userName}
+                maxLength={50}
                 onChange={(e) => setUserName(e.target.value)}
                 placeholder="Username"
                 required
