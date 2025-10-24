@@ -32,7 +32,7 @@ const RegistrationForm = () => {
     var max = ""
     var yyyy = today.getFullYear() - 18;
     
-    today = yyyy + '-01-01'
+    today = yyyy + '-12-31'
 
   return (
     <>
