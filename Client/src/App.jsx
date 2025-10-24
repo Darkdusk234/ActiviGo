@@ -21,6 +21,7 @@ import CategoryListPage from './Components/Pages/CategoryListPage';
 import ActivityListPage from './Components/Pages/ActivityListPage';
 import OccurrenceDetails from "./Components/Pages/OccurrenceDetails";
 import About from './Components/Pages/About';
+import RegistrationPage from './Components/Pages/RegistrationPage';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/categories" element={<CategoryListPage />} />
           <Route path="/activities/:categoryname" element={<ActivityListPage />} />
           <Route path='/about' element={<About />}/>
+          <Route path="/register" element={<RegistrationPage />} />
         </Route>
         <Route element ={<AdminPage />}>
           <Route path="/admin" element={<AdminDashboard />} />

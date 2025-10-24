@@ -28,12 +28,19 @@ const RegistrationForm = () => {
         }
     }
 
+    var today = new Date();
+    var max = ""
+    var yyyy = today.getFullYear() - 18;
+    
+    today = yyyy + '-01-01'
+
   return (
     <>
     <form onSubmit={handleSubmit}>
             <input
                 type="text"
                 value={userName}
+                maxLength={50}
                 onChange={(e) => setUserName(e.target.value)}
                 placeholder="Username"
                 required
@@ -41,13 +48,16 @@ const RegistrationForm = () => {
             <input
                 type="password"
                 value={password}
+                minLength={6}
+                maxLength={100}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
                 required
             />
             <input
-                type="text"
+                type="email"
                 value={email}
+                maxLength={100}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
                 required
@@ -55,6 +65,8 @@ const RegistrationForm = () => {
             <input
                 type="text"
                 value={firstName}
+                minLength={2}
+                maxLength={50}
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="First Name"
                 required
@@ -62,6 +74,8 @@ const RegistrationForm = () => {
             <input
                 type="text"
                 value={lastName}
+                minLength={2}
+                maxLength={50}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Last Name"
                 required
@@ -69,16 +83,16 @@ const RegistrationForm = () => {
             <input
                 type="date"
                 value={birthDate}
+                max={today}
                 onChange={(e) => setBirthDate(e.target.value)}
                 placeholder="Date Of Birth"
                 required
             />
-            <input
+            <input:optional
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Address"
-                required
             />
             <button type="submit">Register</button>
         </form>
