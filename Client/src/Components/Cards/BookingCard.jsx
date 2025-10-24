@@ -18,7 +18,7 @@ const BookingCard = ({ items }) => {
                 const response = await fetch(`${APIURL}/Booking/cancel/${items.id}`, {
                     method: 'DELETE', // Använd DELETE för avbokning
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': Bearer ${localStorage.getItem('authToken')}
                     }
                 });
 
