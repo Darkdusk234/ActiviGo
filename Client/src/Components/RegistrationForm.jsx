@@ -40,7 +40,7 @@ const RegistrationForm = () => {
             <input
                 type="text"
                 value={userName}
-                maxLength={50}
+                maxLength="50"
                 onChange={(e) => setUserName(e.target.value)}
                 placeholder="Username"
                 required
@@ -48,8 +48,8 @@ const RegistrationForm = () => {
             <input
                 type="password"
                 value={password}
-                minLength={6}
-                maxLength={100}
+                minLength="6"
+                maxLength="100"
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
                 required
@@ -57,7 +57,7 @@ const RegistrationForm = () => {
             <input
                 type="email"
                 value={email}
-                maxLength={100}
+                maxLength="100"
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
                 required
@@ -65,8 +65,8 @@ const RegistrationForm = () => {
             <input
                 type="text"
                 value={firstName}
-                minLength={2}
-                maxLength={50}
+                minLength="2"
+                maxLength="50"
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="First Name"
                 required
@@ -74,8 +74,8 @@ const RegistrationForm = () => {
             <input
                 type="text"
                 value={lastName}
-                minLength={2}
-                maxLength={50}
+                minLength="2"
+                maxLength="50"
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Last Name"
                 required
