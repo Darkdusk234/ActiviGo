@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { Link } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
 import './Layout/Login.css';
 
@@ -57,6 +58,7 @@ const LoginForm = ( {close}) => {
             />
             <button type="submit">Login</button>
         </form>
+        <Link to={"/register"}>Registrera dig</Link>
         </>
     );
 };
