@@ -344,11 +344,11 @@ const ActivityManagement = () => {
                 </div>
             )}
             <div className="management-items-container">
-            {!user ? <p>Please log in to manage activities.</p> : (
+            {!user ? <p>Logga in för att hantera aktiviteter.</p> : (
                 <>
                 <div className = "admin-buttons">
-                        
-                        <button className="btn" onClick={() => setNewPopup(!newPopup)}>Add New</button>
+
+                        <button className="btn" onClick={() => setNewPopup(!newPopup)}>Lägg till ny</button>
                     </div>
                     
                         <div>
