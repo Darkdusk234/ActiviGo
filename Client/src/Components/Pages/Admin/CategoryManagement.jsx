@@ -200,21 +200,19 @@ const CategoryManagement = () => {
                 )}
             {!user ? <p>Please log in to manage categories.</p> : (
                 <>
-                <div className = "admin-buttons"
-                        <button className="btn" onClick={() => setView(!view)}>View Categories</button>
-                        <button className="btn" onClick={()=> setNewPopup(!newPopup)}>Add New</button>
+                <div className = "admin-buttons">
+                        <button className="btn" onClick={()=> setNewPopup(!newPopup)}>Skapa ny</button>
                     </div>
-                    <div className="view-toggle">
-                        {!view ? (
-                            <p></p>
-                        ) : (<div className="filter-list">
+                    <div className="filter-list">
                             <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
+                            
+                    </div>
+                    <div>
                             {filteredCategories.map(category => (
-                            <AdminListCard key={category.id} item={category} removeCategory={handleRemove} editCategory={handleEdit}/>
-                        ))}
+                                <CategoryListCard key={category.id} item={category} removeCategory={handleRemove} editCategory={handleEdit}/>
+                            ))}
                     </div>
-                        )}
-                    </div>
+                   
                     {newPopup && (<CategoryNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
                     
                 </>
