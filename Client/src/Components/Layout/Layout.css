@@ -36,8 +36,7 @@ footer {
 
 .main-content .middle-content
 {
-    padding: 4rem 1rem 4rem 1rem;
-    min-height: 80vh;
+    min-height: 80%;
 }
 
 .footer-content
@@ -90,23 +89,23 @@ footer {
 .searchbar-container{
     display: flex;
     justify-content: center;
-    margin: 5rem 0 10rem 0;
-    height: 15vh;
+    align-items: center;
+    margin: 0rem 0 0rem 0;
+    height: 25rem;
 }
 
 .welcome-message{
+    display: flex;
+    flex-direction: column;
     text-align: center;
-    margin-left: -1rem;
-    margin-top: -5rem;
-    width: 110%;
-    height: 50vh;
+    width: 100%;
+    height: 100%;
     font-size: 1.5rem;
     font-weight: 500;
     background-image: url('../src/assets/wallpaper.jpg');
     background-size: cover; /* Täcker hela div utan distortion */
     background-position: center; /* Centrerar bilden */
     background-repeat: no-repeat;
-    position: relative;
     background-color: rgba(0, 0, 0, 0.5); /* Svart overlay med 50% opacitet */
     background-blend-mode: multiply;
 }
@@ -117,15 +116,14 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 20vh;
+    height: 10%;
     background: rgb(19, 19, 19);
-    width: 110%;
-    margin-left: -1rem;
+    width: 100%;
 }   
 
 .explore-prompt p{
     text-align: center;
-    width: 70vh;
+    width: 70%;
     font-size: 2.6rem;
     font-weight: 500;
     margin-bottom: 2rem;

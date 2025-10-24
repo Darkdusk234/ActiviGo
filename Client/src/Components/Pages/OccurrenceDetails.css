@@ -1,16 +1,17 @@
 /* === OccurrenceDetails.css === */
 
 .occurrence-details-container {
-  min-width: 100%;
+  min-width: 90%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1.0rem;
   font-family: "Inter", sans-serif;
+  min-height: 100rem;
 }
 
 .occurrence-details-container h4 {
   font-size: 1.8rem;
-  margin-bottom: 8px;
+  margin-bottom: 1rem;
   color: #222;
   text-align: center;
 }
@@ -26,14 +27,13 @@
 }
 .details-title img {
   width: 100%;
-  max-height: 300px;
+  max-height: 30rem;
   object-fit: contain;
   border-radius: 12px;
-  margin-top: 12px;
+  margin-top: 1rem;
 }
 .img-container {
-    width: 100; /* Fyller förälderens bredd */
-    height: 0px; /* Sätt en fast höjd, anpassa efter behov */
+    width: 100%; /* Sätt en fast höjd, anpassa efter behov */
     background-size: 20%; /* Behåller originalstorlek */
     background-repeat: repeat; /* Repeterar bilden för att täcka utrymmet */
     background-position: center; /* Centrerar bilden */
@@ -51,8 +51,7 @@
 }
 .content-info {
   border: 2px solid white;
-  padding: 5px 15px 25px 25px;
-  width: 70vh;
+  padding: 0.5rem 1.5rem 2.5rem 2.5rem;
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
@@ -65,13 +64,13 @@
   background-blend-mode: multiply;
 }
 .content-info h4{
-  font-size: 4rem;
+  font-size: 3.0rem;
   font-weight: 450;
   color: white;
   text-shadow: #222 2px 4px 4px;
 }
 .content-info h2{
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 400;
   color: rgb(251, 251, 251);
   text-shadow: #222 2px 6px 5px;
@@ -82,7 +81,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 50vh;
 }
 .book-container{
   display: flex;
@@ -90,9 +88,9 @@
   justify-content: center;
   align-items: center;
   background: white;
-  padding: 5px 15px 25px 5px;
-  width: 40vh;
-  height: 30vh;
+  padding: 2.5rem 2.5rem 2.5rem 0.3rem;
+  margin-left: 1rem;
+  width: 35vmin;
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
@@ -128,20 +126,20 @@
 .booking-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 20px;
-  padding-top: 16px;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
   border-top: 1px solid #e5e5e5;
 }
 
 .booking-form label {
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 0.4rem;
   color: #333;
 }
 
 .booking-form input[type="text"] {
-  padding: 10px;
+  padding: 1rem;
   border: 1px solid #ccc;
   background-color: #7e7e7e39;
   border-radius: 8px;
@@ -162,7 +160,7 @@
 }
 
 .booking-form button {
-  padding: 12px;
+  padding: 1.2rem;
   background: #3f3fff;
   color: white;
   font-size: 1.1rem;
@@ -181,30 +179,3 @@
   transform: scale(0.98);
 }
 
-/* --- Responsive --- */
-@media (max-width: 1500px) {
-  .occurrence-details-container {
-    padding: 16px;
-    margin: 20px;
-    width: 95%;
-    gap: 5px;
-  }
-
-  .occurrence-details-container h4 {
-    font-size: 1.4rem;
-  }
-  .book-container{
-    scale: 90%;
-  }
-  .booking-form button {
-    font-size: 1rem;
-  }
-
-  .content-info h4{
-    font-size: 2.5rem;
-  }
-
-  .content-info h2{
-    font-size: 2rem;
-  }
-}

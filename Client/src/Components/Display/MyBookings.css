@@ -1,6 +1,7 @@
 .my-bookings {
     width: 100%;
     margin: 0 auto;
+    height: 100rem;
 } 
 .my-bookings h1 {
     margin-bottom: 0.5rem;
@@ -49,52 +50,28 @@
     width: 100%;
     gap: 1.5rem;
 }
-
-.booking-item {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-    width: 90%;
+.filter-tabs{
     display: flex;
-    flex-direction: row;
+    margin-top: 2rem;
+    justify-content: center;
+    margin-bottom: 4rem;
+    gap: 1rem;
+
+}
+.filter-tabs button {
+    background: transparent;
+    text-decoration: underline;
+    font-size: 1.5rem;
+    text-shadow: #333 5px 5px 15px;
+    transition: transform 0.3s ease, text-shadow 0.3s ease; /* Smidig övergång för lyft och skugga */
 }
 
-.booking-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.filter-tabs button:hover {
+    transform: translateY(-3px); 
+    text-shadow: #333 5px 5px 15px; 
+    background: transparent;
+    border: none;
 }
-
-.booking-item h3 {
-    margin-top: 0;
-    color: #333;
-    font-size: 3rem;
-    font-weight: 600;
-}
-
-.booking-item p {
-    margin: 0.5rem 0;
-    color: #666;
-    font-size: 2rem;
-    font-weight: 300;
-}
-
-.booking-img{
-    width: 40vh;
-    padding-right: 2rem;
-}
-.booking-img img{
-    width: 100%;
-    height: 100%;
-}
-.info {
-    width: 40%;
-}
-.booking-cancel-btn {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    width: 30%;
+.filter-tabs button:focus {
+    border: none;
 }

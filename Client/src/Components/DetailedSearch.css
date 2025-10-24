@@ -3,9 +3,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
   border-radius: 10px;
-  max-width: 1200px;
+  width: 95%;
   margin: 0 auto;
 }
 .form-tag {
@@ -19,7 +18,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 15px;
+  gap: 1rem;
   padding: 15px;
   background-color: rgba(244, 244, 244, 0);
   border-radius: 8px;
@@ -28,7 +27,7 @@
 /* Search bar and button row */
 .searchform {
   display: flex;
-  gap: 10px;
+  gap: 1rem;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -36,14 +35,14 @@
 /* Search input */
 .search-input {
   flex: 1;
-  padding: 12px 15px;
+  padding: 1.2rem 1.4rem;
   font-size: 1.1rem;
   border: 1px solid #e0e0e0;
   border-radius: 25px;
   background-color: white;
   color: #333;
   outline: none;
-  min-width: 200px;
+  min-width: 13rem;
   transition: border-color 0.3s ease;
 }
 
@@ -59,7 +58,7 @@
 
 /* Search button */
 .search-button {
-  padding: 12px 25px;
+  padding: 1.2rem 1.4rem;
   font-size: 1.2rem;
   background-color: #0071c2;
   color: white;
@@ -79,53 +78,48 @@
 .filter-section {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 1rem;
   align-items: center;
 }
 
 /* Search field (for location, activity, category) */
 .search-field {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
   border: 2px solid #b7c1e0;
   border-radius: 25px;
-  padding: 5px 10px;
   background-color: rgb(255, 255, 255);
-  min-width: 250px;
-  max-width: 400px;
-  min-height: 80px;
   padding-left: 1rem;
   padding-bottom: 1rem;
 }
 .search-field p {
-  padding-left: 1rem;
-  font-size: 1.5rem;
+  font-size: 0.7rem;
   color: #333;
-  margin: 0 10px 0 0;
+  margin: 0 1.2rem 0 0;
 }
 
 .search-field .icon {
-  font-size: 1.6rem;
-  margin-right: 10px;
+  font-size: 1.2rem;
+  margin-right: 1rem;
   color: #666;
 }
 
 .select-row {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 90%;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 16rem;
 }
 
 .option-filter {
   flex: 1;
-  padding: 10px 5px;
-  font-size: 2rem;
-  min-width: 100%;
+  margin-bottom: 0.1rem;
+  font-size: 1.2rem;
   border: none;
   outline: none;
   background: transparent;
+  min-width: 95%;
   color: #333;
   cursor: pointer;
 }
@@ -145,19 +139,17 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
-  gap: 20px;
-  padding: 10px;
+  gap: 1.5rem;
+  padding: 0.5rem;
 }
 
 .checkbox-filter label {
   font-size: 1.2rem;
   color: #414141;
-  margin-top: -1rem;
 }
 .checkbox-filter input{
-  font-size: 2.2rem;
-  color: #414141;
-  margin-left: 1rem;
+  font-size: 0.2rem;
+  color: transparent;
 }
 
 .check-box {
@@ -180,10 +172,10 @@
 
 .checkbox-filter .checkbox-custom {
   display: inline-block;
-  width: 34px;
-  height: 34px;
+  width: 2rem;
+  height: 2rem;
   border: 2px solid #b7c1e0;
-  margin-left: -2rem;
+  margin-left: -2.1rem;
   margin-top: 1rem;
   margin-right: 1rem;
   border-radius: 4px;
@@ -236,45 +228,49 @@
 /* Date filter section */
 .datefilter {
   display: flex;
-  gap: 20px;
+  flex-direction: row;
+  gap: 1.5rem;
   align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
 }
 
 .date-box {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
   border: 2px solid #b7c1e0;
-  border-radius: 25px;
-  padding: 5px 10px;
+  border-radius: 4.5rem;
   background-color: #fff;
-  min-width: 300px;
   padding-bottom: 1rem;
+  -webkit-border-radius: 4.5rem;
+  -moz-border-radius: 4.5rem;
+  -ms-border-radius: 4.5rem;
+  -o-border-radius: 4.5rem;
 }
 
 .date-box .icon {
-  font-size: 2.6rem;
-  margin-right: 10px;
+  font-size: 1.4rem;
+  margin: 1rem;
   color: #797979;
 }
 .date-box p {
-  font-size: 1.5rem;
+  font-size: 0.8rem;
   color: #333;
-  padding-left: 1rem;
+  padding-left: 0.5rem;
+  margin: 0.1rem 0.1rem 0.1rem 0.1rem;
 }
 
 .date-input-wrapper {
   display: flex;
-  flex-direction: row;
-  width: 100%;
+  flex-direction: column;
+  width: 80%;
 }
 
 .datefilter input[type="date"] {
   flex: 1;
-  padding: 10px 15px;
-  font-size: 2rem;
+  font-size: 1.2rem;
   border: none;
   outline: none;
   background: transparent;
@@ -294,35 +290,5 @@
 
   .datefilter {
     flex-direction: row;
-  }
-}
-
-@media (max-width: 768px) {
-  .search-input {
-    font-size: 1rem;
-    padding: 10px;
-    min-width: 150px;
-  }
-
-  .search-button {
-    font-size: 1rem;
-    padding: 10px 20px;
-  }
-
-  .search-field {
-    min-width: 150px;
-  }
-
-  .date-box {
-    min-width: 150px;
-  }
-
-  .option-filter {
-    font-size: 0.9rem;
-  }
-
-  .datefilter input[type="date"] {
-    font-size: 0.9rem;
-    padding: 8px;
   }
 }

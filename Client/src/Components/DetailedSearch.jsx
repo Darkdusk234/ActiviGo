@@ -83,8 +83,8 @@ const DetailedSearch = ({fetchResults}) => {
                 </div>
                 <div className="filter-section">
                 <div className="search-field">
-                <p>Aktivitet</p>
                 <div className="select-row">
+                <p>Aktivitet</p>
                     <select className="option-filter" id ="activity" name="activity">
                     <option value="">Välj</option>
                         {activityInfo.map((activity, index) => (
@@ -94,8 +94,8 @@ const DetailedSearch = ({fetchResults}) => {
                 </div>
                 </div>
                 <div className="search-field">
-                    <p>Kategori</p>
                     <div className="select-row">
+                        <p>Kategori</p>
                         <select className="option-filter" id ="category" name="category">
                             <option value="">Kategori</option>
                             {categoryInfo.map((category, index) => (
@@ -105,32 +105,32 @@ const DetailedSearch = ({fetchResults}) => {
                     </div>
                 </div>
                 <div className="search-field">
-                    <p>Plats</p>
-                    <div className="select-row">
                     <span className="icon"><FontAwesomeIcon icon={FaMapMarkerAlt} /></span>
-                    <select className="option-filter" id ="location" name="location">
-                    <option value="">Välj</option>
-                    {locationsInfo.map((location, index) => (
-                        <option key={index} value={location.id}>{location.name}</option>
-                    ))}
-                </select>
+                    <div className="select-row">
+                        <p>Plats</p>
+                            <select className="option-filter" id ="location" name="location">
+                                <option value="">Välj</option>
+                                {locationsInfo.map((location, index) => (
+                                    <option key={index} value={location.id}>{location.name}</option>
+                                ))}
+                            </select>
 
                     </div>
                 </div>
                 </div>
                 <div className="datefilter">
                     <div className="date-box">
-                        <p>Från</p>
+                    <span className="icon"><FontAwesomeIcon icon={FaCalendarAlt} /></span>
                         <div className="date-input-wrapper">
-                            <span className="icon"><FontAwesomeIcon icon={FaCalendarAlt} /></span>
+                            <p>Från</p>
                             <input type= "date" name="fromDate"/>
                         </div>
                     </div>
                     <div className="date-box">
-                        <p>Till</p>
-                        <div className="date-input-wrapper">
                         <span className="icon"><FontAwesomeIcon icon={FaCalendarAlt} /></span>
-                        <input type= "date" name="toDate"/>
+                        <div className="date-input-wrapper">
+                            <p>Till</p>
+                            <input type= "date" name="toDate"/>
                         </div>
                     </div>
                 
