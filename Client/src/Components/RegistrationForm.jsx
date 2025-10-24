@@ -42,6 +42,8 @@ const RegistrationForm = () => {
             <input
                 type="password"
                 value={password}
+                minLength={6}
+                maxLength={100}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
                 required
