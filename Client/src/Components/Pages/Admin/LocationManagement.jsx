@@ -126,7 +126,7 @@ const LocationManagement = () => {
     };
 
     const handleEdit = async (location) => {
-
+        console.log(location);
         if (!window.confirm(`Är du säker på att du vill redigera plats med id ${location.id}?`)) {
             return;
         }
@@ -229,21 +229,19 @@ const LocationManagement = () => {
             {!user ? <p>Behöver logga in för att göra ändringar.</p> : (
                 <>
                 <div className = "admin-buttons">
-
-                        <button className="btn" onClick={() => setView(!view)}>View Locations</button>
-                        <button className="btn" onClick={() => setNewPopup(!newPopup)}>Add New</button>
+                        <button className="btn" onClick={() => setNewPopup(!newPopup)}>Lägg till ny</button>
                     </div>
-                    <div className="view-toggle">
-                        {!view ? (
-                            <p></p>
-                        ) : (<div className="filter-list">
+                    
+                        <div className="filter-list">
                             <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
+                        </div>
+                        <div>
                         {filteredLocations.map(location => (
                             <LocationListCard key={location.id} item={location} removeLocation={handleRemove} editLocation={handleEdit}/>
                         ))}
                     </div>
-                    )}
-                    </div>
+                    
+                    
                 {newPopup && (<LocationNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
 
                 </>

@@ -76,7 +76,7 @@ const LocationListCard = ({ item, removeLocation, editLocation }) => {
                     <div className="admin-list-card-buttons">
                         <button onClick={() => setEditMode(true)}>Redigera</button>
                         <button onClick={() => removeLocation(item.id)}>Ta bort</button>
-                        <Link to={`/admin/sublocations/${item.id}`}>Visa underplatser</Link>
+                        {/* <Link to={`/admin/sublocations/${item.id}`}>Visa underplatser</Link> */}
                     </div>
                 </>
             )}
