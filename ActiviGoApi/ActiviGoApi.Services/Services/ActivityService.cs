@@ -22,7 +22,7 @@ namespace ActiviGoApi.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateActivityAsync(CreateActivityRequest dto, CancellationToken ct = default)
+        public async Task<GetActivityResponse> CreateActivityAsync(CreateActivityRequest dto, CancellationToken ct = default)
         {
             var category = await _unitOfWork.Categories.GetByIdAsync(dto.CategoryId, ct);
             if (category == null)
@@ -30,11 +30,11 @@ namespace ActiviGoApi.Services.Services
                 throw new KeyNotFoundException($"Category with id {dto.CategoryId} not found");
             }
 
-            Activity toCreate = _mapper.Map<Activity>(dto);
+            
+            var created = await _unitOfWork.Activities.AddAsync(_mapper.Map<Activity>(dto), ct);
+            await _unitOfWork.SaveChangesAsync(ct);
 
-            await _unitOfWork.Activities.AddAsync(toCreate, ct);
-
-            return await _unitOfWork.SaveChangesAsync(ct);
+            return _mapper.Map<GetActivityResponse>(created);
         }
 
         public async Task<bool> DeleteActivityAsync(int id, CancellationToken ct = default)
@@ -112,7 +112,6 @@ namespace ActiviGoApi.Services.Services
             }
 
             var updated = _mapper.Map<Activity>(dto);
-            updated.Id = id; // Ensure the ID remains the same
             updated.UpdatedAt = DateTime.UtcNow;
             await _unitOfWork.Activities.UpdateAsync(updated, ct);
             await _unitOfWork.SaveChangesAsync(ct);
