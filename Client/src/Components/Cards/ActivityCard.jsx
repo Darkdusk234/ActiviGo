@@ -18,7 +18,7 @@ export default function ActivityCard({ activity }) {
         <p className="activity-card-description">{activity.description}</p>
         <div className="activity-card-meta">
           <span>{activity.durationInMinutes} min</span>
-          <span>{activity.price} kr</span>
+          <span>{activity.price} SEK</span>
         </div>
       </div>
     </div>

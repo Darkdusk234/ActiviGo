@@ -3,6 +3,7 @@ import { useActivities } from "../../contexts/ActivityContext";
 import "./CategoryCard.css";
 
 export default function CategoryCard({ category }) {
+  const imageUrl = `https://picsum.photos/400/250?random=${category.id}`;
   const { setActivitiesInCategory, activities } = useActivities()
   const navigate = useNavigate();
 
@@ -14,7 +15,10 @@ export default function CategoryCard({ category }) {
   }
 
   return (
-    <div className="category-card" onClick={handleMove}>
+    <div className="category-card" 
+    onClick={handleMove}
+    style={{backgroundImage:`url(https://picsum.photos/400/250?random=${category.id})`}}
+    >
       <div className="category-card-content">
         <h3 className="category-card-title">{category.name}</h3>
         {category.description && (

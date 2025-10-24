@@ -20,6 +20,7 @@ import BookingManagement from './Components/Pages/Admin/BookingManagement';
 import CategoryListPage from './Components/Pages/CategoryListPage';
 import ActivityListPage from './Components/Pages/ActivityListPage';
 import OccurrenceDetails from "./Components/Pages/OccurrenceDetails";
+import About from './Components/Pages/About';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           <Route path="/occurrence/:id" element={<OccurrenceDetails />} /> 
           <Route path="/categories" element={<CategoryListPage />} />
           <Route path="/activities/:categoryname" element={<ActivityListPage />} />
+          <Route path='/about' element={<About />}/>
         </Route>
         <Route element ={<AdminPage />}>
           <Route path="/admin" element={<AdminDashboard />} />
