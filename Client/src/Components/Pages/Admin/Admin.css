@@ -394,3 +394,52 @@ button:hover {
 .dashboard-item:hover {
     transform: scale(1.05);
 }
+
+/* Admin Statistics Page Styles */
+.statistics-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.statistics-content {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.statistics-category {
+    display: grid;
+    grid-template-columns: repeat(1fr, 1fr);
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f1f9ff;
+    color: black;
+    width: 100%;
+}
+
+.statistics-category h3 {
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: 10px;
+    grid-column: span 2 ;
+    border-bottom: #0056b3 2px solid;
+}
+
+.statistics-category p {
+    font-size: 18px;
+    margin: 5px 10px;
+    padding: 5px;
+    
+
+}
