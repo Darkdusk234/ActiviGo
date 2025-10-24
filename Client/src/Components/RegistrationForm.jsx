@@ -83,6 +83,7 @@ const RegistrationForm = () => {
             <input
                 type="date"
                 value={birthDate}
+                max={today}
                 onChange={(e) => setBirthDate(e.target.value)}
                 placeholder="Date Of Birth"
                 required
