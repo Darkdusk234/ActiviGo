@@ -67,10 +67,7 @@ const OccurrenceDetails = () => {
           console.log(res.ok);
         }
         return;
-      } catch (err) {
-        console.error("Booking error:", err);
-        return;
-      }
+      } 
     };
 
   const splitDateTime = (startTime, endTime) => {

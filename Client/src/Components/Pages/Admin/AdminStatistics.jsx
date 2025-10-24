@@ -47,8 +47,8 @@ const AdminStatistics = () => {
                              </div>
                                 
                                 <div className="statistics-category">
-                                    <h3>Förekomster</h3>
-                                    <p>Total antal förekomster:</p> <p>{statistics.activityOccurrencesCount}</p>
+                                    <h3>Händelser</h3>
+                                    <p>Total antal händelser:</p> <p>{statistics.activityOccurrencesCount}</p>
                                     
                                 </div>
                                 
