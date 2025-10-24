@@ -12,11 +12,12 @@ const ActivityManagement = () => {
     const [nameFilter, setNameFilter] = useState('');
     const [lengthFilter, setLengthFilter] = useState('');
     const [maxLengthFilter, setMaxLengthFilter] = useState('');
-    const [maxParticipantsFilter, setMaxParticipantsFilter] = useState('');
     const [maxPriceFilter, setMaxPriceFilter] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
+
     const [view, setView] = useState(false);
     const [newPopup, setNewPopup] = useState(false);
+
     const { APIURL, user } = useAuth();
 
     const { categories } = useCategories(); 
@@ -40,9 +41,6 @@ const ActivityManagement = () => {
         setFilteredActivities(activities);
     }, [activities]);
 
-    const handleViewToggle = () => {
-        setView(!view);
-    };
 
     const handleLengthFilterChange = (e) => {
         setLengthFilter(Number.parseInt(e.target.value));
@@ -56,23 +54,103 @@ const ActivityManagement = () => {
         setNameFilter(e.target.value);
     };
 
-    const handleMaxParticipantsChange = (e) => {
-        setMaxParticipantsFilter(Number.parseInt(e.target.value));
-    };
     const handleMaxPriceChange = (e) => {
         setMaxPriceFilter(Number.parseFloat(e.target.value));
     };
     const handleCategoryFilterChange = (e) => {
         setCategoryFilter(e.target.value);
     };
+
+
+
+    const handleCreate = async (activity) => {
+        const response = await fetch(`${APIURL}/Activity`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+            body: JSON.stringify(activity)
+        });
+        if (!response.ok) {
+            const data = await response.json();
+            alert('Misslyckades med att skapa aktivitet: ' + data.map(error => error.errorMessage).join(', '));
+            setNewPopup(false);
+            return;
+        }
+        if (response.ok) {
+            const data = await response.json();
+            alert("Aktivitet skapad.");
+            setActivities([...allActivities, data]);
+            setFilteredActivities([...filteredActivities, data]);
+            setNewPopup(false);
+        }
+    };
+
+
+    const handleRemove = async (id) => {
+        if (window.confirm(`Är du säker på att du vill ta bort aktiviteten med id ${id}?`)) {
+            
+            await fetch(`${APIURL}/Activity/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            })
+            .then(async response => {
+                if (!response.ok) {
+                    const data = await response.json();
+                    alert('Misslyckades med att ta bort aktivitet: ' + data.map(error => error.errorMessage).join(', '));
+                    return;
+                }
+                if (response.ok) {
+                    alert("Aktivitet borttagen.");
+                                // update local state
+                    const newActivities = allActivities.filter(activity => activity.id !== id);
+                    setActivities(newActivities);
+                    setFilteredActivities(newActivities);
+                }
+            });
+        }
+    };
+
+    const handleEdit = async (activity) => {
+        if (window.confirm(`Är du säker på att du vill redigera aktiviteten med id ${activity.id}?`)) {
+            await fetch(`${APIURL}/Activity/${activity.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                },
+                body: JSON.stringify(activity)
+            })
+            .then(async response => {
+                if (!response.ok) {
+                    console.log(response);
+                    const data = await response.json();
+                    console.log(data);
+                    setNewPopup(false);
+                    return;
+                }
+            });
+            // update local state
+            const newActivities = allActivities.map(act => act.id === activity.id ? { ...act, ...activity } : act);
+            setActivities(newActivities);
+            setFilteredActivities(newActivities.filter(act =>
+                act.name.toLowerCase().includes(nameFilter.toLowerCase())
+            ));
+            setNewPopup(false);
+        }
+    };
+
     useEffect(() => {
         setActivities(activities);
         setFilteredActivities(activities);
-    }, [allActivities]);
+    }, [activities]);
 
     useEffect(() => {
         let filtered = allActivities;
-        console.log(allActivities);
         if (nameFilter) {
             filtered = filtered.filter(activity =>
                 activity.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -88,11 +166,6 @@ const ActivityManagement = () => {
                 activity.durationInMinutes <= maxLengthFilter
             );
         }
-        if (maxParticipantsFilter) {
-            filtered = filtered.filter(activity =>
-                activity.maxParticipants <= maxParticipantsFilter
-            );
-        }
         if (maxPriceFilter) {
             filtered = filtered.filter(activity =>
                 activity.price <= maxPriceFilter
@@ -104,7 +177,7 @@ const ActivityManagement = () => {
             );
         }
         setFilteredActivities(filtered);
-    }, [allActivities, nameFilter, lengthFilter, maxLengthFilter, maxParticipantsFilter, maxPriceFilter, categoryFilter]);
+    }, [activities, allActivities, nameFilter, lengthFilter, maxLengthFilter, maxPriceFilter, categoryFilter]);
 
     const validateActivity = (activity) => {    // to check the wrong doings/inputs
         const errors = [];

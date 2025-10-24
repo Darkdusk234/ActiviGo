@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ActiviGoApi.Services.DTOs.WeatherDTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,8 @@ namespace ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs
         public int Capacity { get; set; }
         public int AvailableSpots { get; set; }
         public bool IsCancelled { get; set; }
+
+        public WeatherResponseDTO Weather { get; set; } = new WeatherResponseDTO();
 
         // Foreign Keys
         public int ActivityId { get; set; }

@@ -9,7 +9,7 @@ const LocationManagement = () => {
     const [allLocations, setLocations] = useState([]); // full list
     const [filteredLocations, setFilteredLocations] = useState([]); // filtered list
     const [nameFilter, setNameFilter] = useState('');
-    const [view, setView] = useState(false);
+
     const { user, APIURL } = useAuth();
     const [newPopup, setNewPopup] = useState(false);
 
@@ -29,6 +29,7 @@ const LocationManagement = () => {
     const handleViewToggle = () => {
         setView(!view);
     };
+
 
     const handleFilterChange = (e) => {
         const value = e.target.value;
@@ -94,6 +95,18 @@ const LocationManagement = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 }
+            })
+            .then(async response => {
+                if (!response.ok) 
+                {
+                    const data = await response.json();
+                    alert('Misslyckades med att ta bort plats: ' + data.map(error => error.errorMessage).join(', '));
+                }
+                else
+                {
+                    console.log(response);
+                    alert('Plats borttagen.');
+                }
             });
             if (!response.ok) {
                 const errorText = await response.text();
@@ -113,6 +126,7 @@ const LocationManagement = () => {
     };
 
     const handleEdit = async (location) => {
+
         if (!window.confirm(`Är du säker på att du vill redigera plats med id ${location.id}?`)) {
             return;
         }
@@ -125,6 +139,7 @@ const LocationManagement = () => {
         setError(null);
         try {
             const response = await fetch(`${APIURL}/Location/${location.id}`, {
+
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -191,6 +206,7 @@ const LocationManagement = () => {
         }
     };
 
+
     useEffect(() => {
         setLocations(locations);
         setFilteredLocations(locations);
@@ -213,6 +229,7 @@ const LocationManagement = () => {
             {!user ? <p>Behöver logga in för att göra ändringar.</p> : (
                 <>
                 <div className = "admin-buttons">
+
                         <button className="btn" onClick={() => setView(!view)}>View Locations</button>
                         <button className="btn" onClick={() => setNewPopup(!newPopup)}>Add New</button>
                     </div>
@@ -228,6 +245,7 @@ const LocationManagement = () => {
                     )}
                     </div>
                 {newPopup && (<LocationNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
+
                 </>
             )}
         </div>

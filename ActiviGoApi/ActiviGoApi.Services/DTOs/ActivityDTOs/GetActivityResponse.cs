@@ -14,7 +14,9 @@ namespace ActiviGoApi.Services.DTOs.ActivityDTOs
         public int DurationInMinutes { get; init; }
         public string IMGUrl { get; init; } = string.Empty;
         public decimal Price { get; init; }
-        public int CategoryId { get; init; }    
+        public bool IsActive { get; init; } 
+        public int CategoryId { get; init; }
+        public string CategoryName { get; init; } = string.Empty;
 
     }
 }

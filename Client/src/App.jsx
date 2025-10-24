@@ -20,6 +20,10 @@ import BookingManagement from './Components/Pages/Admin/BookingManagement';
 import CategoryListPage from './Components/Pages/CategoryListPage';
 import ActivityListPage from './Components/Pages/ActivityListPage';
 import OccurrenceDetails from "./Components/Pages/OccurrenceDetails";
+import AdminStatistics from './Components/Pages/Admin/AdminStatistics';
+import About from './Components/Pages/About';
+import RegistrationPage from './Components/Pages/RegistrationPage';
+
 
 
 function App() {
@@ -37,6 +41,8 @@ function App() {
           <Route path="/occurrence/:id" element={<OccurrenceDetails />} /> 
           <Route path="/categories" element={<CategoryListPage />} />
           <Route path="/activities/:categoryname" element={<ActivityListPage />} />
+          <Route path='/about' element={<About />}/>
+          <Route path="/register" element={<RegistrationPage />} />
         </Route>
         <Route element ={<AdminPage />}>
           <Route path="/admin" element={<AdminDashboard />} />
@@ -48,6 +54,7 @@ function App() {
           <Route path="/admin/occurrences/:filter/:id" element={<OccurenceManagement />} />
           <Route path="/admin/occurrences" element={<OccurenceManagement />} />
           <Route path="/admin/bookings" element={<BookingManagement />} />
+          <Route path="/admin/statistics" element={<AdminStatistics />} />
 
         </Route>
       </Routes>

@@ -118,6 +118,10 @@ namespace ActiviGoApi
 
                 );
 
+            // Response caching
+
+            builder.Services.AddResponseCaching();
+
 
             // Identity
             builder.Services.AddIdentity<User, IdentityRole>(opt =>
@@ -191,6 +195,7 @@ namespace ActiviGoApi
 
             app.UseCors("Development");
 
+            app.UseResponseCaching();
             app.UseAuthentication();
             app.UseAuthorization();
             

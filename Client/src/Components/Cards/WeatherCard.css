@@ -1,0 +1,42 @@
+.weather-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    padding: 20px;
+    background: #ffffff;
+    /*Ljusbakgrund*/border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /*Subtilskugga*/text-align: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    -webkit-transition: transform 0.2s ease, box-shadow 0.2s ease;
+    -moz-transition: transform 0.2s ease, box-shadow 0.2s ease;
+    -ms-transition: transform 0.2s ease, box-shadow 0.2s ease;
+    -o-transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.weather-card:hover {
+    transform: translateY(-5px); /* Lyft effekt vid hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.weather-card img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 15px;
+    object-fit: contain; /* Behåller bildens proportioner */
+}
+
+.weather-card p {
+    margin: 5px 0;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.weather-card p:first-child {
+    font-weight: bold; /* Gör temperaturen framträdande */
+    font-size: 1.2rem;
+    color: #2c3e50; /* Djupare blå för kontrast */
+}

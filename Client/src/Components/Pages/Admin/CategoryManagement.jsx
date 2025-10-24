@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
-import AdminListCard from './CategoryListCard';
+import CategoryListCard from './CategoryListCard';
 import { useCategories } from '../../../contexts/CategoryContext';
 
 import './Admin.css';
@@ -85,6 +85,7 @@ const CategoryManagement = () => {
             showError(`Fel vid borttagning: ${err.message}`);
         } finally {
             setLoading(false);
+
         }
     };
 
@@ -107,6 +108,17 @@ const CategoryManagement = () => {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 },
                 body: JSON.stringify(category)
+            })            
+            .then(response => {
+                console.log(response);
+                if (!response.ok) 
+                {
+                    alert('Misslyckades med att uppdatera kategori: ' + response.statusText);
+                }
+                else
+                {
+                    alert('Kategori uppdaterad: ' + response.statusText);
+                }
             });
             if (!response.ok) {
                 const errorText = await response.text();
@@ -171,6 +183,7 @@ const CategoryManagement = () => {
             setLoading(false);
         }
     };
+  
     return (
         <>
             <h1>Category Management</h1>
@@ -187,7 +200,7 @@ const CategoryManagement = () => {
                 )}
             {!user ? <p>Please log in to manage categories.</p> : (
                 <>
-                <div className = "admin-buttons">
+                <div className = "admin-buttons"
                         <button className="btn" onClick={() => setView(!view)}>View Categories</button>
                         <button className="btn" onClick={()=> setNewPopup(!newPopup)}>Add New</button>
                     </div>
@@ -205,7 +218,7 @@ const CategoryManagement = () => {
                     {newPopup && (<CategoryNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
                     
                 </>
-            )}
+            )}  
         </div>
         </>
     );

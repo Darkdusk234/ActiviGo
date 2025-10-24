@@ -48,7 +48,7 @@ namespace ActiviGoApi.Services.Services
 
         public async Task<IEnumerable<GetSubLocationResponse>> GetAllSubLocationsAsync(CancellationToken ct = default)
         {
-            var subs = await _unitOfWork.SubLocations.GetAllAsync(ct);
+            var subs = await _unitOfWork.SubLocations.GetFilteredAsync(includeProperties: "Location", ct: ct);
             if (subs == null || !subs.Any())
             {
                 throw new KeyNotFoundException("No SubLocations found");
@@ -82,12 +82,13 @@ namespace ActiviGoApi.Services.Services
             {
                 throw new KeyNotFoundException($"Location with id {dto.LocationId} not found");
             }
-
+            
             //var updated = _mapper.Map<SubLocation>(dto);
             //updated.Id = id; // Ensure the ID remains the same
             _mapper.Map(dto, toUpdate);
             toUpdate.UpdatedAt = DateTime.UtcNow;
             await _unitOfWork.SubLocations.UpdateAsync(toUpdate, ct);
+
             await _unitOfWork.SaveChangesAsync(ct);
             
             return true;

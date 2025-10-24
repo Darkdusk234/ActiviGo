@@ -5,14 +5,9 @@ import { useAuth } from '../../contexts/AuthContext'
 import './Login.css'
 import UserDropMenu from './UserDropMenu';
 const LoginDropBox = ({close}) => {
-
-const { user } = useAuth();
-
-
-
+    const { user } = useAuth();
 
     return(
-        
             <div className="login-dropbox">
                 {user ? (
                 <UserDropMenu close={close} />

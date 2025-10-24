@@ -28,7 +28,8 @@ footer {
     flex-direction: column; */
     align-items: center;
     justify-content: center;
-    background: linear-gradient(180deg, #c3c7c9 0%, #5e01ff 100%);
+    background: linear-gradient(180deg, #c3c7c9 0%, #323232 100%);
+    overflow: hidden;
 
    
 }
@@ -36,7 +37,7 @@ footer {
 .main-content .middle-content
 {
     padding: 4rem 1rem 4rem 1rem;
-    height: 80%;
+    min-height: 80vh;
 }
 
 .footer-content
@@ -90,26 +91,66 @@ footer {
     display: flex;
     justify-content: center;
     margin: 5rem 0 10rem 0;
+    height: 15vh;
 }
 
 .welcome-message{
     text-align: center;
-    margin-bottom: 1rem;
+    margin-left: -1rem;
+    margin-top: -5rem;
+    width: 110%;
+    height: 50vh;
     font-size: 1.5rem;
     font-weight: 500;
+    background-image: url('../src/assets/wallpaper.jpg');
+    background-size: cover; /* Täcker hela div utan distortion */
+    background-position: center; /* Centrerar bilden */
+    background-repeat: no-repeat;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.5); /* Svart overlay med 50% opacitet */
+    background-blend-mode: multiply;
+}
+.welcome-message h1{
+    padding-top: 3rem;
+}
+.explore-prompt{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20vh;
+    background: rgb(19, 19, 19);
+    width: 110%;
+    margin-left: -1rem;
+}   
+
+.explore-prompt p{
+    text-align: center;
+    width: 70vh;
+    font-size: 2.6rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    color: #e6e6e6;
+    text-shadow: #7286ac4e 2px 2px 10px;
+}   
+
+.carousels {
+    padding-top: 2rem;
+    
+}
+.carousels h2{
+    padding-top: 6rem;
+    font-size: 2.3rem;
+    font-weight: 500;
+    margin-left: 3rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.divider{
+    height: 2px;
+    background: rgb(255, 255, 255);
+    margin-bottom: 4rem; 
+    box-shadow: rgb(255, 255, 255) 5px 5px 14px;
 }
 
 
 /* detailedsearch */
-.detailed-search-form
-{    display: flex;
-    flex-direction: row;
-    background-color: beige;
-    border: 3px solid gold;
-
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    padding: 5px;
-
-}

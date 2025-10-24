@@ -9,7 +9,6 @@ const SubLocationManagement = () => {
     const [allSubLocations, setSubLocations] = useState([]); // full list
     const [filteredSubLocations, setFilteredSubLocations] = useState([]); // filtered list
     const [nameFilter, setNameFilter] = useState('');
-    const [view, setView] = useState(false);
     const { user, APIURL } = useAuth();
     const [newPopup, setNewPopup] = useState(false);
     const { subLocations } = useSubLocations();
@@ -33,6 +32,7 @@ const SubLocationManagement = () => {
     const handleViewToggle = () => {
         setView(!view);
     };
+
 
     const handleFilterChange = (e) => {
         const value = e.target.value;
@@ -72,6 +72,7 @@ const SubLocationManagement = () => {
 
         try {
             const response = await fetch(`${APIURL}/SubLocation/${id}`, {
+
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -115,34 +116,51 @@ const SubLocationManagement = () => {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 },
                 body: JSON.stringify(subLocation)
-            });
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(errorText || 'Kunde inte uppdatera området');
-            }
-            const newSubLocations = allSubLocations.map(loc => 
-                loc.id === subLocation.id ? { ...loc, ...subLocation } : loc
-            );
+            })
+            .then(async response => {
+                if (!response.ok) {
+                    const data = await response.json();
+                    alert('Misslyckades med att redigera underplats: ' + data.map(error => error.errorMessage).join(', '));
+                    return;
+                }
+                if (response.ok) {
+                    alert("Underplats uppdaterad.");
+                                // update local state
+            const newSubLocations = allSubLocations.map(loc => loc.id === subLocation.id ? { ...loc, ...subLocation } : loc);
             setSubLocations(newSubLocations);
-            setFilteredSubLocations(newSubLocations);
-            
-            showSuccess('✅ Området uppdaterad!');
-        } catch (err) {
-            console.error('❌ Edit error:', err);
-            showError(`Fel vid uppdatering: ${err.message}`);
-        } finally {
-            setLoading(false);
+            setFilteredSubLocations(newSubLocations.filter(loc =>
+                loc.name.toLowerCase().includes(nameFilter.toLowerCase())
+            ));
+                }
+            });
         }
     };
 
-    const handleCreate = async (subLocation) => {
-        const validationErrors = validateSubLocation(subLocation);
-        if (validationErrors.length > 0) {
-            showError(`❌ Valideringsfel:\n${validationErrors.join('\n')}`);
+        const handleCreate = async (subLocation) => {
+            console.log(JSON.stringify(subLocation));
+        const response = await fetch(`${APIURL}/SubLocation`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+            body: JSON.stringify(subLocation)
+        });
+                if(!response.ok) {
+            const data = await response.json();
+            console.log(data.map(error => error.errorMessage).join(', '));
+            alert('Misslyckades med att skapa plats: \n ' + data.map(error => error.errorMessage).join(', '));
+            
+            setNewPopup(false);
             return;
         }
-        setLoading(true);
-        setError(null);
+        if(response.ok) {
+            const data = await response.json();
+            alert('Plats skapad: ' + data.name);
+            setSubLocations([...allSubLocations, data]);
+            setFilteredSubLocations([...filteredSubLocations, data]);
+            setNewPopup(false);}
+    };
 
         try {
             // console.log('Skapar sublocation:', JSON.stringify(subLocation));
@@ -215,6 +233,7 @@ const SubLocationManagement = () => {
                         )}
                     </div>
                 {newPopup && (<SubLocationNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
+
                 </>
             )}
         </div>

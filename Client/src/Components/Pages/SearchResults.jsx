@@ -44,6 +44,7 @@ useEffect(() => {
 
 const fetchGeneralResults = async(searchTerms) => {
     const term = { query: searchTerms};
+    console.log(term);
     await fetch(`${APIURL}/ActivityOccurence/general-search`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -52,6 +53,7 @@ const fetchGeneralResults = async(searchTerms) => {
     .then(response => response.json())
     .then(data => {
         setResults(data);
+
         setLoading(false);
     })
     .catch(err => {
@@ -83,11 +85,13 @@ const fetchResults = async (searchTerms) => {
 return (
     <div className="results-page">
         <div className = "detail-search">
-            <DetailedSearch fetchResults={fetchResults}/>
+            <div className="search-filter">
+                <DetailedSearch fetchResults={fetchResults}/>
+            </div>
         </div>
         <div className ="search-results">
-
-            {loading ? "No results..." : results.map((aresult, index) => {
+        {!results || results.length === 0 ? <p>Inga resultat hittades.</p> :
+            loading ? "Loading..." : results.map((aresult, index) => {
             return <SingleResultDisplay key={index} result={aresult}/>;
             })}
         </div>
