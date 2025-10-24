@@ -310,6 +310,7 @@ namespace ActiviGoApi.Services.Services
 
             throw new Exception("Error processing weather request for activity occurence");
         }
+
         public async Task<AdminStatisticsDTO> GetAdminStatistics(CancellationToken ct = default)
         {
             var categories = await _unitOfWork.Categories.GetAllAsync(ct);

@@ -24,9 +24,6 @@ namespace ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs
 
         [Required]
         public int SubLocationId { get; set; }
-
-        public bool IsCancelled { get; set; }
-
         public int AvailableSpots { get; set; }
     }
 }

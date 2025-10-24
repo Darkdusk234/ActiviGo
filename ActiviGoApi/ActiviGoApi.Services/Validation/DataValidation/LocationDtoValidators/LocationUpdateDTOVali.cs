@@ -26,9 +26,9 @@ namespace ActiviGoApi.Services.Validation.DataValidation.LocationDtoValidators
             RuleFor(x => x.Latitude)
                 .NotEmpty().WithMessage("Latitude is required")
                 .MinimumLength(2).WithMessage("Latitude must be at least 2 characters")
-                .Custom((x, context) =>
+                .Custom((l, context) =>
                 {
-                    if (!decimal.TryParse(x, out var lat) || lat < 55 || lat > 69)
+                    if (!decimal.TryParse(l, out var lat) || lat < 55m || lat > 69m)
                     {
                         context.AddFailure("Latitude must be a valid decimal number between 55 and 69.");
                     }
@@ -37,9 +37,9 @@ namespace ActiviGoApi.Services.Validation.DataValidation.LocationDtoValidators
             RuleFor(x => x.Longitude)
                 .NotEmpty().WithMessage("Longitude is required")
                 .MinimumLength(2).WithMessage("Longitude must be at least 2 characters")
-                .Custom((x, context) =>
+                .Custom((l, context) =>
                 {
-                    if (!decimal.TryParse(x, out var lon) || lon < 10 || lon > 25)
+                    if (!decimal.TryParse(l, out var lon) || lon < 10m || lon > 25m)
                     {
                         context.AddFailure("Longitude must be a valid decimal number between 10 and 25.");
                     }

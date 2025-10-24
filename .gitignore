@@ -366,3 +366,4 @@ FodyWeavers.xsd
 /ActiviGoApi/ActiviGoApi.sln
 /ActiviGoApi/ActiviGoApi/appsettings.json
 /ActiviGoApi/Client/.env
+Client/.env
