@@ -229,7 +229,7 @@ const LocationManagement = () => {
             {!user ? <p>Behöver logga in för att göra ändringar.</p> : (
                 <>
                 <div className = "admin-buttons">
-                        <button className="btn" onClick={() => setNewPopup(!newPopup)}>Add New</button>
+                        <button className="btn" onClick={() => setNewPopup(!newPopup)}>Lägg till ny</button>
                     </div>
                     
                         <div className="filter-list">

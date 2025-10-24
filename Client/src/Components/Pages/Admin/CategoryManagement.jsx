@@ -198,10 +198,10 @@ const CategoryManagement = () => {
                         {successMessage}
                     </div>
                 )}
-            {!user ? <p>Please log in to manage categories.</p> : (
+            {!user ? <p>Logga in för att hantera kategorier.</p> : (
                 <>
                 <div className = "admin-buttons">
-                        <button className="btn" onClick={()=> setNewPopup(!newPopup)}>Skapa ny</button>
+                        <button className="btn" onClick={()=> setNewPopup(!newPopup)}>Lägg till ny</button>
                     </div>
                     <div className="filter-list">
                             <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />

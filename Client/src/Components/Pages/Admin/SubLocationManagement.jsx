@@ -181,7 +181,7 @@ const SubLocationManagement = () => {
 
     return (
         <>
-            <h1>SubLocation Management</h1>
+            <h1>Lokaler</h1>
             {error && (
             <div className="error-banner" style={{ whiteSpace: 'pre-line' }}>
                 {error}
