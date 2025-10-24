@@ -49,7 +49,7 @@ const RegistrationForm = () => {
                 required
             />
             <input
-                type="text"
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
