@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faUsers, faClock, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import "./BookingCard.css";
 
-const BookingCard = ({ items }) => {
+const BookingCard = ({ items, applyFilter }) => {
     const { token, APIURL } = useContext(AuthContext); // Hämta token och APIURL från kontext
 
     const handleCancelBooking = async () => {
@@ -25,7 +25,8 @@ const BookingCard = ({ items }) => {
                 if (!response.ok) {
                     throw new Error(`Avbokning misslyckades (${response.status})`);
                 }
-
+                items.isCancelled = true;
+                applyFilter();
                 alert('Bokningen har avbokats!');
             } catch (err) {
                 alert('Ett fel uppstod vid avbokning: ' + err.message);

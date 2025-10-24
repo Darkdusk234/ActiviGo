@@ -54,7 +54,7 @@ const MyBookings = () => {
 
         switch (filter) {
             case 'upcoming':
-                filtered = filtered.filter(booking => new Date(booking.activityStartTime) >= now);
+                filtered = filtered.filter(booking => (new Date(booking.activityStartTime) >= now) && !booking.isCancelled);
                 break;
             case 'past':
                 filtered = filtered.filter(booking => new Date(booking.activityStartTime) < now && !booking.isCancelled);
@@ -115,7 +115,7 @@ const MyBookings = () => {
             ) : (
                 <div className="bookings-list">
                     {filteredBookings.map(booking => (
-                        <BookingCard key={booking.id || booking.bookingTime} items={booking} />
+                        <BookingCard key={booking.id || booking.bookingTime} items={booking} applyFilter={applyFilter} />
                     ))}
                 </div>
             )}
