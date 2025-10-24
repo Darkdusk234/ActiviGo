@@ -1,29 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { useLocations } from "../../../contexts/LocationContext";
 import './Admin.css';
-import ReactDOM from 'react-dom';
 
 const SubLocationListCard = ({ item, removeSubLocation, editSubLocation }) => {
     const [editMode, setEditMode] = useState(false);
     const [viewDetails, setViewDetails] = useState(false);
-       const { locations, loadingLocations, errorLocations } = useLocations();
-        const [allLocations, setLocations] = useState([]);
 
-        // Close details view when clicking outside
+    const { locations, loadingLocations, errorLocations } = useLocations();
+    const [locationNames, setLocationNames] = useState([]);
+    
+    const [selectedLocationId, setSelectedLocationId] = useState(item.locationId);
+
+    const [allLocations, setLocations] = useState([]);
+
+
+    useEffect(() => {   // fuck this
+        if (editMode) {
+            setSelectedLocationId(item.locationId);
+        }
+    }, [editMode, item.locationId]);
+
+    useEffect(() => {
         const handleClickOutside = (event) => {
             if (!event.target.closest('.details-view') && !event.target.closest('.details')) {
                 setViewDetails(false);
             }
         };
-
+        
         document.addEventListener('click', handleClickOutside);
-
-
-
-        useEffect( () => {
-            setLocations(locations);
-        }, [loadingLocations, locations]);
-
+        
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
+  
+    useEffect(() => {
+        const getData = async () => {
+            if (!loadingLocations && locations) {
+                const names = locations.map(location => location.name);
+                setLocationNames(names);
+            }
+        };
+        getData();
+    }, [loadingLocations, locations]);
     return (
         <div className="admin-list-card">
             {editMode ? (
@@ -34,10 +53,13 @@ const SubLocationListCard = ({ item, removeSubLocation, editSubLocation }) => {
                         id: item.id,
                         name: formData.get("name"),
                         description: formData.get("description"),
-                        maxCapacity: parseInt(formData.get("maxCapacity")),
-                        indoors: formData.get("indoors") === "on",
-                        locationId: parseInt(formData.get("location"))
+
+                        maxCapacity: parseInt(formData.get("maxCapacity")), 
+                        indoors: formData.get("indoors") === "on", 
+                        locationId: selectedLocationId 
                     };
+                    
+                    // console.log('📤 Skickar uppdaterad SubLocation:', updatedSubLocation); 
                     editSubLocation(updatedSubLocation);
                     setEditMode(false);
                 }}>
@@ -48,13 +70,21 @@ const SubLocationListCard = ({ item, removeSubLocation, editSubLocation }) => {
                             <p>Beskrivning:</p>
                                 <textarea id="description" name="description" defaultValue={item.description}></textarea>
                             <p>Max kapacitet:</p>
+
                             <input type="number" className="input-number" id="maxCapacity" name="maxCapacity" defaultValue={item.maxCapacity}></input>
                             <p>Inomhus:</p>
                             <input type="checkbox" id="indoors" className="checkbox" name="indoors" defaultChecked={item.indoors}></input>
-                            <p>Plats:</p>
-                            <select id="location" name="location" defaultValue={item.locationId} >
-                                {allLocations.map((location, index) => (
-                                    <option key={index} value={location.id}>{location.name}</option>
+
+                            <p>At location:</p>
+                            <select 
+                                name="locationId"
+                                value={selectedLocationId}
+                                onChange={(e) => setSelectedLocationId(parseInt(e.target.value))}
+                            >
+                                {locations && locations.map((location) => (
+                                    <option key={location.id} value={location.id}>
+                                        {location.name}
+                                    </option>
                                 ))}
                             </select>
                         </div>

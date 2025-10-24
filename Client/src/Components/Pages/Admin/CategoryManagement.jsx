@@ -8,7 +8,6 @@ import './Admin.css';
 import CategoryNewPop from './CategoryNewPop';
 
 const CategoryManagement = () => {
-
     const [allCategories, setCategories] = useState([]); // full list
     const [filteredCategories, setFilteredCategories] = useState([]); // filtered list
     const [view, setView] = useState(false);
@@ -17,9 +16,23 @@ const CategoryManagement = () => {
 
     const {categories} = useCategories();
 
-
+    const [error, setError] = useState(null);   
+    const [loading, setLoading] = useState(false);
+    const [successMessage, setSuccessMessage] = useState(null);
+    
+    const showSuccess = (message) => {
+        setSuccessMessage(message);
+        setTimeout(() => setSuccessMessage(null), 5000); 
+    };
+    const showError = (message) => {
+        setError(message);
+    };
+    useEffect(() => {
+        setCategories(categories);
+        setFilteredCategories(categories);
+        }, [categories]);
+    
     const [nameFilter, setNameFilter] = useState('');  
-
     const handleFilterChange = (e) => {
         const value = e.target.value;
         setNameFilter(value);
@@ -29,41 +42,66 @@ const CategoryManagement = () => {
             )
         );
     }
-
+    const validateCategory = (category) => {
+        const errors = [];
+        if (!category.name || category.name.trim().length === 0) {
+            errors.push('Namn är obligatoriskt');
+        } else if (category.name.trim().length < 3) {
+            errors.push('Namn måste vara minst 3 tecken');
+        } else if (category.name.length > 100) {
+            errors.push('Namn får inte överskrida 100 tecken');
+        }
+        if (category.description && category.description.length > 500) {
+            errors.push('Hur orkar du skriva en beskrivning över 500 tecken!!!!');
+        }
+        return errors;
+    };
     
-
     const handleRemove = async (id) => {
-
-        if (confirm(`Är du säker på att du vill ta bort kategorin med id ${id}?`)) {
-            const newCategories = allCategories.filter(category => category.id !== id);
-            setCategories(newCategories);
-            setFilteredCategories(newCategories.filter(category =>
-                category.name.toLowerCase().includes(nameFilter.toLowerCase())
-            ));
-            await fetch(`${APIURL}/Category/${id}`, {
+        if (!window.confirm(`Är du säker på att du vill ta bort kategorin med id ${id}?`)) {
+            return;
+        }
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(`${APIURL}/Category/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 }
-            })
-            .then(response => {
-                if (!response.ok) 
-                {
-                    alert('Misslyckades med att ta bort kategori: ' + response.statusText);
-                }
-                else
-                {
-                    alert('Kategori borttagen: ' + response.statusText);
-                }
-            })
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText || 'Kunde inte ta bort kategori');
+            }
+            const newCategories = allCategories.filter(category => category.id !== id);
+            setCategories(newCategories);
+            setFilteredCategories(newCategories);
+            
+            showSuccess('✅ Kategori borttagen!');
+        } catch (err) {
+            console.error('❌ Delete error:', err);
+            showError(`Fel vid borttagning: ${err.message}`);
+        } finally {
+            setLoading(false);
+
         }
-       
-    }
+    };
 
     const handleEdit = async (category) => {
-        if(confirm(`Är du säker på att du vill redigera kategorin med id ${category.id}?`)) {
-            await fetch(`${APIURL}/Category/${category.id}`, {
+        if (!window.confirm(`Är du säker på att du vill redigera kategorin med id ${category.id}?`)) {
+            return;
+        }
+        const validationErrors = validateCategory(category);
+        if (validationErrors.length > 0) {
+            showError(`❌ Valideringsfel:\n${validationErrors.join('\n')}`);
+            return;
+        }
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(`${APIURL}/Category/${category.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -82,60 +120,103 @@ const CategoryManagement = () => {
                     alert('Kategori uppdaterad: ' + response.statusText);
                 }
             });
-            // update local state
-            const newCategories = categories.map(cat => cat.id === category.id ? { ...cat, ...category } : cat);
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText || 'Kunde inte uppdatera kategori');
+            }
+            const newCategories = allCategories.map(cat => 
+                cat.id === category.id ? { ...cat, ...category } : cat
+            );
             setCategories(newCategories);
-            setFilteredCategories(newCategories.filter(cat =>
-                cat.name.toLowerCase().includes(nameFilter.toLowerCase())
-            ));
+            setFilteredCategories(newCategories);
+            
+            showSuccess('✅ Kategori uppdaterad!');
+        } catch (err) {
+            console.error('❌ Edit error:', err);
+            showError(`Fel vid uppdatering: ${err.message}`);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     const handleCreate = async (category) => {
-        const response = await fetch(`${APIURL}/Category`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-            },
-            body: JSON.stringify(category)
-        });
-        if(!response.ok) {
-            alert('Misslyckades med att skapa kategori: ' + response.statusText);
+        const validationErrors = validateCategory(category);
+        if (validationErrors.length > 0) {
+            showError(`❌ Valideringsfel:\n${validationErrors.join('\n')}`);
             return;
         }
-        if(response.ok) {
-            alert('Kategori skapad: ' + response.statusText);
+        setLoading(true);
+        setError(null);
+        try {
+            // console.log('Skapar kategori:', JSON.stringify(category));
+            const response = await fetch(`${APIURL}/Category`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                },
+                body: JSON.stringify(category)
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('❌ Backend error:', errorText);
+                throw new Error(errorText || `HTTP Error: ${response.status}`);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType?.includes('application/json')) {
+                const textResponse = await response.text();
+                console.error('❌ Inte JSON:', textResponse);
+                throw new Error('Backend returnerade inte JSON');
+            }
+            const newCategory = await response.json();
+            console.log('✅ Skapad:', newCategory);
+            const updatedCategories = [...allCategories, newCategory];
+            setCategories(updatedCategories);
+            setFilteredCategories(updatedCategories);
+            
+            showSuccess('✅ Kategori skapad!');
+            setNewPopup(false);
+        } catch (err) {
+            console.error('❌ Error:', err);
+            showError(`Fel: ${err.message}`);
+        } finally {
+            setLoading(false);
         }
-        const data = await response.json();
-        setNewPopup(false);
-        setCategories([...categories, data]);
-        setFilteredCategories([...filteredCategories, data]);
-    }
-
-    useEffect(() => {
-       setCategories(categories);
-       setFilteredCategories(categories);
-    }, [categories]);
-
+    };
+  
     return (
         <>
             <h1>Category Management</h1>
         <div className="management-items-container">
+        {error && (
+                    <div className="error-banner" style={{ whiteSpace: 'pre-line' }}>
+                        {error}
+                    </div>
+                )}
+                {successMessage && (
+                    <div className="success-banner">
+                        {successMessage}
+                    </div>
+                )}
             {!user ? <p>Please log in to manage categories.</p> : (
                 <>
-                <div className = "admin-buttons">
-                    <button className="btn" onClick={()=> setNewPopup(!newPopup)}>Add New</button>
-                </div>
-                <div className="filter-list">
-                <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
-                </div>
-                <div className="item-list">
-                    {filteredCategories.map(category => (
-                        <CategoryListCard key={category.id} item={category} removeCategory={handleRemove} editCategory={handleEdit}/>
-                    ))}
-                </div>
-            {newPopup && (<CategoryNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
+                <div className = "admin-buttons"
+                        <button className="btn" onClick={() => setView(!view)}>View Categories</button>
+                        <button className="btn" onClick={()=> setNewPopup(!newPopup)}>Add New</button>
+                    </div>
+                    <div className="view-toggle">
+                        {!view ? (
+                            <p></p>
+                        ) : (<div className="filter-list">
+                            <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
+                            {filteredCategories.map(category => (
+                            <AdminListCard key={category.id} item={category} removeCategory={handleRemove} editCategory={handleEdit}/>
+                        ))}
+                    </div>
+                        )}
+                    </div>
+                    {newPopup && (<CategoryNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
+                    
                 </>
             )}  
         </div>

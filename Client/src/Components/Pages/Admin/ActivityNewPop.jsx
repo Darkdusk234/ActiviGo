@@ -29,8 +29,8 @@ const ActivityNewPop = ({handleCreate, closePopup}) => {
         <>
         <div className="popup-background">
             <form className="popup-card" onSubmit={(e) => { e.preventDefault();
-                handleCreate({ name, description, durationInMinutes, price, isActive, categoryId, IMGUrl });
-                
+
+                handleCreate({ name, description, durationInMinutes, price, isActive, categoryId, IMGUrl });                
              }}>
                 <h2>Ny Aktivitet</h2>
                 <label>Namn:</label>

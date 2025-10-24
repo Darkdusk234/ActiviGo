@@ -2,7 +2,6 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import './Admin.css';
 import { useLocations } from '../../../contexts/LocationContext';
-
 import { useAuth } from '../../../contexts/AuthContext';
 
 const SubLocationNewPop = ({handleCreate, closePopup}) => {
