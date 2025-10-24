@@ -51,6 +51,7 @@ const RegistrationForm = () => {
             <input
                 type="email"
                 value={email}
+                maxLength={100}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
                 required
