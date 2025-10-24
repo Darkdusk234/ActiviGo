@@ -88,12 +88,11 @@ const RegistrationForm = () => {
                 placeholder="Date Of Birth"
                 required
             />
-            <input
+            <input:optional
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Address"
-                required
             />
             <button type="submit">Register</button>
         </form>
