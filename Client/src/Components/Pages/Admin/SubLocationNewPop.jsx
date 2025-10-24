@@ -33,7 +33,6 @@ const SubLocationNewPop = ({handleCreate, closePopup}) => {
                 
             }}>
                 <h2>Ny Underplats</h2>
-                <h2 onClick={close}>X</h2>
                 <label>Namn:</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} required/>
                 <label>Beskrivning:</label>
