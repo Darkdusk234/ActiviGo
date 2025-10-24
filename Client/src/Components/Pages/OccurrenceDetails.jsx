@@ -16,13 +16,16 @@ const OccurrenceDetails = () => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [participants, setParticipants] = useState('');
+  
   const { user, loading: authLoading, APIURL, token } = useAuth();
+
 
   useEffect(() => {
     setLoading(true);
     const fetchOccurrence = async () => {
       try {
         const data = await getActivityOccurrenceById(id);
+
         setOccurrence(data);
       } catch (err) {
         console.error("Failed to load occurrence details:", err);
@@ -48,16 +51,6 @@ const OccurrenceDetails = () => {
     }
     if (isNaN(participants))
     {
-      alert("Du måste ange antalet deltagare.")
-      return;
-    }
-    if(participants > occurrence.availableSpots || participants <= 0)
-    {
-      alert("Ogiltigt antal deltager")
-      return;
-    }
-
-    try {
         const res = await fetch(`${APIURL}/Booking`, {
           method: "Post",
           headers: { 

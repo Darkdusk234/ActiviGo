@@ -7,7 +7,7 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
     const [editMode, setEditMode] = useState(false);
     const [viewDetails, setViewDetails] = useState(false);
     const { categories, loadingCategories, errorCategories } = useCategories();
-    const [categoryNames, setCategoryNames] = useState([]);
+    const [allCategories, setCategories] = useState([]);
 
             // Close details view when clicking outside
         const handleClickOutside = (event) => {
@@ -21,8 +21,7 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
     useEffect( () => {
         const getData = async () => {
             if (!loadingCategories && categories) {
-                const names = categories.map(category => category.name);
-                setCategoryNames(names);
+                setCategories(categories);
             }
         };
         getData();
@@ -40,7 +39,8 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
                         description: formData.get("description"),
                         durationInMinutes: formData.get("durationInMinutes"),
                         price: formData.get("price"),
-                        categoryId: categories.find(cat => cat.name === formData.get("category"))?.id || null
+                        isActive: formData.get("isActive") === "on",
+                        categoryId: parseInt(formData.get("category")) || null
                     };
                     editActivity(updatedActivity);
                     setEditMode(false);
@@ -49,17 +49,18 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
                         <p className="id">Id: {item.id}</p>
                         <input type="text" className="input-name" id="name" name="name" defaultValue={item.name} />
                         <div className="editable-areas">
-                            <p>Description:</p>
+                            <p>Beskrivning:</p>
                         <textarea id="description" name="description" defaultValue={item.description}></textarea>
-                            <p>Duration:</p>
+                            <p>Längd:</p>
                         <input type="number" className="input-number" id="durationInMinutes" name="durationInMinutes" defaultValue={item.durationInMinutes} />
-                            <p>Price:</p>
+                            <p>Pris:</p>
                         <input type="number" step="10" className="input-number" id="price" name="price" defaultValue={item.price} />
-                            <p>Category:</p>
-                            <select id ="category" name="category">
-                                <option value="">{categories.find(cat => cat.id === item.categoryId)?.name}</option>
-                                {categoryNames.map((category, index) => (
-                                    <option key={index} value={category}>{category}</option>
+                            <p>Är tillgänglig:</p>
+                        <input type="checkbox" id="isActive" name="isActive" defaultChecked={item.isActive} />
+                            <p>Kategori:</p>
+                            <select id ="category" name="category" defaultValue={item.categoryId}>
+                                {allCategories.map((category, index) => (
+                                    <option key={index} value={category.id}>{category.name}</option>
                                 ))}
                             </select>
                         </div>
@@ -74,18 +75,18 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
                     <div className="admin-list-card-info">
                         <p className="id">Id: {item.id}</p>
                         <h3>{item.name}</h3>
-                        {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Click for more details...</p>}
+                        {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Klicka för ytterligare detaljer...</p>}
                         {viewDetails && (
                             <div className="details-view">
-                                <p>Description:</p>
+                                <p>Beskrivning:</p>
                                 <p className="Description">{item.description}</p>
-                                <p>Max participants: </p>
-                                <p className="MaxCapacity">{item.maxParticipants}</p>
-                                <p>Duration:</p>
-                                <p className="Duration">{item.durationInMinutes} minutes</p>
-                                <p>Price:</p>
+                                <p>Längd:</p>
+                                <p className="Duration">{item.durationInMinutes} minuter</p>
+                                <p>Pris:</p>
                                 <p className="Price">{Number.parseFloat(item.price).toFixed(2)} SEK</p>
-                                <p>Category:</p>
+                                <p>Är tillgänglig:</p>
+                                <p className="Available">{item.isActive ? 'Ja' : 'Nej'}</p>
+                                <p>Kategori:</p>
                                 <p className="CategoryId">{categories.find(cat => cat.id === item.categoryId)?.name}</p>
                             </div>
                         )}

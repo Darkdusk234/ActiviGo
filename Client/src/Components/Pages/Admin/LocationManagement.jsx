@@ -9,15 +9,13 @@ const LocationManagement = () => {
     const [allLocations, setLocations] = useState([]); // full list
     const [filteredLocations, setFilteredLocations] = useState([]); // filtered list
     const [nameFilter, setNameFilter] = useState('');
-    const [view, setView] = useState(false);
+
     const { user, APIURL } = useAuth();
       const [newPopup, setNewPopup] = useState(false);
 
       const { locations } = useLocations();
 
-    const handleViewToggle = () => {
-        setView(!view);
-    };
+
 
     const handleFilterChange = (e) => {
         const value = e.target.value;
@@ -42,11 +40,24 @@ const LocationManagement = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 }
+            })
+            .then(async response => {
+                if (!response.ok) 
+                {
+                    const data = await response.json();
+                    alert('Misslyckades med att ta bort plats: ' + data.map(error => error.errorMessage).join(', '));
+                }
+                else
+                {
+                    console.log(response);
+                    alert('Plats borttagen.');
+                }
             });
         }
     };
 
     const handleEdit = async (location) => {
+        console.log(location);
         if (window.confirm(`Are you sure you want to edit location with id ${location.id}?`)) {
             await fetch(`${APIURL}/Location/${location.id}`, {
                 method: 'PUT',
@@ -55,13 +66,25 @@ const LocationManagement = () => {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 },
                 body: JSON.stringify(location)
-            });
-            // update local state
-            const newLocations = allLocations.map(loc => loc.id === location.id ? { ...loc, ...location } : loc);
-            setLocations(newLocations);
-            setFilteredLocations(newLocations.filter(loc =>
-                loc.name.toLowerCase().includes(nameFilter.toLowerCase())
+            })
+            .then(async response => {
+                if (!response.ok) {
+                    const data = await response.json();
+                    alert('Misslyckades med att redigera plats: ' + data.map(error => error.errorMessage).join(', '));
+                    return;
+                }
+                if (response.ok) {
+                    alert('Plats redigerad: ' + location.name);
+                    // update local state
+                    const newLocations = allLocations.map(loc => loc.id === location.id ? { ...loc, ...location } : loc);
+                    setLocations(newLocations);
+                    setFilteredLocations(newLocations.filter(loc =>
+                    loc.name.toLowerCase().includes(nameFilter.toLowerCase())
             ));
+                }
+            });
+          
+            
         }
     };
 
@@ -75,15 +98,29 @@ const LocationManagement = () => {
             },
             body: JSON.stringify(location)
         });
-        const data = await response.json();
+        if(!response.ok) {
+            const data = await response.json();
+            console.log(data.map(error => error.errorMessage).join(', '));
+            alert('Misslyckades med att skapa plats: \n ' + data.map(error => error.errorMessage).join(', '));
+            
+            setNewPopup(false);
+            return;
+        }
+        if(response.ok) {
+            const data = await response.json();
+            alert('Plats skapad: ' + data.name);
+
         setLocations([...locations, data]);
         setFilteredLocations([...filteredLocations, data]);
+        setNewPopup(false);
+        }
+
     }
 
     useEffect(() => {
         setLocations(locations);
         setFilteredLocations(locations);
-    }, []);
+    }, [locations]);
 
     return (
         <>
@@ -92,23 +129,19 @@ const LocationManagement = () => {
             {!user ? <p>Please log in to manage locations.</p> : (
                 <>
                 <div className = "admin-buttons">
-                           <button className="btn" onClick={() => setView(!view)}>View Locations</button>
-                           <button className="btn" onClick={() => setNewPopup(!newPopup)}>Add New</button>
+                           <button className="btn" onClick={() => setNewPopup(!newPopup)}>Lägg till ny</button>
 
                        </div>
-                       <div className="view-toggle">
-                        {!view ? (
-                               <p></p>
-                           ) : (<div className="filter-list">
+                       <div className="filter-list">
 
                                <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
-
+                        </div>
+                       <div className="item-list">
                            {filteredLocations.map(location => (
                                <LocationListCard key={location.id} item={location} removeLocation={handleRemove} editLocation={handleEdit}/>
                            ))}
                        </div>
-                           )}
-                       </div>
+
                       
                   {newPopup && (<LocationNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
                 

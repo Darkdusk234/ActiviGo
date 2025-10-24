@@ -37,21 +37,21 @@ const LocationListCard = ({ item, removeLocation, editLocation }) => {
                         <p className="id">Id: {item.id}</p>
                         <input type="text" className="input-name" id="name" name="name" defaultValue={item.name} />
                         <div className="editable-areas">
-                            <p>Description:</p>
+                            <p>Beskrivning:</p>
                                 <textarea id="description" name="description" defaultValue={item.description}></textarea>
                             <p>Adress:</p>
                             <input type="text" id="adress" name="adress" defaultValue={item.adress}></input>
                             <p>Lat:</p>
-                            <input type="number" id="latitude" name="latitude" defaultValue={item.latitude}></input>
+                            <input type="number" step="any" id="latitude" name="latitude" defaultValue={item.latitude}></input>
                             <p>Long:</p>
-                            <input type="number" id="longitude" name="longitude" defaultValue={item.longitude}></input>
-                            <p>Active:</p>
+                            <input type="number" step="any" id="longitude" name="longitude" defaultValue={item.longitude}></input>
+                            <p>Aktiv:</p>
                             <input type="checkbox" id="isActive" className="checkbox" name="isActive" defaultChecked={item.isActive}></input>
                         </div>
                     </div>
                     <div className="admin-list-card-buttons">
-                        <button type="submit">Save</button>
-                        <button type="button" onClick={() => setEditMode(false)}>Cancel</button>
+                        <button type="submit">Spara</button>
+                        <button type="button" onClick={() => setEditMode(false)}>Avbryt</button>
                     </div>
                 </form>
             ) : (
@@ -59,24 +59,24 @@ const LocationListCard = ({ item, removeLocation, editLocation }) => {
                     <div className="admin-list-card-info">
                         <p className="id">Id: {item.id}</p>
                         <h3>{item.name}</h3>
-                        {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Click for more details...</p>}
+                        {!viewDetails && <p className="details" onClick={() => setViewDetails(true)}>Klicka för mer information...</p>}
                         {viewDetails && (
                             <div className="details-view">
-                                <p>Description:</p>
+                                <p>Beskrivning:</p>
                                 <p className="Description">{item.description}</p>
-                                <p>Address:</p>
+                                <p>Adress:</p>
                                 <p className="Address">{item.adress}</p>
                                 <p>Lat , Long:</p>
                                 <p className="LatLong">{Number.parseFloat(item.latitude).toFixed(2)} , {Number.parseFloat(item.longitude).toFixed(2)}</p>
-                                <p>Active:</p>
-                                <p className="Active">{item.isActive ? "Yes" : "No"}</p>
+                                <p>Aktiv:</p>
+                                <p className="Active">{item.isActive ? "Ja" : "Nej"}</p>
                             </div>
                         )}
                     </div>
                     <div className="admin-list-card-buttons">
-                        <button onClick={() => setEditMode(true)}>Edit</button>
-                        <button onClick={() => removeLocation(item.id)}>Remove</button>
-                        <Link to={`/admin/sublocations/${item.id}`}>View sub-locations</Link>
+                        <button onClick={() => setEditMode(true)}>Redigera</button>
+                        <button onClick={() => removeLocation(item.id)}>Ta bort</button>
+                        <Link to={`/admin/sublocations/${item.id}`}>Visa underplatser</Link>
                     </div>
                 </>
             )}

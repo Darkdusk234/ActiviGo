@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
-import AdminListCard from './CategoryListCard';
+import CategoryListCard from './CategoryListCard';
 import { useCategories } from '../../../contexts/CategoryContext';
 
 import './Admin.css';
@@ -46,7 +46,17 @@ const CategoryManagement = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 }
-            });
+            })
+            .then(response => {
+                if (!response.ok) 
+                {
+                    alert('Misslyckades med att ta bort kategori: ' + response.statusText);
+                }
+                else
+                {
+                    alert('Kategori borttagen: ' + response.statusText);
+                }
+            })
         }
        
     }
@@ -60,6 +70,17 @@ const CategoryManagement = () => {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 },
                 body: JSON.stringify(category)
+            })            
+            .then(response => {
+                console.log(response);
+                if (!response.ok) 
+                {
+                    alert('Misslyckades med att uppdatera kategori: ' + response.statusText);
+                }
+                else
+                {
+                    alert('Kategori uppdaterad: ' + response.statusText);
+                }
             });
             // update local state
             const newCategories = categories.map(cat => cat.id === category.id ? { ...cat, ...category } : cat);
@@ -79,7 +100,15 @@ const CategoryManagement = () => {
             },
             body: JSON.stringify(category)
         });
+        if(!response.ok) {
+            alert('Misslyckades med att skapa kategori: ' + response.statusText);
+            return;
+        }
+        if(response.ok) {
+            alert('Kategori skapad: ' + response.statusText);
+        }
         const data = await response.json();
+        setNewPopup(false);
         setCategories([...categories, data]);
         setFilteredCategories([...filteredCategories, data]);
     }
@@ -87,7 +116,7 @@ const CategoryManagement = () => {
     useEffect(() => {
        setCategories(categories);
        setFilteredCategories(categories);
-    }, []);
+    }, [categories]);
 
     return (
         <>
@@ -96,28 +125,19 @@ const CategoryManagement = () => {
             {!user ? <p>Please log in to manage categories.</p> : (
                 <>
                 <div className = "admin-buttons">
-                           <button className="btn" onClick={() => setView(!view)}>View Categories</button>
-                           <button className="btn" onClick={()=> setNewPopup(!newPopup)}>Add New</button>
-                       </div>
-                       <div className="view-toggle">
-                        {!view ? (
-                               <p></p>
-                           ) : (<div className="filter-list">
-
-                               <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
-                                 
-                           {filteredCategories.map(category => (
-                               <AdminListCard key={category.id} item={category} removeCategory={handleRemove} editCategory={handleEdit}/>
-                           ))}
-                       </div>
-                           )}
-                       </div>
-                       {newPopup && (<CategoryNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
-                      
-                  
-                
+                    <button className="btn" onClick={()=> setNewPopup(!newPopup)}>Add New</button>
+                </div>
+                <div className="filter-list">
+                <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
+                </div>
+                <div className="item-list">
+                    {filteredCategories.map(category => (
+                        <CategoryListCard key={category.id} item={category} removeCategory={handleRemove} editCategory={handleEdit}/>
+                    ))}
+                </div>
+            {newPopup && (<CategoryNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
                 </>
-            )}
+            )}  
         </div>
         </>
     );

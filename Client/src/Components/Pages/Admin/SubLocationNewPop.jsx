@@ -31,10 +31,9 @@ const SubLocationNewPop = ({handleCreate, closePopup}) => {
                 e.preventDefault();
                 
                 handleCreate({name, description, maxCapacity, indoor, locationId});
-                close();
+                
             }}>
                 <h2>Ny Underplats</h2>
-                <h2 onClick={close}>X</h2>
                 <label>Namn:</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} required/>
                 <label>Beskrivning:</label>
@@ -42,9 +41,9 @@ const SubLocationNewPop = ({handleCreate, closePopup}) => {
                 <label>Maxkapacitet:</label>
                 <input type="number" min="1" required value={maxCapacity} onChange={(e) => setMaxCapacity(e.target.value)} />
                 <label>Inomhus:</label>
-                <input type="checkbox" checked={indoor} onChange={(e) => setIndoor(e.target.checked)}/>
+                <input className="checkbox" type="checkbox" checked={indoor} onChange={(e) => setIndoor(e.target.checked)}/>
                 <label>Plats:</label>
-                <select required onChange={e => setLocationId(e.target.value)}>
+                <select className="select"required onChange={e => setLocationId(e.target.value)}>
                     {locations.map((location) => (
                         <option key={location.id} value={location.id}>{location.name}</option>
                     ))}
