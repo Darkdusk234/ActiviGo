@@ -28,6 +28,12 @@ const RegistrationForm = () => {
         }
     }
 
+    var today = new Date();
+    var max = ""
+    var yyyy = today.getFullYear() - 18;
+    
+    today = yyyy + '-01-01'
+
   return (
     <>
     <form onSubmit={handleSubmit}>
