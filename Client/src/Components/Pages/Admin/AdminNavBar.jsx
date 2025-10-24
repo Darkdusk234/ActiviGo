@@ -14,13 +14,13 @@ const AdminNavBar = () => {
 
     return (
         <nav className="admin-nav">
-            <Link to="/admin">Dashboard</Link>
+            <Link to="/admin">Startsida</Link>
             {/* <Link to="/admin/bookings">Manage Bookings*</Link> */}
-            <Link to="/admin/activities">Manage Activities</Link>
-            <Link to="/admin/categories">Manage Categories</Link>
-            <Link to="/admin/locations">Manage Locations</Link>
-            <Link to="/admin/sublocations">Manage Sublocations</Link>
-            <Link to="/admin/statistics">Statistics*</Link>
+            <Link to="/admin/activities">Aktiviteter</Link>
+            <Link to="/admin/categories">Kategorier</Link>
+            <Link to="/admin/locations">Platser</Link>
+            <Link to="/admin/sublocations">Lokaler</Link>
+            <Link to="/admin/statistics">Statistik</Link>
             {!user ? (
                 <div className="admin-logged-in"><NavLogin/></div>
             ) : (
