@@ -16,7 +16,7 @@ const BookingCard = ({ items }) => {
         if (window.confirm('Är du säker på att du vill avboka denna bokning?')) {
             try {
                 const response = await fetch(`${APIURL}/Booking/cancel/${items.id}`, {
-                    method: 'DELETE', // Använd DELETE för avbokning
+                    method: 'PUT', // Använd DELETE för avbokning
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                     }
