@@ -49,7 +49,7 @@ const OccurrenceDetails = () => {
       alert("Du måste vara inloggad för att boka!");
       return;
     }
-    if (isNaN(participants))
+    if (!isNaN(participants))
     {
         const res = await fetch(`${APIURL}/Booking`, {
           method: "Post",
