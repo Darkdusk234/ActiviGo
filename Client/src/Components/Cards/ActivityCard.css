@@ -9,7 +9,7 @@
   flex-direction: column;
   justify-content: space-around;
   width: 35vmin;
-  height: 40vmin;
+  height: 45vmin;
 }
 
 .activity-card:hover {
@@ -29,7 +29,8 @@
 
 .activity-card-content {
   padding: 1rem;
-  height: 40%;
+  max-height: 40%;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -44,7 +45,8 @@
 
 .activity-card-description {
   font-size: 1.475rem; /* ca 14px */
-  color: #4b5563; /* grå text */
+    /* font-weight: 500; */
+  color: #111827;
   flex-grow: 1; /* trycker inte ihop kortet om texten är kort */
 }
 

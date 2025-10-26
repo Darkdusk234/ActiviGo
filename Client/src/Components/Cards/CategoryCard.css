@@ -1,16 +1,16 @@
 .category-card {
   margin: 1rem;
-  border: 1px solid #e5e7eb; /* ljusgrå kant border-radius: 0.5rem; /* rundade hörn */
+  border: 1px solid #e5e7eb; /* ljusgrå kant */
+  border-radius: 0.5rem; /* rundade hörn */
   background: linear-gradient(180deg, #97d6e7 0%, #3a0695 100%);
   background-size: cover;
-  /*height: 160px; /* höjd, kan justeras */
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 2px 5px 11px rgb(0, 0, 0);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  width: 30vmin;
-  height: 17vmin;
+  width: 35vmin;
+  height: 40vmin;
 }
 .category-card-content {
   padding: 1rem;
@@ -18,6 +18,13 @@
   height: 50%;
   text-align: center;
   background: rgba(255, 255, 255, 0.726);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.category-card-content h3 {
+  margin: 0;
 }
 
 .category-card:hover {
@@ -31,8 +38,8 @@
 
 .category-card-title {
   font-weight: 600;
-  font-size: 1.5rem; /* ca 18px */
-  padding: 0 2rem 0 0;
+  font-size: 2rem; /* ca 18px */
+  /* padding: 0 2rem 0 0; */
   color: rgb(0, 0, 0);
   text-align: center;
   border: 2px solid rgba(62, 62, 62, 0);
@@ -40,7 +47,9 @@
 }
 
 .category-card-description {
-  font-size: 1.2rem; /* ca 14px */
+  font-size: 1.5em; /* ca 14px */
   color: #0c0d0f; /* grå text */
   text-align: center;
+  font-weight: 450;
+
 }
