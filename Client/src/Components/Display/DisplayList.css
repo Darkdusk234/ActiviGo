@@ -1,7 +1,8 @@
 .display-list-container {
   border: 1px solid #dddddd00;
-  margin: 0 0 5rem 0;
-  padding-top: 5rem;
+  margin: 0;
+  /* padding-top: 5rem;
+  padding-bottom: 8rem; */
 }
 
 .my-swiper {
@@ -9,5 +10,4 @@
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
-
 
