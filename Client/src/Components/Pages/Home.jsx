@@ -10,10 +10,10 @@ import SearchBar from "../Layout/Searchbar";
 export default function Home() {
   return (
     <div>
-     <div className="welcome-message">
+    <div className="welcome-message">
         <h1>Välkommen till ActiviGo!</h1>
         <p >
-          Upptäck spännande aktiviteter och evenemang i din närhet. Använd vår sökfunktion för att hitta det som passar just dig!
+        Upptäck spännande aktiviteter och evenemang i din närhet. Använd vår sökfunktion för att hitta det som passar just dig!
         </p>
         <div className="searchbar-container">
           <SearchBar/>
@@ -36,6 +36,6 @@ export default function Home() {
       <div style={{height:"10vh"}}>
         <p></p>
       </div>
-     </div>
+    </div>
   );
 }
