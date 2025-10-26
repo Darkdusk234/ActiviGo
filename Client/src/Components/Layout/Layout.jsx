@@ -2,10 +2,11 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Header from "./Header";
-import "./Layout.css"
+import '../Layout/Layout.css';
 export default function Layout() {
 
-  // What are these class names? /Gustav
+// What are these class names? /Gustav
+// They are for styling the layout components in Layout.css /Leon
   return (
     <div className="main-content"> 
       <div className="header-content">
