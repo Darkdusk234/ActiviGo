@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import './responsive.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout/Layout";
 import Home from "./Components/Pages/Home";
@@ -23,6 +24,7 @@ import OccurrenceDetails from "./Components/Pages/OccurrenceDetails";
 import AdminStatistics from './Components/Pages/Admin/AdminStatistics';
 import About from './Components/Pages/About';
 import RegistrationPage from './Components/Pages/RegistrationPage';
+
 
 
 
