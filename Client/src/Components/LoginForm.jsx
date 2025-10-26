@@ -39,7 +39,7 @@ const LoginForm = ( {close}) => {
 
     return (
         <>
-        {user ? <p>Welcome!</p> : <p className='login-message'>log in.</p>}
+        {user ? <p>Welcome!</p> : <p className='login-message'>Logga In, annars feg</p>}
         {<p className="message">{message}</p>}
         <form onSubmit={handleSubmit}>
             <input
