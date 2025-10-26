@@ -4,7 +4,10 @@ import './Layout.css';
 export default function Footer() {
   return (
     <footer>
-      &copy; 2025 ActiviGo
+      <div className='footer-bottom'>
+        <p>&copy; 2025 ActiviGo. Alla rättigheter förbehållna.</p>
+      </div>
     </footer>
   );
 }
+
