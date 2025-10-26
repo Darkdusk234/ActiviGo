@@ -1,0 +1,140 @@
+/* TABLET & MINDRE DESKTOP (1024px)
+============================================
+  TABLET (768px)
+   ============================================ */
+  @media (max-width: 768px) {
+
+    /* HAMBURGERMENY */
+    .hamburger-menu {
+      display: flex !important;
+      order: 1;
+      position: relative;
+      z-index: 1002;
+      margin-left: 1rem;
+    }
+
+    /* Dölj desktop-navbar */
+    .navbar-wrapper .nav-menu {
+      display: none;
+    }
+
+    /* Mobilmeny - dold som standard */
+    .navbar-wrapper {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 70%;
+      max-width: 300px;
+      height: 100vh;
+      background-color: rgb(247, 247, 247);
+      display: flex;
+      flex-direction: column;
+      padding-top: 4rem;
+      transition: left 0.3s ease;
+      z-index: 1000;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      pointer-events: none;
+    }
+
+    /* Show mobile meny */
+    .navbar-wrapper.mobile-open {
+      left: 0;
+      pointer-events: auto;
+      background: linear-gradient(180deg, #c3c7c9 0%, #323232 100%);
+
+    }
+
+    /* Navbar-content */
+    .navbar-wrapper.mobile-open .nav-menu {
+      display: flex !important;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .navbar-wrapper.mobile-open .menu-items {
+      display: flex !important;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+    }
+
+    /* Links in moobilk */
+    .navbar-wrapper.mobile-open .menu-items a {
+      /* text-size-adjust: 100%; */
+      font-size: 2,3rem;
+      padding: 1.5rem 0;
+      width: 90%;
+      text-align: center;
+      color: rgb(35, 108, 255);
+      text-decoration: none;
+      display: block !important;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .navbar-wrapper.mobile-open .menu-items a:last-child {
+      border-bottom: none;
+    }
+
+    .navbar-wrapper.mobile-open .menu-items a:hover {
+      background-color: #e8f0ff;
+    }
+
+    /* Overlay */
+    .menu-overlay {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    /* Header layout */
+    .header-nav {
+      padding: 1rem;
+
+    }
+
+    .header-title-container {
+      order: 2;
+    }
+
+    .top-right {
+      order: 3;
+      gap: 1rem;
+    }
+
+    /* Activity Cards */
+    .activity-card {
+      width: 90vmin;
+      max-width: 400px;
+      margin: 0 auto 2rem auto;
+    }
+  }
+
+  /* ============================================
+    MOBIL (480px)
+     ============================================ */
+  @media (max-width: 480px) {
+
+    /* wider menu på with small screen */
+    /* .navbar-wrapper {
+      width: 80%;
+    } */
+
+    .navbar-wrapper.mobile-open .menu-items a {
+      font-size: 1.8rem;
+    }
+
+    /* Activity Cards */
+    .activity-card {
+      width: 95vw;
+      max-width: 100%;
+    }
+
+    .top-right {
+      gap: 0.5rem;
+    }
+  }
