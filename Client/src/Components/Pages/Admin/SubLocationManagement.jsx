@@ -181,7 +181,7 @@ const SubLocationManagement = () => {
 
     return (
         <>
-            <h1>Lokaler</h1>
+            <h1>Lokaler / Områden</h1>
             {error && (
             <div className="error-banner" style={{ whiteSpace: 'pre-line' }}>
                 {error}
@@ -203,7 +203,7 @@ const SubLocationManagement = () => {
                         <div className="filter-list">
                             <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
                         </div>
-                        <div>
+                        <div className="results-section">
                         {filteredSubLocations.map(subLocation => (
                             <SubLocationListCard key={subLocation.id} item={subLocation} removeSubLocation={handleRemove} editSubLocation={handleEdit}/>
                         ))}

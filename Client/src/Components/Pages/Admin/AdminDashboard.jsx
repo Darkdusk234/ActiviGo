@@ -43,6 +43,12 @@ const AdminDashboard = () => {
                             <p>Skapa, redigera och ta bort kategorier för att organisera aktiviteter.</p>
                         </div>
                         </Link>
+                        <Link to="/admin/statistics" className="dashboard-item">
+                        <div>
+                            <h4>Hantera statistik</h4>
+                            <p>Visa och analysera statistik för aktiviteter och användare.</p>
+                        </div>
+                        </Link>
                     </div>
                 )}
                 

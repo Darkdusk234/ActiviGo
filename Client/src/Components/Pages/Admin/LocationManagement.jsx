@@ -108,10 +108,7 @@ const LocationManagement = () => {
                     alert('Plats borttagen.');
                 }
             });
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(errorText || 'Kunde inte ta bort plats');
-            }
+
             const newLocations = allLocations.filter(location => location.id !== id);
             setLocations(newLocations);
             setFilteredLocations(newLocations);
@@ -214,7 +211,7 @@ const LocationManagement = () => {
 
     return (
         <>
-            <h1>Location Management</h1>
+            <h1>Platser</h1>
             {error && (
             <div className="error-banner" style={{ whiteSpace: 'pre-line' }}>
                 {error}
@@ -235,7 +232,7 @@ const LocationManagement = () => {
                         <div className="filter-list">
                             <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
                         </div>
-                        <div>
+                        <div className="results-section">
                         {filteredLocations.map(location => (
                             <LocationListCard key={location.id} item={location} removeLocation={handleRemove} editLocation={handleEdit}/>
                         ))}

@@ -120,10 +120,7 @@ const CategoryManagement = () => {
                     alert('Kategori uppdaterad: ' + response.statusText);
                 }
             });
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(errorText || 'Kunde inte uppdatera kategori');
-            }
+
             const newCategories = allCategories.map(cat => 
                 cat.id === category.id ? { ...cat, ...category } : cat
             );
@@ -186,7 +183,7 @@ const CategoryManagement = () => {
   
     return (
         <>
-            <h1>Category Management</h1>
+            <h1>Kategorier</h1>
         <div className="management-items-container">
         {error && (
                     <div className="error-banner" style={{ whiteSpace: 'pre-line' }}>
@@ -207,7 +204,7 @@ const CategoryManagement = () => {
                             <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
                             
                     </div>
-                    <div>
+                    <div className="results-section">
                             {filteredCategories.map(category => (
                                 <CategoryListCard key={category.id} item={category} removeCategory={handleRemove} editCategory={handleEdit}/>
                             ))}
