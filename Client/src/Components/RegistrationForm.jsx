@@ -34,7 +34,7 @@ const RegistrationForm = () => {
     
     today = yyyy + '-12-31'
 
-  return (
+return (
     <>
     <form onSubmit={handleSubmit}>
             <input
