@@ -98,7 +98,7 @@ const OccurrenceDetails = () => {
         </div>
         <div className="container-wrapper">
           <div className="weather-div">
-            <WeatherCard/>
+            <WeatherCard weather={occurrence.weather}/>
           </div>
           <div className="book-container">
             <h3>Boka aktivitet</h3>
