@@ -161,7 +161,7 @@ button:hover {
 /* navbar  styles */
 
 .admin-nav {
-    background-color: #333;
+    background-color: gold;
     padding: 10px;
     display: flex;
     flex-direction: row;
@@ -170,16 +170,18 @@ button:hover {
     align-items: center;
     min-height: 8%;
     margin-bottom: 20px;
+    border: 2px solid rgb(119, 119, 255); 
 }
 
 .admin-nav a {
-    color: white;
+    color: black;
     text-decoration: none;
     border: 1px solid grey;
     padding: 8px 12px;
     border-radius: 10px;
-    box-shadow: 1px 1px 2px rgb(179, 177, 177);
+    box-shadow: 3px 3px 5px rgb(179, 177, 177);
     margin: 10px 10px;
+    background-color: rgb(226, 231, 241);
     font-size: 2rem;
 }
 
@@ -407,24 +409,21 @@ button:hover {
 }
 
 .dashboard-items {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: max-content max-content max-content;
+    justify-items: center;
+    gap: 30px;
     margin-top: 50px;
-    max-width: 60%;
+    max-width: 90%;
 }
 
 .dashboard-item {
     border: 3px solid gold;
     border-radius: 8px;
     padding: 20px;
-    max-width: 40%;
+    max-width: 50%;
     min-width: 20%;
-    max-height: 40%;
-
     text-align: center;
     box-shadow: 0 2px 5px rgba(2, 2, 2, 0.5);
     background-color: #f9f9f9;
