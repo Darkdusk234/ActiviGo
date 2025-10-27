@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import "./Pages/RegistrationFormPage.css"
 import { useAuth } from '../contexts/AuthContext';
 
 const RegistrationForm = () => {
@@ -15,7 +16,7 @@ const RegistrationForm = () => {
         e.preventDefault();
         try
         {
-            const result = await register({ userName, email, password, firstName, lastName, birthDate, address})
+            const result = await register({ UserName: userName, Email: email, Password: password, FirstName: firstName, LastName: lastName, DateOfBirth: birthDate, Adress: address})
             if(result)
             {
                 console.log(result);
@@ -24,19 +25,28 @@ const RegistrationForm = () => {
         }
         catch (error)
         {
-            console.error('Login failed:', error);
+            console.error('Registration failed:', error);
         }
     }
 
     var today = new Date();
-    var max = ""
+    var day = today.getDate();
+    var month = today.getMonth() + 1;
     var yyyy = today.getFullYear() - 18;
     
-    today = yyyy + '-12-31'
+    if (day < 10) {
+        day = '0' + day;
+    }
 
-return (
-    <>
-    <form onSubmit={handleSubmit}>
+    if (month < 10) {
+        month = '0' + month;
+    } 
+    
+    today = yyyy + '-' + month + '-' + day;
+
+  return (
+    <div className='form-container'>
+    <form onSubmit={handleSubmit} className='registrationForm'>
             <input
                 type="text"
                 value={userName}
@@ -88,7 +98,7 @@ return (
                 placeholder="Date Of Birth"
                 required
             />
-            <input:optional
+            <input
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
@@ -96,7 +106,7 @@ return (
             />
             <button type="submit">Register</button>
         </form>
-    </>
+        </div>
   )
 }
 
