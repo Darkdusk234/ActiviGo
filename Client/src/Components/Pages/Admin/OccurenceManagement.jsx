@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import OccurenceListCard from './OccurenceListCard';
 import './Admin.css';
-import DetailedSearch from '../../DetailedSearch';
-import { useCategories } from '../../../contexts/CategoryContext';
 import { useActivities } from '../../../contexts/ActivityContext';
 import { useSubLocations } from '../../../contexts/SubLocationContext';
 import { useParams } from 'react-router-dom';
@@ -131,16 +129,16 @@ const OccurenceManagement = () => {
                 }
                 if (response.ok) {
                     alert("Tillfälle uppdaterat.");
-                    // update both states
-                    const newOccurrences = occurrences.map(occ => occ.id === occurrence.id ? { ...occ, ...occurrence } : occ);
-                    setOccurrences(newOccurrences);
-                    setFiltered(newOccurrences.filter(occ => {
-                        if (filter === 'activity') return occ.activityId.toString() === id;
-                        if (filter === 'sublocation') return occ.subLocationId.toString() === id;
-                        return false;
+
+                                const newOccurrences = occurrences.map(occ =>
+                occ.id === occurrence.id ? { ...occ, ...occurrence } : occ
+            );
+            setOccurrences(newOccurrences);
+            setFiltered(newOccurrences.filter(occ => {
+                        return occ.activityId.toString() === id;
                     }));
-                }
-            });
+        }
+    });
         }
     }
 
@@ -219,7 +217,7 @@ const OccurenceManagement = () => {
                 <div className="admin-buttons">
                     <button className="admin-button" onClick={() => setShowPopup(true)}>Skapa nytt tillfälle</button>
                 </div>
-                <div>
+                <>
                     <div className="filter-list">
 
                                <label>Minst antal lediga platser:</label> <input type="number" placeholder="0" onChange={handleParticipantFilterChange} />
@@ -247,7 +245,7 @@ const OccurenceManagement = () => {
 
 
 
-                </div>
+                </>
             </div>
 
              {showPopup && <OccurenceNewPop 

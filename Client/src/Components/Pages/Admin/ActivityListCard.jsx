@@ -56,7 +56,7 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
                             <p>Pris:</p>
                         <input type="number" step="10" className="input-number" id="price" name="price" defaultValue={item.price} />
                             <p>Är tillgänglig:</p>
-                        <input type="checkbox" id="isActive" name="isActive" defaultChecked={item.isActive} />
+                        <input className="checkbox" type="checkbox" id="isActive" name="isActive" defaultChecked={item.isActive} />
                             <p>Kategori:</p>
                             <select id ="category" name="category" defaultValue={item.categoryId}>
                                 {allCategories.map((category, index) => (
@@ -92,9 +92,9 @@ const ActivityListCard = ({ item, removeActivity, editActivity }) => {
                         )}
                     </div>
                     <div className="admin-list-card-buttons">
-                        <button onClick={() => setEditMode(true)}>Edit</button>
-                        <button onClick={() => removeActivity(item.id)}>Remove</button>
-                        <Link to={`/admin/occurrences/activity/${item.id}`}>View Occurrences</Link>
+                        <button onClick={() => setEditMode(true)}>Redigera</button>
+                        <button onClick={() => removeActivity(item.id)}>Ta bort</button>
+                        <Link to={`/admin/occurrences/activity/${item.id}`} className="show-occ">Visa händelser</Link>
                     </div>
                 </>
             )}

@@ -62,88 +62,6 @@ const ActivityManagement = () => {
     };
 
 
-
-    // const handleCreate = async (activity) => {
-    //     const response = await fetch(`${APIURL}/Activity`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-    //         },
-    //         body: JSON.stringify(activity)
-    //     });
-    //     if (!response.ok) {
-    //         const data = await response.json();
-    //         alert('Misslyckades med att skapa aktivitet: ' + data.map(error => error.errorMessage).join(', '));
-    //         setNewPopup(false);
-    //         return;
-    //     }
-    //     if (response.ok) {
-    //         const data = await response.json();
-    //         alert("Aktivitet skapad.");
-    //         setActivities([...allActivities, data]);
-    //         setFilteredActivities([...filteredActivities, data]);
-    //         setNewPopup(false);
-    //     }
-    // };
-
-
-    // const handleRemove = async (id) => {
-    //     if (window.confirm(`Är du säker på att du vill ta bort aktiviteten med id ${id}?`)) {
-            
-    //         await fetch(`${APIURL}/Activity/${id}`, {
-    //             method: 'DELETE',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-    //             }
-    //         })
-    //         .then(async response => {
-    //             if (!response.ok) {
-    //                 const data = await response.json();
-    //                 alert('Misslyckades med att ta bort aktivitet: ' + data.map(error => error.errorMessage).join(', '));
-    //                 return;
-    //             }
-    //             if (response.ok) {
-    //                 alert("Aktivitet borttagen.");
-    //                             // update local state
-    //                 const newActivities = allActivities.filter(activity => activity.id !== id);
-    //                 setActivities(newActivities);
-    //                 setFilteredActivities(newActivities);
-    //             }
-    //         });
-    //     }
-    // };
-
-    // const handleEdit = async (activity) => {
-    //     if (window.confirm(`Är du säker på att du vill redigera aktiviteten med id ${activity.id}?`)) {
-    //         await fetch(`${APIURL}/Activity/${activity.id}`, {
-    //             method: 'PUT',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-    //             },
-    //             body: JSON.stringify(activity)
-    //         })
-    //         .then(async response => {
-    //             if (!response.ok) {
-    //                 console.log(response);
-    //                 const data = await response.json();
-    //                 console.log(data);
-    //                 setNewPopup(false);
-    //                 return;
-    //             }
-    //         });
-    //         // update local state
-    //         const newActivities = allActivities.map(act => act.id === activity.id ? { ...act, ...activity } : act);
-    //         setActivities(newActivities);
-    //         setFilteredActivities(newActivities.filter(act =>
-    //             act.name.toLowerCase().includes(nameFilter.toLowerCase())
-    //         ));
-    //         setNewPopup(false);
-    //     }
-    // };
-
     useEffect(() => {
         setActivities(activities);
         setFilteredActivities(activities);
@@ -195,11 +113,7 @@ const ActivityManagement = () => {
         } else if (activity.durationInMinutes <= 30) {
             errors.push('Längd måste vara större än 30 minuter');
         }
-        if (!activity.maxParticipants) {
-            errors.push('MaxParticipants är obligatoriskt');
-        } else if (activity.maxParticipants <= 1) {
-            errors.push('MaxParticipants måste vara större än 1');
-        }
+
         if (activity.price === undefined || activity.price === null) {
             errors.push('Pris är obligatoriskt');
         } else if (activity.price < 0) {
@@ -292,6 +206,7 @@ const ActivityManagement = () => {
     };
 
     const handleEdit = async (activity) => {
+        console.log(activity);
         if (!window.confirm(`Är du säker på att du vill redigera aktivitet med id ${activity.id}?`)) {
             return;
         }
@@ -320,6 +235,7 @@ const ActivityManagement = () => {
             );
             setActivities(newActivities);
             setFilteredActivities(newActivities);
+            console.log(response);
             
             showSuccess('✅ Aktivitet uppdaterad!');
         } catch (err) {
@@ -332,7 +248,8 @@ const ActivityManagement = () => {
 
     return (
         <>
-        <h1>Activity Management</h1>
+        <h1>Aktiviteter</h1>
+       
         {error && (
             <div className="error-banner" style={{ whiteSpace: 'pre-line' }}>
                     {error}
@@ -351,25 +268,26 @@ const ActivityManagement = () => {
                         <button className="btn" onClick={() => setNewPopup(!newPopup)}>Lägg till ny</button>
                     </div>
                     
-                        <div>
+                        
                             <div className="filter-list">
-                            <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
-                            <label>Minimumlängd:</label> <input type="number" placeholder="Min längd..." onChange={handleLengthFilterChange} />
-                            <label>Maximumlängd:</label> <input type="number" placeholder="Max längd..." onChange={handleMaxLengthFilterChange} />
-                            <label>Maxpris:</label> <input type="number" placeholder="Maxpris..." onChange={handleMaxPriceChange} /> 
-                            <label>Kategori:</label><select onChange={handleCategoryFilterChange}>
-                                <option value="">Alla</option>
-                                    {categories.map(category => (
-                                        <option key={category.id} value={category.id}>{category.name}</option>
-                                    ))}
-                            </select>
+                                <label>Filtrera med namn:</label> <input type="text" placeholder="Filter..." onChange={handleFilterChange} />
+                                <label>Minimumlängd:</label> <input type="number" placeholder="Min längd..." onChange={handleLengthFilterChange} />
+                                <label>Maximumlängd:</label> <input type="number" placeholder="Max längd..." onChange={handleMaxLengthFilterChange} />
+                                <label>Maxpris:</label> <input type="number" placeholder="Maxpris..." onChange={handleMaxPriceChange} /> 
+                                <label>Kategori:</label><select onChange={handleCategoryFilterChange}>
+                                    <option value="">Alla</option>
+                                        {categories.map(category => (
+                                            <option key={category.id} value={category.id}>{category.name}</option>
+                                        ))}
+                                </select>
                             </div>
                             <div className="results-section">
-                        {filteredActivities.map(activity => (
-                            <ActivityListCard key={activity.id} item={activity} removeActivity={handleRemove} editActivity={handleEdit}/>
-                        ))}
+                                    <p className="admin-instructions">Klicka på "visa händelser" för att visa händelser för en aktivitet.</p>
+                            {filteredActivities.map(activity => (
+                                <ActivityListCard key={activity.id} item={activity} removeActivity={handleRemove} editActivity={handleEdit}/>
+                            ))}
                             </div>
-                        </div>
+                        
                         
                     
                     {newPopup && (<ActivityNewPop handleCreate={handleCreate} closePopup={setNewPopup} />)}
