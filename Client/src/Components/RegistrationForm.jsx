@@ -15,7 +15,7 @@ const RegistrationForm = () => {
         e.preventDefault();
         try
         {
-            const result = await register({ userName, email, password, firstName, lastName, birthDate, address})
+            const result = await register({ UserName: userName, Email: email, Password: password, FirstName: firstName, LastName: lastName, DateOfBirth: birthDate, Adress: address})
             if(result)
             {
                 console.log(result);
@@ -24,17 +24,26 @@ const RegistrationForm = () => {
         }
         catch (error)
         {
-            console.error('Login failed:', error);
+            console.error('Registration failed:', error);
         }
     }
 
     var today = new Date();
-    var max = ""
+    var day = today.getDate();
+    var month = today.getMonth() + 1;
     var yyyy = today.getFullYear() - 18;
     
-    today = yyyy + '-12-31'
+    if (day < 10) {
+        day = '0' + day;
+    }
 
-return (
+    if (month < 10) {
+        month = '0' + month;
+    } 
+    
+    today = yyyy + '-' + month + '-' + day;
+
+  return (
     <>
     <form onSubmit={handleSubmit}>
             <input
