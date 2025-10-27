@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import "./Pages/RegistrationFormPage.css"
 import { useAuth } from '../contexts/AuthContext';
 
 const RegistrationForm = () => {
@@ -44,8 +45,8 @@ const RegistrationForm = () => {
     today = yyyy + '-' + month + '-' + day;
 
   return (
-    <>
-    <form onSubmit={handleSubmit}>
+    <div className='form-container'>
+    <form onSubmit={handleSubmit} className='registrationForm'>
             <input
                 type="text"
                 value={userName}
@@ -105,7 +106,7 @@ const RegistrationForm = () => {
             />
             <button type="submit">Register</button>
         </form>
-    </>
+        </div>
   )
 }
 
