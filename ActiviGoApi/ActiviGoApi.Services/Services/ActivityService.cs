@@ -111,9 +111,10 @@ namespace ActiviGoApi.Services.Services
                 throw new KeyNotFoundException($"Category with id {dto.CategoryId} not found");
             }
 
-            var updated = _mapper.Map<Activity>(dto);
-            updated.UpdatedAt = DateTime.UtcNow;
-            await _unitOfWork.Activities.UpdateAsync(updated, ct);
+            _mapper.Map(dto, toUpdate);
+            
+            toUpdate.UpdatedAt = DateTime.UtcNow;
+            await _unitOfWork.Activities.UpdateAsync(toUpdate, ct);
             await _unitOfWork.SaveChangesAsync(ct);
             return true;
         }

@@ -51,7 +51,8 @@ namespace ActiviGoApi.Infrastructur.Repositories
             return await _dbSet.FindAsync(id, ct);
         }
 
-        public async Task<TEntity> GetFilteredByIdAsync(int id, string includeProperties = "", Expression<Func<TEntity, bool>> filter = null, CancellationToken ct = default)
+        public async Task<TEntity> GetFilteredByIdAsync(int id, string includeProperties = "",
+            Expression<Func<TEntity, bool>> filter = null, CancellationToken ct = default)
         {
             IQueryable<TEntity> query = _dbSet;
 
@@ -77,7 +78,8 @@ namespace ActiviGoApi.Infrastructur.Repositories
 
 
 
-        public async Task<IEnumerable<TEntity>> GetFilteredAsync(string includeProperties = "", Expression<Func<TEntity, bool>> filter = null, CancellationToken ct = default)
+        public async Task<IEnumerable<TEntity>> GetFilteredAsync(string includeProperties = "", 
+            Expression<Func<TEntity, bool>> filter = null, CancellationToken ct = default)
         {
             IQueryable<TEntity> query = _dbSet;
 
