@@ -32,14 +32,23 @@ namespace ActiviGoApi.Services
         /// <inheritdoc />
         public async Task<IEnumerable<BookingReadDTO>> GetAllAsync(CancellationToken ct)
         {
-            var bookings = await _unitOfWork.Bookings.GetAllAsync(ct);
+            var bookings = await _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "ActivityOccurence.Activity",
+                filter: null,
+                ct: ct);
             return _mapper.Map<IEnumerable<BookingReadDTO>>(bookings);
         }
 
         /// <inheritdoc />
         public async Task<BookingReadDTO?> GetByIdAsync(int id, CancellationToken ct)
         {
-            var booking = await _unitOfWork.Bookings.GetByIdAsync(id, ct);
+            var bookings = await _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "ActivityOccurence.Activity",
+                filter: b => b.Id == id,
+                ct: ct);
+
+            var booking = bookings.FirstOrDefault();
+
             if (booking == null)
             {
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
@@ -55,32 +64,49 @@ namespace ActiviGoApi.Services
             if (userExists == null)
                 throw new KeyNotFoundException($"User with id {userId} was not found.");
 
-            var bookings = await _unitOfWork.Bookings.GetFilteredAsync(includeProperties: "",b => b.UserId == userExists.Id, ct);
+            var bookings = await _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "ActivityOccurence.Activity",
+                filter: b => b.UserId == userExists.Id,
+                ct: ct);
 
             return _mapper.Map<IEnumerable<BookingReadDTO>>(bookings);
         }
 
         /// <inheritdoc />
-        public async Task<BookingReadDTO> AddAsync(BookingCreateDTO createDto, CancellationToken ct)
+        public async Task<BookingReadDTO> AddAsync(BookingCreateDTO createDto, string userName, CancellationToken ct)
         {
-            var userIsAlive = await _userManager.FindByIdAsync(createDto.UserId);   // is user alive?   
-            if (userIsAlive == null)
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
             {
-                throw new KeyNotFoundException($"User with id {createDto.UserId} was not found.");
+                throw new ArgumentException($"User connected to jwt token not in system anymore.");
             }
-            if(userIsAlive.IsSuspended)     // is user a victim of cancell culture
+
+            if(user.IsSuspended)     
             {
                 throw new ArgumentException("Cannot create booking for a suspended user.");
             }
 
             var occurrence = await _unitOfWork.ActivityOccurrences.GetByIdAsync(createDto.ActivityOccurenceId, ct); // is occurrence alive?
+
             if (occurrence == null)
             {
                 throw new KeyNotFoundException($"ActivityOccurrence with id {createDto.ActivityOccurenceId} not found");
             }
+
             if (occurrence.IsCancelled)
             {
                 throw new ArgumentException("Cannot book a cancelled activity occurrence");
+            }
+
+            if(occurrence.EndTime < DateTime.UtcNow) // has the occurrence already happened?
+            {
+                throw new ArgumentException("Cannot book an activity occurrence that has already ended.");
+            }
+
+            if ((occurrence.StartTime.Date == DateTime.UtcNow.Date) && (occurrence.StartTime.Hour - DateTime.UtcNow.Hour) < 2) // less than 2 hours to start
+            {
+                throw new ArgumentException("Bookings must be made at least 2 hours before the activity starts.");
             }
 
             var avaiableSpots = await AvailableSpotsForOccurrence(createDto.ActivityOccurenceId, ct);   // check available spots
@@ -90,19 +116,51 @@ namespace ActiviGoApi.Services
                 throw new ArgumentException($"Not enough available spots. Requested: {createDto.Participants}, Available: {avaiableSpots}");
             }
 
+            var existingBookings = _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "",
+                filter: b => b.UserId == user.Id && b.ActivityOccurenceId == createDto.ActivityOccurenceId && b.IsActive && !b.IsCancelled,
+                ct: ct
+            ).Result;
+
+            if(existingBookings.Any()) // user already has an active booking for this occurrence
+            {
+                throw new ArgumentException("User already has an active booking for this activity occurrence.");
+            }
+
+            var sameTimeBookings = _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "",
+                filter: b => b.UserId == user.Id && b.IsActive && !b.IsCancelled &&
+                             ((b.ActivityOccurence.StartTime < occurrence.EndTime && b.ActivityOccurence.StartTime > occurrence.StartTime) ||
+                             (b.ActivityOccurence.EndTime > occurrence.StartTime && b.ActivityOccurence.EndTime < occurrence.EndTime) ||
+                             (b.ActivityOccurence.StartTime < occurrence.StartTime && b.ActivityOccurence.EndTime > occurrence.EndTime)),
+                ct: ct
+                );
+
+            if(sameTimeBookings.Result.Any()) // user has another booking that overlaps in time
+            {
+                throw new ArgumentException("User has another active booking that overlaps in time with this activity occurrence.");
+            }
+
             var booking = _mapper.Map<Booking>(createDto);
 
+            booking.UserId = user.Id;
             booking.CreatedAt = DateTime.UtcNow;
             booking.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.Bookings.AddAsync(booking, ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
-            return _mapper.Map<BookingReadDTO>(booking);
+            // H�mta booking med relaterad data innan vi returnerar
+            var createdBookings = await _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "ActivityOccurence.Activity",
+                filter: b => b.Id == booking.Id,
+                ct: ct);
+
+            return _mapper.Map<BookingReadDTO>(createdBookings.First());
         }
 
         /// <inheritdoc />
-        public async Task<BookingReadDTO> UpdateAsync(int id, BookingUpdateDTO updateDto, CancellationToken ct)
+        public async Task<BookingReadDTO> UpdateAsync(int id, BookingUpdateDTO updateDto, string userName, CancellationToken ct)
         {
             var existing = await _unitOfWork.Bookings.GetByIdAsync(id, ct);     // is thier a booking?
             if (existing == null)
@@ -111,13 +169,26 @@ namespace ActiviGoApi.Services
             }
 
             var user = await _userManager.FindByIdAsync(existing.UserId);   // is user alive?
+            var loggedInUser = await _userManager.FindByNameAsync(userName); // who is logged in?
+            var roles = await _userManager.GetRolesAsync(loggedInUser).WaitAsync(ct); // what roles does logged in user have?
+
             if (user == null)
             {
                 throw new KeyNotFoundException($"User with id {existing.UserId} was not found.");
             }
+
             if (user.IsSuspended)   // is user a victim of cancell culture
             {
                 throw new InvalidOperationException($"User '{user.FirstName} {user.LastName}' is suspended and cannot modify bookings.");
+            }
+
+
+            if(user.Id != loggedInUser.Id)   // is user trying to modify someone elses booking? 
+            {
+                if (!roles.Contains("Admin"))
+                {
+                    throw new UnauthorizedAccessException("You are not authorized to update this booking.");
+                }
             }
 
             if (updateDto.Participants != existing.Participants)    // if number of participants is changing
@@ -145,25 +216,41 @@ namespace ActiviGoApi.Services
             }
 
             _mapper.Map(updateDto, existing);
-            
+
             existing.UpdatedAt = DateTime.UtcNow;
-            
+
             await _unitOfWork.Bookings.UpdateAsync(existing, ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
-            return _mapper.Map<BookingReadDTO>(existing);
+            // H�mta booking med relaterad data innan vi returnerar
+            var updatedBookings = await _unitOfWork.Bookings.GetFilteredAsync(
+                includeProperties: "ActivityOccurence.Activity",
+                filter: b => b.Id == id,
+                ct: ct);
+
+            return _mapper.Map<BookingReadDTO>(updatedBookings.First());
         }
 
         /// <inheritdoc/>
-        public async Task CancelBookingAsync(int id, CancellationToken ct)
+        public async Task CancelBookingAsync(int id, string userName, CancellationToken ct)
         {
             var booking = await _unitOfWork.Bookings.GetByIdAsync(id, ct);
+            var user = await _userManager.FindByIdAsync(booking.UserId);
+            var roles = await _userManager.GetRolesAsync(user).WaitAsync(ct);
 
             if (booking == null)
                 throw new KeyNotFoundException($"Booking with id {id} was not found.");
 
             if (booking.IsCancelled == true)
                 throw new ArgumentException($"Booking with id {id} is already cancelled.");
+
+            if(user.Id != booking.UserId)
+            {
+                if(!roles.Contains("Admin"))
+                {
+                    throw new UnauthorizedAccessException("You are not authorized to cancel this booking.");
+                }
+            }
 
             booking.IsActive = false;
             booking.IsCancelled = true;

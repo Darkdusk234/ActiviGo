@@ -1,18 +1,19 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import LoginForm from '../LoginForm'
-import './Layout.css'
-
-const LoginDropBox = () => {
-
-
+import { useAuth } from '../../contexts/AuthContext'
+import './Login.css'
+import UserDropMenu from './UserDropMenu';
+const LoginDropBox = ({close}) => {
+    const { user } = useAuth();
 
     return(
-        <>
             <div className="login-dropbox">
-                <LoginForm />
+                {user ? (
+                <UserDropMenu close={close} />
+                ) : (<LoginForm close={close} />)}
             </div>
-        </>
+        
     )
 }
 

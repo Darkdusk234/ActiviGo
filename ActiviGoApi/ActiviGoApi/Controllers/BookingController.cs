@@ -51,12 +51,13 @@ namespace ActiviGoApi.Api.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("bookings/user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetBookingsByUserId( CancellationToken ct)
+        public async Task<IActionResult> GetBookingsByUserId(CancellationToken ct)
         {
-            
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             try
             {
@@ -69,6 +70,7 @@ namespace ActiviGoApi.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpPost]
         public async Task<ActionResult<BookingReadDTO>> Create([FromBody] BookingCreateDTO createDto, CancellationToken ct)
         {
@@ -78,9 +80,12 @@ namespace ActiviGoApi.Api.Controllers
                 var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
                 return BadRequest($"Validation failed: {errors}");
             }
+
+            var userName = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             try
             {
-                var created = await _service.AddAsync(createDto, ct);
+                var created = await _service.AddAsync(createDto, userName, ct);
                 return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
             }
             catch (ArgumentException ex)
@@ -103,9 +108,11 @@ namespace ActiviGoApi.Api.Controllers
                 return BadRequest($"Validation failed: {errors}");
             }
 
+            var userName = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             try
             {
-                var updated = await _service.UpdateAsync(id, updateDto, ct);
+                var updated = await _service.UpdateAsync(id, updateDto, userName, ct);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)
@@ -124,9 +131,11 @@ namespace ActiviGoApi.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CancelBooking(int id, CancellationToken ct)
         {
+            var userName = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             try
             {
-                await _service.CancelBookingAsync(id, ct);
+                await _service.CancelBookingAsync(id, userName, ct);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)

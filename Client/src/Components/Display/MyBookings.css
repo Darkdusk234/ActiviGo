@@ -1,0 +1,77 @@
+.my-bookings {
+    width: 100%;
+    margin: 0 auto;
+    height: 100rem;
+} 
+.my-bookings h1 {
+    margin-bottom: 0.5rem;
+    font-size: 4rem;
+    font-weight: 800;
+    text-shadow: #333 4px 8px 10px;
+}
+.count {
+    color: #f7f7f7;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-shadow: #333 4px 4px 10px;
+}
+
+.empty {
+    text-align: center;
+    color: #999;
+    padding: 2rem;
+}
+
+.error {
+    background: #fee;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.error p {
+    color: #c00;
+    margin-bottom: 1rem;
+}
+
+.error button {
+    padding: 0.5rem 1rem;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.bookings-list {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 1.5rem;
+}
+.filter-tabs{
+    display: flex;
+    margin-top: 2rem;
+    justify-content: center;
+    margin-bottom: 4rem;
+    gap: 1rem;
+
+}
+.filter-tabs button {
+    background: transparent;
+    text-decoration: underline;
+    font-size: 1.5rem;
+    text-shadow: #333 5px 5px 15px;
+    transition: transform 0.3s ease, text-shadow 0.3s ease; /* Smidig övergång för lyft och skugga */
+}
+
+.filter-tabs button:hover {
+    transform: translateY(-3px); 
+    text-shadow: #333 5px 5px 15px; 
+    background: transparent;
+    border: none;
+}
+.filter-tabs button:focus {
+    border: none;
+}

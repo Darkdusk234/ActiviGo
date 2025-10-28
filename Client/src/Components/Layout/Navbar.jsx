@@ -1,29 +1,18 @@
 import { Link } from "react-router-dom";
-import SearchBar from "./Searchbar"; // importera den vi gjorde tidigare
-import NavLogin from "./NavLogin";
-import './Layout.css'
+import "./Header.css";
 
-export default function Navbar() {
-  const handleSearch = (query) => {
-    console.log("Söker efter:", query);
-    // Här kan du navigera eller filtrera listor baserat på query
+export default function Navbar({ closeMenu }) {
+  const handleClick = () => {
+    if (closeMenu) {
+      closeMenu();
+    }
   };
-
   return (
-    <nav
-
-    >
+    <nav className="nav-menu">
       <div className="menu-items">
         <Link to="/">Home</Link>
-        <Link to="/booking">Booking</Link>
+        <Link to="/categories">Categories</Link>
         <Link to="/about">About</Link>
-        
-      </div>
-      <div>
-        <SearchBar/>
-      </div>
-      <div>
-      <NavLogin />
       </div>
     </nav>
   );

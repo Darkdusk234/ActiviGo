@@ -1,0 +1,93 @@
+.login-dropbox {
+    z-index: 99;
+    border: 1px solid rgb(101, 165, 255);
+    background-color: rgb(232, 232, 232);
+    position:absolute;
+    border-radius: 10px;
+    top: 5rem;
+    right: 1rem;
+    max-width: 200px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+.user-drop-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.user-drop-menu p{
+    text-align: left;
+    max-width: 99%;
+    width: 98%;
+    padding: 0px;
+    max-height: 2rem;
+}
+.user-drop-menu h2{
+    color: black;
+}
+
+.user-drop-menu p:hover {
+    cursor: pointer;
+    background: rgba(90, 90, 255, 0.153);
+}
+
+.my-bookings {
+    text-align: left;
+    max-width: 99%;
+    width: 98%;
+    padding: 0px;
+}
+
+.login-dropbox input{
+    background-color: rgb(251, 251, 251);
+    color: black;
+    width: 95%;
+    margin: 0.5rem 0;
+    padding: 5px;
+    font-size: 0.8rem;
+    border-radius: 5px;
+}
+.login-dropbox button{
+    background-color: rgb(62, 109, 203);
+    color: white;
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    text-size-adjust: 150%;
+}
+
+.login-dropbox button:hover{
+    background-color: rgb(35, 70, 153);
+}
+
+.login-dropbox p{
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    color: blue;
+}
+.login-dropbox a{
+    display: block;
+    padding-top: 2rem;
+    font-size: 1.5rem;
+    text-size-adjust: 150%;
+}
+
+.login-dropbox .message {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: red;
+}
+.login-message {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: black;
+}

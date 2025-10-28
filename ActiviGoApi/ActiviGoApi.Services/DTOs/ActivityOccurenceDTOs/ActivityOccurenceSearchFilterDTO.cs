@@ -12,6 +12,7 @@ namespace ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs
         public int? SubLocationId { get; init; }
         public int? CategoryId { get; init; }
         public int? ActivityId { get; init; }
+        public int? LocationId { get; init; }
         public bool? AvailableToBook { get; init; }
 
         // For geospatial filtering - not implemented
@@ -22,5 +23,7 @@ namespace ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs
         public DateTime? StartTime { get; init; }
 
         public DateTime? EndTime { get; init; }
+
+        public int MaxPrice { get; init; } = 0;
     }
 }

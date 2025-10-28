@@ -1,10 +1,13 @@
-.my-swiper {
-  width: 100%;
+.display-list-container {
+  border: 1px solid #dddddd00;
+  margin: 0;
+  /* padding-top: 5rem;
+  padding-bottom: 8rem; */
 }
 
-.my-swiper .swiper-slide {
-  display: flex;
-  justify-content: center;
-  flex-shrink: 0;
-  width: auto;
+.my-swiper {
+  width: 100%;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
+

@@ -23,7 +23,7 @@ namespace ActiviGoApi.Core.Models
         public int LocationId { get; set; } // Foreign Key
 
         // Navigation Properties
-        public Location? Location { get; set; } 
+        public Location? Location { get; set; }
         public ICollection<ActivityOccurence>? ActivityOccurences { get; set; } 
         public ICollection<Activity>? Activities { get; set; } 
 

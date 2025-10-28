@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ActiviGoApi.Services.DTOs.WeatherDTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,20 @@ namespace ActiviGoApi.Services.DTOs.ActivityOccurenceDTOs
     public class ActivityOccurenceResponseDTO
     {
         public int Id { get; set; }
+        public string ActivityName { get; set; } = string.Empty;
+        public string ActivityDescription { get; set; } = string.Empty;
+        public string SubLocationName { get; set; } = string.Empty;
+        public string LocationName { get; set; } = string.Empty;
+        public string CategoryName { get; set; } = string.Empty;
+        public string IMGUrl { get; init; } = string.Empty;
+        public decimal Price { get; init; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public int Capacity { get; set; }
         public int AvailableSpots { get; set; }
         public bool IsCancelled { get; set; }
+
+        public WeatherResponseDTO Weather { get; set; } = new WeatherResponseDTO();
 
         // Foreign Keys
         public int ActivityId { get; set; }

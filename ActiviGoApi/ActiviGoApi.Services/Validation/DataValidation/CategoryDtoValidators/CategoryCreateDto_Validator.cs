@@ -9,6 +9,7 @@ namespace ActiviGoApi.Services.Validation.DataValidation.CategoryDtoValidotrs
         {
             RuleFor(c => c.Name)
                 .NotEmpty().WithMessage("Name is required.")
+                .MinimumLength(3).WithMessage("Name must be at least 3 characters")
                 .MaximumLength(100).WithMessage("Name cannot exceed 100 characters.");
 
             RuleFor(c => c.Description)

@@ -1,0 +1,181 @@
+/* === OccurrenceDetails.css === */
+
+.occurrence-details-container {
+  min-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.0rem;
+  font-family: "Inter", sans-serif;
+  min-height: 100rem;
+}
+
+.occurrence-details-container h4 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #222;
+  text-align: center;
+}
+
+.occurrence-details-container h2 {
+  margin: 4px 0;
+  font-size: 1rem;
+  color: #444;
+}
+.details-title {
+  text-align: center;
+  width: 100%;
+}
+.details-title img {
+  width: 100%;
+  max-height: 30rem;
+  object-fit: contain;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+.img-container {
+    width: 100%; /* Sätt en fast höjd, anpassa efter behov */
+    background-size: 20%; /* Behåller originalstorlek */
+    background-repeat: repeat; /* Repeterar bilden för att täcka utrymmet */
+    background-position: center; /* Centrerar bilden */
+    border-radius: 12px 12px 0 0; /* Rundade hörn upptill */
+    overflow: hidden; /* Klipper överflöd */
+}
+
+.text-container
+{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 2rem;
+  justify-content: center;
+}
+.content-info {
+  border: 2px solid white;
+  padding: 0.5rem 1.5rem 2.5rem 2.5rem;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  background-size: cover; /* Behåller originalstorlek */
+  background-repeat: repeat; /* Repeterar bilden för att täcka utrymmet */
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0.473); /* Svart overlay med 50% opacitet */
+  background-blend-mode: multiply;
+}
+.content-info h4{
+  font-size: 3.0rem;
+  font-weight: 450;
+  color: white;
+  text-shadow: #222 2px 4px 4px;
+}
+.content-info h2{
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: rgb(251, 251, 251);
+  text-shadow: #222 2px 6px 5px;
+}
+
+/* --- Booking form --- */
+.container-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.book-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  padding: 2.5rem 2.5rem 2.5rem 0.3rem;
+  margin-left: 1rem;
+  width: 35vmin;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
+.book-container h3 {
+  color: black;
+  font-size: 2rem;
+  font-weight: 450;
+  width: 50%;
+}
+.book-container p {
+  color: black;
+  font-size: 2rem;
+  font-weight: 300;
+  width: 70%;
+}
+.book-availablespots
+{
+  display: flex;
+  justify-content: flex-start;
+  width: 70%;
+}
+.book-availablespots h2{
+  color: rgb(0, 0, 0);
+  font-size: 1rem;
+  font-weight: 300;
+  width: 100%;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e5e5;
+}
+
+.booking-form label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #333;
+}
+
+.booking-form input[type="text"] {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  background-color: #7e7e7e39;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin: 2rem 2rem;
+  padding-left: 1rem;
+  color: #222;
+}
+
+.booking-form input[type="text"]:focus {
+  border-color: #4a6eff;
+  box-shadow: 0 0 0 2px rgba(255, 74, 74, 0.2);
+  outline: none;
+  margin: 2rem 2rem;
+  padding-left: 1rem;
+  color:#222;
+}
+
+.booking-form button {
+  padding: 1.2rem;
+  background: #3f3fff;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.1s;
+}
+
+.booking-form button:hover {
+  background: #3d67e4;
+}
+
+.booking-form button:active {
+  transform: scale(0.98);
+}
+

@@ -1,0 +1,294 @@
+/* Container for the entire form */
+.search-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  width: 95%;
+  margin: 0 auto;
+}
+.form-tag {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+/* Form styling */
+.detailed-search-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  padding: 15px;
+  background-color: rgba(244, 244, 244, 0);
+  border-radius: 8px;
+}
+
+/* Search bar and button row */
+.searchform {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Search input */
+.search-input {
+  flex: 1;
+  padding: 1.2rem 1.4rem;
+  font-size: 1.1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 25px;
+  background-color: white;
+  color: #333;
+  outline: none;
+  min-width: 13rem;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #0071c2;
+  box-shadow: 0 0 5px rgba(0, 113, 194, 0.3);
+}
+
+.search-input::placeholder {
+  color: #999;
+  font-style: normal;
+}
+
+/* Search button */
+.search-button {
+  padding: 1.2rem 1.4rem;
+  font-size: 1.2rem;
+  background-color: #0071c2;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search-button:hover {
+  background-color: #005ea6;
+  transform: scale(1.05);
+}
+
+/* Filter section */
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Search field (for location, activity, category) */
+.search-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 2px solid #b7c1e0;
+  border-radius: 25px;
+  background-color: rgb(255, 255, 255);
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+}
+.search-field p {
+  font-size: 0.7rem;
+  color: #333;
+  margin: 0 1.2rem 0 0;
+}
+
+.search-field .icon {
+  font-size: 1.2rem;
+  margin-right: 1rem;
+  color: #666;
+}
+
+.select-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 16rem;
+}
+
+.option-filter {
+  flex: 1;
+  margin-bottom: 0.1rem;
+  font-size: 1.2rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  min-width: 95%;
+  color: #333;
+  cursor: pointer;
+}
+
+.option-filter:focus {
+  outline: none;
+}
+
+.option-filter select {
+  background: transparent;
+  color: #333;
+}
+
+/* Checkbox styling */
+.checkbox-filter {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.5rem;
+}
+
+.checkbox-filter label {
+  font-size: 1.2rem;
+  color: #414141;
+}
+.checkbox-filter input{
+  font-size: 0.2rem;
+  color: transparent;
+}
+
+.check-box {
+  border: 2px solid #0071c2;
+  /*Blåkantförattmatchatemat*/border-radius: 4px;
+  /*Vitbakgrundförkontrast*/cursor: pointer;
+  /*Pekarevidhover*/accent-color: #0071c2;
+  /*Färgpåkryssetnärmarkerad*/transition: transform 0.2s ease;
+   /* Smidig skalning vid hover */;
+  -webkit-transition: transform 0.2s ease;
+  -moz-transition: transform 0.2s ease;
+  -ms-transition: transform 0.2s ease;
+  -o-transition: transform 0.2s ease;
+}
+
+.checkbox-filter input[type="checkbox"]:hover {
+  transform: scale(1.1); /* Förstoring vid hover */
+}
+
+
+.checkbox-filter .checkbox-custom {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid #b7c1e0;
+  margin-left: -2.1rem;
+  margin-top: 1rem;
+  margin-right: 1rem;
+  border-radius: 4px;
+  background-color: #fff;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.checkbox-filter input[type="checkbox"]:checked + .checkbox-custom {
+  background-color: #0071c2;
+}
+
+.checkbox-filter .checkbox-custom::after {
+  content: "✓"; /* Checkmark symbol */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.checkbox-filter input[type="checkbox"]:checked + .checkbox-custom::after {
+  opacity: 1;
+}
+
+.checkbox-filter .checkbox-custom:hover {
+  transform: scale(1.1);
+}
+
+/* Selected state styling */
+.selected {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #0071c2;
+}
+.selected p {
+    font-size: 0.8rem;
+    color: #666;
+}
+.selected h3 {
+    font-size: 1.2rem;
+    color: #222;
+    margin: 0;
+}
+
+/* Date filter section */
+.datefilter {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+
+.date-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  border: 2px solid #b7c1e0;
+  border-radius: 4.5rem;
+  background-color: #fff;
+  padding-bottom: 1rem;
+  -webkit-border-radius: 4.5rem;
+  -moz-border-radius: 4.5rem;
+  -ms-border-radius: 4.5rem;
+  -o-border-radius: 4.5rem;
+}
+
+.date-box .icon {
+  font-size: 1.4rem;
+  margin: 1rem;
+  color: #797979;
+}
+.date-box p {
+  font-size: 0.8rem;
+  color: #333;
+  padding-left: 0.5rem;
+  margin: 0.1rem 0.1rem 0.1rem 0.1rem;
+}
+
+.date-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.datefilter input[type="date"] {
+  flex: 1;
+  font-size: 1.2rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #333;
+  cursor: pointer;
+}
+
+.datefilter input[type="date"]:focus {
+  outline: none;
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+  .filter-section {
+    flex-direction: row;
+  }
+
+  .datefilter {
+    flex-direction: row;
+  }
+}

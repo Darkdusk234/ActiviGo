@@ -1,9 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import "./ActivityCard.css";
 export default function ActivityCard({ activity }) {
+  const navigate = useNavigate();
+  
+  const handleMove = () => {
+    navigate('/search', { state: {searchQuery: { activityId: activity.id,}, source: 'detailed'} })
+  }
+
   return (
-    <div className="activity-card">
+    <div className="activity-card" onClick={handleMove}>
       <img
-        src={activity.imgUrl || "https://via.placeholder.com/300x200"}
+        src={`https://picsum.photos/400/250?random=${activity.id}` || activity.imgUrl}
         alt={activity.name}
       />
       <div className="activity-card-content">
@@ -11,7 +18,7 @@ export default function ActivityCard({ activity }) {
         <p className="activity-card-description">{activity.description}</p>
         <div className="activity-card-meta">
           <span>{activity.durationInMinutes} min</span>
-          <span>{activity.price} kr</span>
+          <span>{activity.price} SEK</span>
         </div>
       </div>
     </div>

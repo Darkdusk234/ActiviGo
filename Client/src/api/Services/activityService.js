@@ -1,4 +1,7 @@
-const API_URL = "http://localhost:5210/api";
+
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('authToken');
@@ -6,6 +9,8 @@ const getAuthHeaders = () => {
     ? { 'Authorization': `Bearer ${token}` }
     : {};
 };
+
+
 
 export const getActivities = async () => {
   const res = await fetch(`${API_URL}/Activity`, {

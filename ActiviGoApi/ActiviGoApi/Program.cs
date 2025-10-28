@@ -52,8 +52,9 @@ namespace ActiviGoApi
                 {
                     policy.WithOrigins("http://localhost:5175", "http://localhost:5174", "http://localhost:5173") // React dev server
                           .AllowAnyHeader()
-                          .AllowAnyMethod();
-                });
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });                         
             });
 
             // Adding FluentValidation
@@ -116,6 +117,10 @@ namespace ActiviGoApi
                 }
 
                 );
+
+            // Response caching
+
+            builder.Services.AddResponseCaching();
 
 
             // Identity
@@ -190,6 +195,7 @@ namespace ActiviGoApi
 
             app.UseCors("Development");
 
+            app.UseResponseCaching();
             app.UseAuthentication();
             app.UseAuthorization();
             

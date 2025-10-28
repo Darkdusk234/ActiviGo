@@ -1,0 +1,97 @@
+.header-container{
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(0%, #323232 100%, 180deg, #c3c7c9);
+    display: flex;
+    flex-direction: column;
+    height: 8%;
+    position: relative;
+}
+
+.header-nav{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+nav .menu-items{
+    text-decoration: none;
+    color: black;
+    display: flex;
+    gap: 1rem;
+}
+
+nav .menu-items a{
+    text-decoration: none;
+    font-size: 2.0rem;
+    color: rgb(35, 108, 255);
+    margin: 0 1rem;
+    transition: transform 0.2s ease;
+    -webkit-transition: transform 0.2s ease;
+    -moz-transition: transform 0.2s ease;
+    -ms-transition: transform 0.2s ease;
+    -o-transition: transform 0.2s ease;
+}
+
+nav .menu-items a:hover{
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
+}
+
+.header-title-container {
+    text-align: center;
+    text-size-adjust: 2rem;
+}
+/* ----- */
+.header-title-container a { 
+    text-decoration: none; 
+    color: inherit;
+} 
+/* -------- */
+.header-title-container h1{
+    size: 6rem;
+    margin: 0;
+}
+.top-right{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4rem;
+    margin-right: 1rem;
+}
+
+/* Burger */
+
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    /* z-index: 1001; */
+    position: relative;
+    z-index: 1002;
+}
+
+.hamburger-menu span {
+    width: 30px;
+    height: 3px;
+    background-color: rgb(35, 108, 255);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+/* Overlay */
+.menu-overlay {
+    display: none;
+}

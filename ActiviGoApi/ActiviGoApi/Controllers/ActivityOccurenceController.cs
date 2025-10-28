@@ -35,8 +35,32 @@ namespace ActiviGoApi.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ActivityOccurenceResponseDTO>>> GetAllOccurrences(CancellationToken ct)
         {
-            var occurrences = await _occurrenceService.GetAllAsync(ct);
-            return Ok(occurrences);
+            try
+            {
+                var occurrences = await _occurrenceService.GetAllAsync(ct);
+                return Ok(occurrences);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while retrieving activity occurrences");
+            }
+        }
+
+        [HttpGet("admin")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ActivityOccurenceResponseDTO>>> GetAllOccurrencesForAdmin(CancellationToken ct)
+        {
+            try
+            {
+                var occurrences = await _occurrenceService.AdminGetAllAsync(ct);
+                return Ok(occurrences);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while retrieving activity occurrences for admin");
+
+            }
         }
 
         /// <summary>
@@ -181,6 +205,26 @@ namespace ActiviGoApi.WebApi.Controllers
             }
         }
 
+        [HttpPost("general-search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ActivityOccurenceResponseDTO>>> SearchGeneralOccurrences([FromBody] GeneralSearchDTO query, CancellationToken ct)
+        {
+
+            try
+            {
+                var occurrences = await _occurrenceService.GetGeneralSearchAsync(query, ct);
+                return Ok(occurrences);
+            }
+            catch(KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex) // Very temporary error handling
+            {
+                return StatusCode(500, "An error occurred while searching for activity occurrences");
+            }
+        }
+
         [HttpPut("cancel/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -203,6 +247,22 @@ namespace ActiviGoApi.WebApi.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("adminstatistics")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAdminStatistics(CancellationToken ct)
+        {
+            try
+            {
+                var statistics = await _occurrenceService.GetAdminStatistics(ct);
+                return Ok(statistics);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while retrieving statistics");
             }
         }
     }
